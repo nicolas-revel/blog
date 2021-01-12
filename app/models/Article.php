@@ -13,16 +13,12 @@ class Article
     public $id_categorie;
     public $date;
 
-    private $id_categorie;
-    public $nom_categorie;
-
-
     /**
      * Methode qui permet d'inserer un article dans la base de donnée
      * @param int $article
      * @return bool
      */
-    public function insertArticle ($article, $id_utilisateur, $id_categorie, $date) {
+    public function insertArticle (string $article, int $id_utilisateur, int $id_categorie, string $date) {
 
         $bdd = $this->getBdd();
 
@@ -58,7 +54,7 @@ class Article
      * @param $id
      * @return void
      */
-    public function delete ($id): void {
+    public function delete (int $id): void {
 
         $bdd = $this->getBdd();
 
@@ -115,10 +111,9 @@ class Article
         $bdd = $this->getBdd();
 
         $req = $bdd->prepare("SELECT id, nom FROM categories");
-        $result = $req->fetch(\PDO::FETCH_OBJ);
+        $result = $req->fetch(\PDO::FETCH_ASSOC);
 
-        $this->id_categorie = $result->id;
-        $this->nom_categorie = $result->nom_categorie;
+        return $result;
 
     }
 
@@ -177,20 +172,7 @@ class Article
     {
         return $this->table;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getNomCategorie()
-    {
-        return $this->nom_categorie;
-    }
-
-    public function getIdCategorie()
-    {
-        return $this->id_categorie;
-    }
-
+ 
     /**
      * Méthode qui permet de se connecter à la base de donnée
      * @return PDO

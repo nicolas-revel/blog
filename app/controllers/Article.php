@@ -11,10 +11,27 @@ class Article
      * @param int $id
      * @return void
      */
-    public function insertArticle (int $id): void {
-        // Traitement du formulaire 'creer_article'
-        //Appel de la fonction ->findCategorie () 'blog\app\models', pour récupérer l'id de la categorie
-        //Appel de la fonction ->insertArticle($categorie, $article, $id_utilisateur, $id_categorie) 'blog\app\models'
+    public function insertArticle (int $id_utilisateur): void {
+
+        if(!empty ($_POST['categorie']) && ($_POST['article'])) {
+
+            $categorie = htmlspecialchars($_POST['categorie']);
+            $article = htmlspecialchars($_POST['article']);
+
+        } else {
+            die(" Votre formulaire à été mal rempli ");
+        }
+
+        $findCat = $this->model->findCategorie();
+
+        if($findCat['nom'] === $categorie) {
+
+            $id_categorie = $findCat['id'];
+            $date = date('Y/m/d H:i:s');
+
+            $this->model->insertArticle($article, $id_utilisateur, $id_categorie, $date);
+        }
+
         //Redirection
     }
 
@@ -24,6 +41,7 @@ class Article
      * @return void
      */
     public function updateArticle (int $id): void {
+
         // Traitement des $_GET
         //Traitement du formulaire 'creer_article'
         //Appel de la fonction ->updateArticle($id) 'blog\app\models'
