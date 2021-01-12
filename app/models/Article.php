@@ -45,7 +45,7 @@ class Article
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
         $req->bindValue(':id_categorie', $debut, \PDO::PARAM_INT);
         $req->bindValue(':date', $date, \PDO::PARAM_STR);
-        $req->execute()or die(print_r($request->errorInfo()));
+        $req->execute()or die(print_r($req->errorInfo()));
 
     }
 
