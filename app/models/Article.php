@@ -6,19 +6,33 @@ namespace blog\app\models;
 
 class Article
 {
+    protected $table = "articles";
+
     private $id;
     public $article;
     public $id_categorie;
     public $date;
 
+    private $id_categorie;
+    public $nom_categorie;
+
+
     /**
      * Methode qui permet d'inserer un article dans la base de donnée
      * @param int $article
-     * @return void
+     * @return bool
      */
-    public function insertArticle ($categorie, $article, $id_utilisateur, $id_categorie): void {
-        //Appel méthode ->getBdd()
-        //Requête SQL INSERT INTO table 'article'
+    public function insertArticle ($article, $id_utilisateur, $id_categorie, $date) {
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare("INSERT INTO articles ($article, $id_utilisateur, $id_categorie, $date) VALUES (:article :id_utilisateur, :id_categorie)");
+        $req->bindValue(':article', $article, \PDO::PARAM_STR);
+        $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
+        $req->bindValue(':id_categorie', $debut, \PDO::PARAM_INT);
+        $req->bindValue(':date', $date, \PDO::PARAM_STR);
+        $req->execute()or die(print_r($request->errorInfo()));
+
     }
 
     /**
@@ -27,8 +41,16 @@ class Article
      * @return void
      */
     public function updateArticle (int $id): void {
-        //Appel méthode ->getBdd()
-        //Requête SQL UPDATE table 'article'
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare('UPDATE articles SET article = :article, id_utilisateur = :id_utilisateur, id_categorie = :id_categorie, date = :date WHERE id = "'.$this->id.'"');
+        $req->bindValue(':article', $article, \PDO::PARAM_STR);
+        $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
+        $req->bindValue(':id_categorie', $debut, \PDO::PARAM_INT);
+        $req->bindValue(':date', $date, \PDO::PARAM_STR);
+        $req->execute()or die(print_r($request->errorInfo()));
+
     }
 
     /**
@@ -36,30 +58,52 @@ class Article
      * @param $id
      * @return void
      */
-    public function deleteArticle ($id): void {
-        //Appel méthode ->getBdd()
-        //Requête SQL DELETE table 'article'
+    public function delete ($id): void {
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare("DELETE FROM {$this->table} WHERE id = :id");
+        $req->execute(['id' => $id]);
+
     }
 
     /**
      * Méthode qui permet de récupérer toute les informations et qui seront "stockées" dans les attributs
-     * @param $id_utilisateur
+     * @param int $id_utilisateur
      * @return array
      */
-    public function findArticle ($id_utilisateur): array {
-        //Appel méthode ->getBdd()
-        //Requête SQL SELECT * table 'article'
-        //Valeurs attribuées aux attributs (PDO::FECTH_OBJ)
+    public function findArticle (int $id_utilisateur): array {
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare("SELECT id, article, id_utilisateur, id_categorie, date FROM articles WHERE id = :id");
+        $req->execute(['id' => $id_utilisateur]);
+        $result = $req->fetch(\PDO::FETCH_OBJ);
+
+        $this->id = $result->id;
+        $this->article = $result->article;
+        $this->id_utilisateur = $result->id_utilisateur;
+        $this->id_categorie = $result->id_categorie;
+        $this->date = $result->date;
+
     }
 
     /**
      * Méthode qui permet de récupérer un article par rapport à son id
-     * @param $id
+     * @param int $id
      * @return array
      */
-    public function find ($id): array {
-        //Appel méthode ->getBdd()
-        //Requête SQL SELECT * table 'article'
+    public function find (int $id): array {
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare("SELECT id, article, id_utilisateur, id_categorie, date FROM articles WHERE id = :id ");
+        $req->execute(['id' => $id]);
+
+        $result = $req->fetch(\PDO::FETCH_ASSOC);
+
+        return $result;
+
     }
 
     /**
@@ -67,29 +111,91 @@ class Article
      * @return array
      */
     public function findCategorie (): array {
-        //Appel méthode ->getBdd()
-        //Requête SQL SELECT id, nom table 'categorie'
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare("SELECT id, nom FROM categories");
+        $result = $req->fetch(\PDO::FETCH_OBJ);
+
+        $this->id_categorie = $result->id;
+        $this->nom_categorie = $result->nom_categorie;
+
     }
 
     /**
      * Méthode qui permet de récupérer les 3 derniers articles ou les 5 derniers du plus récent au plus ancien
-     * @return array
+     * @param int $line 3(affichage accueil) ou 5(affichage articles)
+     * @return array $articles
      */
     public function getArticle (?int $line = ""): array {
-        //Appel méthode ->getBdd()
-        //Requête = SQL SELECT * FROM LIMIT $line ORDER BY DESC
+
+        $bdd = $this->getBdd();
+
+        $req = "SELECT article, date FROM articles"
+        //Requête = SQL SELECT article, date FROM articles LIMIT $line ORDER BY date DESC
 
         if($line){
-            $requête .= " LIMIT " . $line;
+            $req .= " LIMIT " . $line . "ORDER BY date DESC";
         }
 
-        $resultats = $this->pdo->query($requête);
+        $result = $bdd->query($req);
         // On fouille le résultat pour en extraire les données réelles
-        $articles = $resultats->fetchAll();
+        $articles = $result->fetchAll();
+
+        return $articles;
 
     }
 
-    public function getBdd() {
+    /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdCategorie()
+    {
+        return $this->id_categorie;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTable(): string
+    {
+        return $this->table;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNomCategorie()
+    {
+        return $this->nom_categorie;
+    }
+
+    public function getIdCategorie()
+    {
+        return $this->id_categorie;
+    }
+
+    /**
+     * Méthode qui permet de se connecter à la base de donnée
+     * @return PDO
+     */
+    private function getBdd() {
 
         $pdo = new PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', 'root', [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

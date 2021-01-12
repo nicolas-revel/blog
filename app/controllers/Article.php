@@ -8,9 +8,10 @@ class Article
 {
     /**
      * Méthode qui traite le formulaire de création d'article puis insère dans la BDD
+     * @param int $id
      * @return void
      */
-    public function insertArticle (): void {
+    public function insertArticle (int $id): void {
         // Traitement du formulaire 'creer_article'
         //Appel de la fonction ->findCategorie () 'blog\app\models', pour récupérer l'id de la categorie
         //Appel de la fonction ->insertArticle($categorie, $article, $id_utilisateur, $id_categorie) 'blog\app\models'
@@ -37,7 +38,7 @@ class Article
         //Traitement des $_GET
         // Appel de la fonction ->findCategorie () pour afficher le nom de la catégorie
         //Appel de la fonction ->findArticle($id_utilisateur) 'blog\app\models' pour récupérer l'id de l'article
-        //Appel de la fonction ->deletArticle($id) 'blog\app\models'
+        //Appel de la fonction ->delete($id) 'blog\app\models'
         //Redirection
     }
 
@@ -61,11 +62,14 @@ class Article
 
     }
 
+    /**
+     * Méthode qui permet d'afficher un article et ses commentaires
+     */
     public function showArticle () {
         //Traitement des $_GET
         //Appel de la fonction ->findArticle($id_utilisateur) 'blog\app\models' pour récupérer l'id de l'article
         //$article = $this->model->find($id);
-        //Récupération des commentaires liés à l'article
+        //$comment = $this->model->findAllWithArticle($article_id)
         // Redirection avec Renderer ?
 
     }
