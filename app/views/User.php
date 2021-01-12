@@ -3,8 +3,12 @@
 
 namespace blog\app\views;
 
+/**
+ * Class User
+ * @package blog\app\views
+ */
 
-class User
+class User extends \blog\app\models\User
 {
 
 }
