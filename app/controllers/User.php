@@ -14,17 +14,6 @@ require_once('../models/User.php');
 class User extends \blog\app\models\User
 {
 
-    //Setters
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        parent::setId($id);
-    }
-
-
     //Static methods
 
     /**
@@ -47,22 +36,40 @@ class User extends \blog\app\models\User
      */
     static public function checkMailFormat(string $email) : bool
     {
-        /*
-         * Vérifie que la chaine de caractère passée est une adresse mail
-         */
+        if (!preg_match("/^[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}$/",
+            $email)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
+     * Define RegEx for password that need at least:
+     * - 1 or more capital letter;
+     * - 1 or more non-capital letter;
+     * - 1 or more special symbols between '€$!?#@&'
+     * - No whitespace and no symbols as '/<>'
      * @param string $password
      * @return bool
      */
     static public function checkPasswordFormat (string $password) : bool
     {
-        if (preg_match('#^[0-9]+$#'))
-        /*
-         * vérifie que le mot de passe rentre dans les conditions
-         */
+        $number = preg_match("/[0-9]+/i", $password);
+        $uppercase = preg_match("/[A-Z]+/i", $password);
+        $lowercase = preg_match("/[a-z]+/i", $password);
+        $specialcaract = preg_match("/[€$!?#@&]+/i", $password);
+        $forbidencaract = preg_match('/[\/<>\s]/i', $password);
+        if ($number === 0 || $uppercase === 0 || $lowercase === 0 ||
+            $specialcaract === 0 || $forbidencaract === 1) {
+            return false;
+        } else {
+            return true;
+        }
     }
+
+
+    //Public Methods
 
     /**
      * @param string $login
@@ -78,8 +85,6 @@ class User extends \blog\app\models\User
             return true;
         }
     }
-
-    //Public Methods
 
     /**
      * @param string $login
@@ -150,3 +155,5 @@ class User extends \blog\app\models\User
 
 $user = new User();
 var_dump($user->checkLoginValidity('Jhon'));
+var_dump(User::checkPasswordFormat('Allo2!'));
+var_dump(User::checkMailFormat(''));
