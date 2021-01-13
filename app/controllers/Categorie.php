@@ -29,10 +29,9 @@ class categorie {
         $all = $modelCategorie->getAllCategorie();
 
         foreach($all as $key => $value){
-
-            echo "<li><a class='dropdown-item' href=''>".$value['nom']."</a></li>";
-
+            $tab[$key] = $value['nom'];
         }
+        return $tab;
     }
 
     /**
