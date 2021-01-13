@@ -25,9 +25,9 @@ class Article
         $req = $bdd->prepare("INSERT INTO articles ($article, $id_utilisateur, $id_categorie, $date) VALUES (:article :id_utilisateur, :id_categorie)");
         $req->bindValue(':article', $article, \PDO::PARAM_STR);
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
-        $req->bindValue(':id_categorie', $debut, \PDO::PARAM_INT);
+        $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
         $req->bindValue(':date', $date, \PDO::PARAM_STR);
-        $req->execute()or die(print_r($request->errorInfo()));
+        $req->execute()or die(print_r($req->errorInfo()));
 
     }
 
@@ -36,14 +36,14 @@ class Article
      * @param int $id
      * @return void
      */
-    public function updateArticle (int $id): void {
+    public function updateArticle (string $article, int $id_utilisateur, int $id_categorie, string $date): void {
 
         $bdd = $this->getBdd();
 
         $req = $bdd->prepare('UPDATE articles SET article = :article, id_utilisateur = :id_utilisateur, id_categorie = :id_categorie, date = :date WHERE id = "'.$this->id.'"');
-        $req->bindValue(':article', $article, \PDO::PARAM_STR);
+        $req->bindValue(':article', $article,  \PDO::PARAM_STR);
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
-        $req->bindValue(':id_categorie', $debut, \PDO::PARAM_INT);
+        $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
         $req->bindValue(':date', $date, \PDO::PARAM_STR);
         $req->execute()or die(print_r($req->errorInfo()));
 
@@ -122,11 +122,11 @@ class Article
      * @param int $line 3(affichage accueil) ou 5(affichage articles)
      * @return array $articles
      */
-    public function getArticle (?int $line = ""): array {
+    public function getArticle (?int $line = null): array {
 
         $bdd = $this->getBdd();
 
-        $req = "SELECT article, date FROM articles"
+        $req = "SELECT article, date FROM articles";
         //Requête = SQL SELECT article, date FROM articles LIMIT $line ORDER BY date DESC
 
         if($line){
@@ -175,20 +175,18 @@ class Article
  
     /**
      * Méthode qui permet de se connecter à la base de donnée
-     * @return PDO
+     * @return \PDO
      */
-    private function getBdd() {
+    public function getBdd() {
 
-        $pdo = new PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', 'root', [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        return new \PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', 'root', [
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
         ]);
-
-        return $pdo;
     }
     }
 
 
 
 
-}
+
