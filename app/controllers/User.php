@@ -1,13 +1,16 @@
 <?php
 
 
-namespace blog\app\controllers;
 
+namespace blog\app\controllers;
 
 /**
  * Class User
  * @package blog\app\controllers
  */
+
+require_once('../models/User.php');
+
 class User extends \blog\app\models\User
 {
 
@@ -55,6 +58,7 @@ class User extends \blog\app\models\User
      */
     static public function checkPasswordFormat (string $password) : bool
     {
+        if (preg_match('#^[0-9]+$#'))
         /*
          * vérifie que le mot de passe rentre dans les conditions
          */
@@ -64,13 +68,15 @@ class User extends \blog\app\models\User
      * @param string $login
      * @return bool
      */
-    static public function checkLoginValidity (string $login) : bool
+    public function checkLoginValidity (string $login) : bool
     {
-        /*
-         * getUser()
-         * Si renvoie un truc, alors return false,
-         * Sinon return true,
-         */
+        $userExist = $this->getUserDb($login);
+        var_dump($userExist);
+        if (!empty($userExist)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     //Public Methods
@@ -141,3 +147,6 @@ class User extends \blog\app\models\User
          */
     }
 }
+
+$user = new User();
+var_dump($user->checkLoginValidity('Jhon'));

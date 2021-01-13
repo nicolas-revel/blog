@@ -125,7 +125,7 @@ class User
     /**
      * @return \PDO
      */
-    public function connectDB()
+    protected function connectDB()
     {
         $db = new \PDO("mysql:dbname=blog;host=localhost", "root", "");
         return $db;
@@ -138,7 +138,7 @@ class User
     {
         $pdo = $this->connectDB();
         $querystring = "SELECT id, login, password, email, droit FROM utilisateurs";
-        $query = $pdo->query($strquery);
+        $query = $pdo->query($querystring);
         $result = $query->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
     }
@@ -151,7 +151,7 @@ class User
     {
         $pdo = $this->connectDB();
         $querystring = "SELECT id, login, password, email, droit FROM utilisateurs WHERE login = :login";
-        $query = $pdo->prepare($strquery);
+        $query = $pdo->prepare($querystring);
         $query->bindValue(':login', $login);
         $query->execute() or die(print_r($query->errorInfo()));
         $result = $query->fetch(\PDO::FETCH_ASSOC);
@@ -170,7 +170,7 @@ class User
     {
         $pdo = $this->connectDB();
         $querystring = "INSERT INTO utilisateurs(login, password, email, droit) VALUES (:login, :password, :email, :droit)";
-        $query = $pdo->prepare($strquery);
+        $query = $pdo->prepare($querystring);
         $query->bindValue(':login', $login);
         $query->bindValue(':password', $password);
         $query->bindValue(':email', $email);
@@ -186,7 +186,7 @@ class User
     {
         $pdo = $this->connectDB();
         $querystring = "DELETE FROM utilisateurs WHERE id = {$this->_id}";
-        $query = $pdo->query($strquery);
+        $query = $pdo->query($querystring);
         return $query;
     }
 
