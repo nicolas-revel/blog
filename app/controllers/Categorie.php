@@ -18,11 +18,12 @@ class categorie {
             $nom = htmlspecialchars($_POST['name']);
             $modelCategorie->insertCategorie($nom);
         }
-
-
     }
 
-    public function showAll() {
+    /**
+     * Méthode qui permet de générer un dropdown dans la navbar avec les noms des categories.
+     */
+    public function showAllNavBar() {
 
         $modelCategorie = new \blog\app\models\categorie();
         $all = $modelCategorie->getAllCategorie();
@@ -32,7 +33,35 @@ class categorie {
             echo "<li><a class='dropdown-item' href=''>".$value['nom']."</a></li>";
 
         }
-
-
     }
+
+    /**
+     * Méthode qui permet de supprimer une categorie
+     * @param int $id
+     */
+    public function deleteCategorie (int $id) {
+
+        $modelCategorie = new \blog\app\models\categorie();
+        $id = $modelCategorie->getAllCategorie();
+
+        $modelCategorie->delete($id['id']);
+    }
+
+    /**
+     * Méthode qui permet de modifier une catégorie
+     * @param int $id
+     */
+    public function updateCategorie(int $id) {
+
+        $modelCategorie = new \blog\app\models\categorie();
+
+        if(!empty($_POST['name'])) {
+
+            $nom = htmlspecialchars($_POST['name']);
+            $modelCategorie->updateCategorie($nom, $id);
+
+        }
+    }
+
+
 }

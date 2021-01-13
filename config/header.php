@@ -45,7 +45,7 @@ $nameCat = new blog\app\controllers\categorie();
                                 Categories
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <?= $nameCat->showAll(); ?>
+                                <?= $nameCat->showAllNavBar(); ?>
                             </ul>
                         </li>
                 </div>
@@ -53,22 +53,7 @@ $nameCat = new blog\app\controllers\categorie();
         </nav>
     </header>
 
-    <h1></h1>
-    <form id="categories" action="header.php" method="POST">
-        <br>
-        <div>
-            <label for="name" class="form-label">Nom de la categorie : </label>
-            <input type="text" class="form-control" name="name" required>
-        </div>
-        <br>
-        <div class="col-12">
-            <button id="buttonSub" type="submit" name="envoyer">Envoyer</button>
-        </div>
-        <?php if(isset($_POST['envoyer'])) {
-            $nameCat->insertCat();
-        }
-        ?>
-    </form>
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
 </body>
