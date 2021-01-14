@@ -34,6 +34,7 @@ class Article
 
     }
 
+
     /**
      * Méthode qui permet de modifier un article dans la base de donnée
      * @param int $id
