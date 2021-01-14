@@ -68,17 +68,13 @@ class User extends \blog\app\models\User
         }
     }
 
-
-    //Public Methods
-
     /**
      * @param string $login
      * @return bool
      */
-    public function checkLoginValidity (string $login) : bool
+    static public function checkLoginValidity (string $login) : bool
     {
-        $userExist = $this->getUserDb($login);
-        var_dump($userExist);
+        $userExist = (new \blog\app\models\User)->getUserDb($login);
         if (!empty($userExist)) {
             return false;
         } else {
@@ -86,21 +82,29 @@ class User extends \blog\app\models\User
         }
     }
 
+    //Public Methods
+
     /**
      * @param string $login
      * @param string $password
-     * @param string $c_password
      * @param string $email
      * @param int $droit
      * @return bool
      */
-    public function insertUser(string $login, string $password, string $c_password, string $email, int $droit = 1) : bool
+    public function insertUser(string $login, string $password, string $email, int $droit = 1) : bool
     {
-     /*
-      * Si password checked, mail bien formaté et mdp bien formaté
-      * échapper tous les paramètres
-      * Envoie tous les paramètres
-      */
+        if (!empty($login) && !empty($password) && !empty($email)) {
+            $this->setLogin(htmlspecialchars(trim($login)));
+            $this->setPassword(htmlspecialchars(trim(password_hash($password,
+                PASSWORD_BCRYPT))));
+            $this->setMail(htmlspecialchars(trim($email)));
+            $this->setDroits($droit);
+            $this->insertUserDb($this->getLogin(),$this->getPassword(),
+                $this->getMail(),$this->getDroits());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -109,19 +113,29 @@ class User extends \blog\app\models\User
      */
     public function connectUser(string $login, string $password)
     {
-        /*
-         * getUser;
-         * passwordverify;
-         * Si password verify = true,
-         * Set les différentes valeurs de mon objet
-         */
+        $login = htmlspecialchars(trim($login));
+        $password = htmlspecialchars(trim($password));
+        $userDb = $this->getUserDb($login);
+        if (password_verify($password,$userDb['password'])) {
+            $this->setId($userDb['id']);
+            $this->setLogin($userDb['login']);
+            $this->setPassword($userDb['password']);
+            $this->setMail($userDb['email']);
+            $this->setDroits($userDb['droit']);
+            return $this;
+        } else {
+            false;
+        }
     }
 
     public function disconnectUser()
     {
-        /*
-         * Set toutes les valeurs à null
-         */
+        $this->setId(null);
+        $this->setLogin(null);
+        $this->setPassword(null);
+        $this->setMail(null);
+        $this->setDroits(null);
+        return true;
     }
 
     /**
@@ -153,7 +167,11 @@ class User extends \blog\app\models\User
     }
 }
 
-$user = new User();
-var_dump($user->checkLoginValidity('Jhon'));
+var_dump(User::checkLoginValidity('Jhon'));
 var_dump(User::checkPasswordFormat('Allo2!'));
 var_dump(User::checkMailFormat(''));
+
+$user = new User();
+$user->insertUser('toto','tata','merde');
+$user->connectUser('toto', 'tata');
+var_dump($user->disconnectUser());
