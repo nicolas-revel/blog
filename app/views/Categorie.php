@@ -16,6 +16,16 @@ class categorie {
         }
     }
 
+    public function showNameCategorieForm()
+    {
+        $controlCat = new \blog\app\controllers\categorie();
+        $table = $controlCat->showAllNavBar();
+
+        foreach($table as $key => $value) {
+            echo "<option value='$value'>$value</option>";
+        }
+    }
+
 
 
     }

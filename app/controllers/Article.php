@@ -3,44 +3,52 @@
 
 namespace blog\app\controllers;
 
+require_once("../app/models/Article.php");
 
-class Article
+class Article extends \blog\app\models\Article
 {
     /**
      * Méthode qui traite le formulaire de création d'article puis insère dans la BDD
-     * @param int $id
-     * @return void
+     * @param int $id_utilisateur
      */
-    public function insertArticle (int $id_utilisateur): void {
+    public function insertArticle($id_utilisateur) {
+
 
         if(!empty ($_POST['categorie']) && ($_POST['article'])) {
 
-            $categorie = htmlspecialchars($_POST['categorie']);
             $article = htmlspecialchars($_POST['article']);
+            $categorie = htmlspecialchars($_POST['categorie']);
 
         } else {
-            die(" Votre formulaire à été mal rempli ");
+            die("Votre formulaire à été mal rempli");
         }
 
-        $findCat = $this->model->findCategorie();
+        $findCat = $this->findCategorie();
+        var_dump($findCat);
 
-        if($findCat['nom'] === $categorie) {
 
-            $id_categorie = $findCat['id'];
-            $date = date('Y/m/d H:i:s');
+        foreach($findCat as $key => $value) {
 
-            $this->model->insertArticle($article, $id_utilisateur, $id_categorie, $date);
+            if($key === $categorie) {
+
+                $id_categorie = $value;
+
+                //$date = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+                //$dateStamp = $date->getTimestamp();
+
+                var_dump($id_categorie);
+
+                $this->insertArticleDb($article, $id_utilisateur, $id_categorie);
+            }
         }
 
-        //Redirection
     }
 
     /**
      * Méthode qui traite de formulaire de modification d'article puis remplace les nouvelles informations dans la BDD
      * @param int $id
-     * @return void
      */
-    public function updateArticle (int $id): void {
+    public function updateArticle (int $id) {
 
         // Traitement des $_GET
         //Traitement du formulaire 'creer_article'
@@ -63,7 +71,7 @@ class Article
     /**
      * Méthode qui permet d'afficher les 3 premiers articles sur la page d'accueil
      */
-    public function showAccueil () {
+    public function showArticleAccueil () {
         // Appel de la fonction ->findCategorie () pour afficher le nom de la catégorie
         //Appel de la fonction ->getThirdArticle () 'blog\app\models'
         // Redirection avec Renderer ?

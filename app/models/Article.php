@@ -3,7 +3,10 @@
 
 namespace blog\app\models;
 
-
+/**
+ * Class Article
+ * @package blog\app\models
+ */
 class Article
 {
     protected $table = "articles";
@@ -14,19 +17,20 @@ class Article
     public $date;
 
     /**
-     * Methode qui permet d'inserer un article dans la base de donnée
-     * @param int $article
-     * @return bool
+     * @param string $article
+     * @param int $id_utilisateur
+     * @param int $id_categorie
+     * @param int $date
      */
-    public function insertArticle (string $article, int $id_utilisateur, int $id_categorie, string $date) {
+    public function insertArticleDb (string $article, int $id_utilisateur, int $id_categorie) {
 
         $bdd = $this->getBdd();
 
-        $req = $bdd->prepare("INSERT INTO articles ($article, $id_utilisateur, $id_categorie, $date) VALUES (:article :id_utilisateur, :id_categorie)");
-        $req->bindValue(':article', $article, \PDO::PARAM_STR);
+        $req = $bdd->prepare("INSERT INTO articles (article, id_utilisateur, id_categorie, date) VALUES (:article, :id_utilisateur, :id_categorie, NOW())");
+        $req->bindValue(':article', $article);
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
         $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
-        $req->bindValue(':date', $date, \PDO::PARAM_STR);
+        //$req->bindValue(':date', $date,  \PDO::PARAM_INT);
         $req->execute()or die(print_r($req->errorInfo()));
 
     }
@@ -36,7 +40,7 @@ class Article
      * @param int $id
      * @return void
      */
-    public function updateArticle (string $article, int $id_utilisateur, int $id_categorie, string $date): void {
+    public function updateArticleBd (string $article, int $id_utilisateur, int $id_categorie, string $date) {
 
         $bdd = $this->getBdd();
 
@@ -104,16 +108,20 @@ class Article
 
     /**
      * Méthode qui permet de récupérer l'id et le nom des catégories
-     * @return array
+     *
      */
-    public function findCategorie (): array {
+    public function findCategorie () {
 
         $bdd = $this->getBdd();
 
         $req = $bdd->prepare("SELECT id, nom FROM categories");
-        $result = $req->fetch(\PDO::FETCH_ASSOC);
+        $req->execute();
+        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
 
-        return $result;
+        foreach($result as $key => $value){
+            $tab[$value['nom']] = intval($value['id']);
+        }
+        return $tab;
 
     }
 
@@ -130,7 +138,7 @@ class Article
         //Requête = SQL SELECT article, date FROM articles LIMIT $line ORDER BY date DESC
 
         if($line){
-            $req .= " LIMIT " . $line . "ORDER BY date DESC";
+            $req .= " LIMIT " . $line . " ORDER BY date DESC";
         }
 
         $result = $bdd->query($req);

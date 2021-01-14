@@ -34,6 +34,17 @@ class categorie {
         return $tab;
     }
 
+    public function showAllId() {
+
+        $modelCategorie = new \blog\app\models\categorie();
+        $all = $modelCategorie->getAllCategorie();
+
+        foreach($all as $key => $value){
+            $tab[$key] = $value['id'];
+        }
+        return $tab;
+    }
+
     /**
      * Méthode qui permet de supprimer une categorie
      * @param int $id
