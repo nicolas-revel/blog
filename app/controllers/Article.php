@@ -11,7 +11,12 @@ class Article
      * @param int $id
      * @return void
      */
+<<<<<<< Updated upstream
     public function insertArticle (int $id_utilisateur): void {
+=======
+    public function insertArticle($id_utilisateur): void {
+
+>>>>>>> Stashed changes
 
         if(!empty ($_POST['categorie']) && ($_POST['article'])) {
 
@@ -22,7 +27,11 @@ class Article
             die(" Votre formulaire à été mal rempli ");
         }
 
+<<<<<<< Updated upstream
         $findCat = $this->model->findCategorie();
+=======
+        $findCat = $this->tabCategorie();
+>>>>>>> Stashed changes
 
         if($findCat['nom'] === $categorie) {
 
@@ -32,20 +41,61 @@ class Article
             $this->model->insertArticle($article, $id_utilisateur, $id_categorie, $date);
         }
 
+<<<<<<< Updated upstream
         //Redirection
+=======
+    }
+
+    /**
+     * Méthode qui permet de récupérer les titre et ses id des categories
+     * @return array
+     */
+    public function tabCategorie(): array {
+
+        $result = $this->findCategorieBd();
+
+        foreach($result as $key => $value){
+
+            $tab[$value['nom']] = intval($value['id']);
+        }
+
+        return $tab;
+>>>>>>> Stashed changes
     }
 
     /**
      * Méthode qui traite de formulaire de modification d'article puis remplace les nouvelles informations dans la BDD
      * @param int $id
+<<<<<<< Updated upstream
      * @return void
      */
     public function updateArticle (int $id): void {
+=======
+     * @param int $id_utilisateur
+     */
+    public function updateArticle (int $id, int $id_utilisateur) {
+>>>>>>> Stashed changes
 
-        // Traitement des $_GET
-        //Traitement du formulaire 'creer_article'
-        //Appel de la fonction ->updateArticle($id) 'blog\app\models'
-        //Redirection
+        if(!empty ($_POST['categorie']) && ($_POST['article'])) {
+
+            $article = htmlspecialchars($_POST['article']);
+            $categorie = htmlspecialchars($_POST['categorie']);
+
+        } else {
+            die("Votre formulaire à été mal rempli");
+        }
+
+        $findCat = $this->tabCategorie();
+
+        foreach($findCat as $key => $value) {
+
+            if($key === $categorie) {
+
+                $id_categorie = $value;
+
+                $this->updateArticleBd($id, $article, $id_utilisateur, $id_categorie);
+            }
+        }
     }
 
     /**
