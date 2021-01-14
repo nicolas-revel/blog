@@ -39,41 +39,41 @@ class User
     //setters
 
     /**
-     * @param int $id
+     * @param int | null $id
      */
-    public function setId(int $id): void
+    public function setId($id): void
     {
         $this->_id = $id;
     }
 
     /**
-     * @param string $login
+     * @param string | null $login
      */
-    public function setLogin(string $login): void
+    public function setLogin($login): void
     {
         $this->_login = $login;
     }
 
     /**
-     * @param string $password
+     * @param string | null $password
      */
-    public function setPassword(string $password): void
+    public function setPassword($password): void
     {
         $this->_password = $password;
     }
 
     /**
-     * @param string $mail
+     * @param string | null $mail
      */
-    public function setMail(string $mail): void
+    public function setMail($mail): void
     {
         $this->_mail = $mail;
     }
 
     /**
-     * @param int $droits
+     * @param int | null $droits
      */
-    public function setDroits(int $droits): void
+    public function setDroits($droits): void
     {
         $this->_droits = $droits;
     }
@@ -145,9 +145,8 @@ class User
 
     /**
      * @param $login string
-     * @return array
      */
-    public function getUserDb(string $login): array
+    public function getUserDb(string $login)
     {
         $pdo = $this->connectDB();
         $querystring = "SELECT id, login, password, email, droit FROM utilisateurs WHERE login = :login";
@@ -155,7 +154,11 @@ class User
         $query->bindValue(':login', $login);
         $query->execute() or die(print_r($query->errorInfo()));
         $result = $query->fetch(\PDO::FETCH_ASSOC);
-        return $result;
+        if (!empty($result)) {
+            return $result;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -175,8 +178,11 @@ class User
         $query->bindValue(':password', $password);
         $query->bindValue(':email', $email);
         $query->bindValue(':droit', $droit);
-        $query->execute() or die(print_r($query->errorInfo()));
-        return $query;
+        if ($query->execute() === true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
