@@ -11,11 +11,12 @@ class categorie {
         $controlCat = new \blog\app\controllers\categorie();
         $table = $controlCat->showAllNavBar();
 
-        foreach($table as $key => $value)
-        {
-            echo "<li><a class='dropdown-item' href=''>".$value."</a></li>";
+        foreach($table as $key => $value) {
+            echo "<li><a class='dropdown-item' href=''>$value</a></li>";
         }
+    }
+
+
 
     }
 
-}
