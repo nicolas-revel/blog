@@ -122,6 +122,7 @@ class User
 
     // Other Methods
 
+
     /**
      * @return \PDO
      */
@@ -129,6 +130,14 @@ class User
     {
         $db = new \PDO("mysql:dbname=blog;host=localhost", "root", "");
         return $db;
+    }
+
+    static public function getDroitsDb() {
+        $pdo = (new User)->connectDB();
+        $querystring = "SELECT id, nom FROM droits";
+        $result = $pdo->query($querystring);
+        
+
     }
 
     /**
@@ -205,22 +214,30 @@ class User
         $query->bindValue(':login', $login);
         $query->bindValue(':password', $password);
         $query->bindValue(':email', $email);
-        $query->execute() or die(print_r($query->errorInfo()));
-        return $query;
+        if ($query->execute() === true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
      * @param int $droit
+     * @param int $id_utilisateur
      * @return bool
      */
-    public function updateUserDroitDb(int $droit) : bool
+    public function updateUserDroitDb(int $droit, int $id_utilisateur) : bool
     {
         $pdo = $this->connectDB();
         $string = "UPDATE utilisateurs SET droit = :droit WHERE id = :id";
         $query = $pdo->prepare($string);
-        $query->bindValue(':id', $this->_id);
+        $query->bindValue(':id', $id_utilisateur);
         $query->bindValue(':droit', $droit);
-        $query->execute();
-        return $query;
+        if ($query->execute() === true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
+

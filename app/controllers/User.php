@@ -110,6 +110,7 @@ class User extends \blog\app\models\User
     /**
      * @param string $login
      * @param string $password
+     * @return User|false
      */
     public function connectUser(string $login, string $password)
     {
@@ -124,11 +125,14 @@ class User extends \blog\app\models\User
             $this->setDroits($userDb['droit']);
             return $this;
         } else {
-            false;
+           return false;
         }
     }
 
-    public function disconnectUser()
+    /**
+     * @return bool
+     */
+    public function disconnectUser(): bool
     {
         $this->setId(null);
         $this->setLogin(null);
@@ -139,39 +143,61 @@ class User extends \blog\app\models\User
     }
 
     /**
-     * @param string $login
-     * @param string $password
-     * @param string $email
+     * @param string|null $login
+     * @param string|null $password
+     * @param string|null $email
      * @return bool
      */
-    public function updateUser(string $login, string $password, string $email) : bool
+    public function updateUser(string $login = null, string $password = null,
+                               string $email = null) : bool
     {
-        /*
-         * Si le login existe pas alors continue
-         * échape tous les paramêtres
-         * envoie tous les paramêtre à updateUserDb
-         */
+        if (!empty($login)) {
+            $login = htmlspecialchars(trim($login));
+            $this->setLogin($login);
+        }
+        if (!empty($password)) {
+            $password = htmlspecialchars(trim($password));
+            $this->setPassword($password);
+        }
+        if (!empty($email)) {
+            $email = htmlspecialchars(trim($email));
+            $this->setMail($email);
+        }
+        $checklogin = self::checkLoginValidity($this->getLogin());
+        if ($checklogin === true) {
+            $try = $this->updateUserDb($this->getLogin(),$this->getPassword(),
+                $this->getMail());
+            if ($try === true) {
+                $this->setLogin($login);
+                $this->setPassword($password);
+                $this->setMail($email);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
      * @param int $droit
+     * @param int $id_utilisateur
      * @return bool
      */
-    public function updateUserDroit(int $droit) : bool
+    public function updateUserDroit(int $droit, int $id_utilisateur) : bool
     {
-        /*
-         * Si getDroit = 1337
-         * alors envoie les droit à la fonction updateUserDroitDb et return true
-         * sinon return false
-         */
+        if ($this->updateUserDroitDb($droit,$id_utilisateur) === true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
-var_dump(User::checkLoginValidity('Jhon'));
-var_dump(User::checkPasswordFormat('Allo2!'));
-var_dump(User::checkMailFormat(''));
-
 $user = new User();
-$user->insertUser('toto','tata','merde');
-$user->connectUser('toto', 'tata');
-var_dump($user->disconnectUser());
+//$user->insertUser('toto','tata','merde');
+$curent_user = $user->connectUser('toto', 'tata');
+var_dump($curent_user);
+//$curent_user = $user->updateUser('toto');
+//var_dump($curent_user);
