@@ -18,7 +18,11 @@ class Article
      * @param int $article
      * @return bool
      */
+<<<<<<< Updated upstream
     public function insertArticle (string $article, int $id_utilisateur, int $id_categorie, string $date) {
+=======
+    public function insertArticleDb (string $article, int $id_utilisateur, int $id_categorie): void {
+>>>>>>> Stashed changes
 
         $bdd = $this->getBdd();
 
@@ -36,15 +40,19 @@ class Article
      * @param int $id
      * @return void
      */
+<<<<<<< Updated upstream
     public function updateArticle (string $article, int $id_utilisateur, int $id_categorie, string $date): void {
+=======
+    public function updateArticleBd (int $id, string $article, int $id_utilisateur, int $id_categorie) {
+>>>>>>> Stashed changes
 
         $bdd = $this->getBdd();
 
-        $req = $bdd->prepare('UPDATE articles SET article = :article, id_utilisateur = :id_utilisateur, id_categorie = :id_categorie, date = :date WHERE id = "'.$this->id.'"');
+        $req = $bdd->prepare('UPDATE articles SET article = :article, id_utilisateur = :id_utilisateur, id_categorie = :id_categorie, date = NOW() WHERE id = :id');
         $req->bindValue(':article', $article,  \PDO::PARAM_STR);
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
         $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
-        $req->bindValue(':date', $date, \PDO::PARAM_STR);
+        $req->bindValue(':id', $id, \PDO::PARAM_INT);
         $req->execute()or die(print_r($req->errorInfo()));
 
     }
@@ -106,7 +114,11 @@ class Article
      * Méthode qui permet de récupérer l'id et le nom des catégories
      * @return array
      */
+<<<<<<< Updated upstream
     public function findCategorie (): array {
+=======
+    public function findCategorieBd (): array {
+>>>>>>> Stashed changes
 
         $bdd = $this->getBdd();
 
