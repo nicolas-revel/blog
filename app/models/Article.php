@@ -30,7 +30,6 @@ class Article
         $req->bindValue(':article', $article);
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
         $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
-        //$req->bindValue(':date', $date,  \PDO::PARAM_INT);
         $req->execute()or die(print_r($req->errorInfo()));
 
     }
@@ -58,7 +57,7 @@ class Article
      * @param $id
      * @return void
      */
-    public function delete (int $id): void {
+    public function deleteBd (int $id): void {
 
         $bdd = $this->getBdd();
 
@@ -72,7 +71,7 @@ class Article
      * @param int $id_utilisateur
      * @return array
      */
-    public function findArticle (int $id_utilisateur): array {
+    public function findArticleBd (int $id_utilisateur): array {
 
         $bdd = $this->getBdd();
 
@@ -93,7 +92,7 @@ class Article
      * @param int $id
      * @return array
      */
-    public function find (int $id): array {
+    public function findBd (int $id): array {
 
         $bdd = $this->getBdd();
 
@@ -110,7 +109,7 @@ class Article
      * Méthode qui permet de récupérer l'id et le nom des catégories
      *
      */
-    public function findCategorie () {
+    public function findCategorieBd () {
 
         $bdd = $this->getBdd();
 
@@ -118,10 +117,7 @@ class Article
         $req->execute();
         $result = $req->fetchAll(\PDO::FETCH_ASSOC);
 
-        foreach($result as $key => $value){
-            $tab[$value['nom']] = intval($value['id']);
-        }
-        return $tab;
+        return $result;
 
     }
 
@@ -130,20 +126,20 @@ class Article
      * @param int $line 3(affichage accueil) ou 5(affichage articles)
      * @return array $articles
      */
-    public function getArticle (?int $line = null): array {
+    public function getArticleBd (?int $line = null): array {
 
         $bdd = $this->getBdd();
 
-        $req = "SELECT article, date FROM articles";
+        $req = "SELECT article, id_categorie, date FROM articles";
         //Requête = SQL SELECT article, date FROM articles LIMIT $line ORDER BY date DESC
 
         if($line){
-            $req .= " LIMIT " . $line . " ORDER BY date DESC";
+            $req .= " ORDER BY date DESC LIMIT " . $line;
         }
 
         $result = $bdd->query($req);
         // On fouille le résultat pour en extraire les données réelles
-        $articles = $result->fetchAll();
+        $articles = $result->fetchAll(\PDO::FETCH_ASSOC);
 
         return $articles;
 

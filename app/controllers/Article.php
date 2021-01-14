@@ -23,7 +23,7 @@ class Article extends \blog\app\models\Article
             die("Votre formulaire à été mal rempli");
         }
 
-        $findCat = $this->findCategorie();
+        $findCat = $this->tabCategorie();
         var_dump($findCat);
 
 
@@ -33,15 +33,22 @@ class Article extends \blog\app\models\Article
 
                 $id_categorie = $value;
 
-                //$date = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
-                //$dateStamp = $date->getTimestamp();
-
-                var_dump($id_categorie);
-
                 $this->insertArticleDb($article, $id_utilisateur, $id_categorie);
             }
         }
 
+    }
+
+    public function tabCategorie() {
+
+        $result = $this->findCategorieBd();
+
+        foreach($result as $key => $value){
+
+            $tab[$value['nom']] = intval($value['id']);
+        }
+
+        return $tab;
     }
 
     /**
@@ -71,10 +78,12 @@ class Article extends \blog\app\models\Article
     /**
      * Méthode qui permet d'afficher les 3 premiers articles sur la page d'accueil
      */
-    public function showArticleAccueil () {
-        // Appel de la fonction ->findCategorie () pour afficher le nom de la catégorie
-        //Appel de la fonction ->getThirdArticle () 'blog\app\models'
-        // Redirection avec Renderer ?
+    public function ArticleAccueil() {
+
+        $getArticle = $this->getArticleBd(3);
+
+        return $getArticle;
+
     }
 
     /**
