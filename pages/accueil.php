@@ -27,7 +27,7 @@ $pageTitle = "Accueil";
     if(isset($_POST['envoyer'])) {
 
         $post = new blog\app\controllers\Article();
-        $post->updateArticle (9, 3);
+        $post->insertArticle(2);
 
     }
     ?>

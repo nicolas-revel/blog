@@ -84,6 +84,48 @@ class Article extends \blog\app\models\Article
         }
     }
 
+    public function ArticleByCategorie($premier, $parPage) {
+
+        if(!empty($_POST['categorie'])){
+            $categorie = htmlspecialchars($_POST['categorie']);
+        }
+
+        $findCat = $this->tabCategorie();
+
+        foreach($findCat as $key => $value) {
+
+            if($key === $categorie) {
+
+                $id_categorie = $value;
+
+                $articles = $this->selectArticleWithCategorie($premier, $parPage, $id_categorie);
+            }
+        }
+
+        return $articles;
+    }
+
+    public function nbrArticleId () {
+
+        if(!empty($_POST['categorie'])){
+            $categorie = htmlspecialchars($_POST['categorie']);
+        }
+
+        $findCat = $this->tabCategorie();
+
+        foreach($findCat as $key => $value) {
+
+            if($key === $categorie) {
+
+                $id_categorie = $value;
+
+                $articles = $this->countArticleById($id_categorie);
+                $nbArticles = (int)$articles['nb_articles'];
+            }
+        }
+        return $nbArticles;
+    }
+
     /**
      * Méthode qui permet de supprimer un article par rapport bouton/lien
      * @return void
@@ -104,17 +146,6 @@ class Article extends \blog\app\models\Article
         $getArticle = $this->getArticleBd($line);
 
         return $getArticle;
-
-    }
-
-    /**
-     * Méthode qui permet d'afficher l'ensemble des article (max 5) du plus récent au plus ancien + pagination
-     */
-    public function showArticles () {
-
-        $articles = $this->selectDesc();
-
-        return $articles;
 
     }
 

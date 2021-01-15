@@ -145,18 +145,6 @@ class Article
 
     }
 
-    public function selectDesc () {
-
-        $bdd = $this->getBdd();
-
-        $req = $bdd->prepare('SELECT id, article, id_utilisateur, id_categorie, date FROM articles ORDER BY date DESC');
-        $req->execute();
-        $articles = $req->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $articles;
-
-    }
-
     public function selectPages($premier, $parPage) {
 
         $bdd = $this->getBdd();
@@ -170,6 +158,21 @@ class Article
         return $articles;
     }
 
+    public function selectArticleWithCategorie ($premier, $parPage, $id_categorie) {
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare("SELECT * FROM articles WHERE id_categorie = :id_categorie ORDER BY date DESC LIMIT :premier, :parpage ");
+        $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
+        $req->bindValue(':premier', $premier, \PDO::PARAM_INT);
+        $req->bindValue(':parpage', $parPage, \PDO::PARAM_INT);
+        $req->execute();
+
+        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
     public function countArticle() {
 
         $bdd = $this->getBdd();
@@ -179,6 +182,20 @@ class Article
         $result = $req->fetch();
 
         return $result;
+
+    }
+
+    public function countArticleById ($id_categorie) {
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare('SELECT COUNT(*) AS nb_articles FROM articles WHERE id_categorie = :id_categorie');
+        $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
+        $req->execute();
+        $result = $req->fetch();
+
+        return $result;
+
     }
 
     /**
