@@ -156,7 +156,8 @@ class User extends \blog\app\models\User
             $this->setLogin($login);
         }
         if (!empty($password)) {
-            $password = htmlspecialchars(trim($password));
+            $password = htmlspecialchars(trim(password_hash($password,
+                PASSWORD_BCRYPT)));
             $this->setPassword($password);
         }
         if (!empty($email)) {
@@ -196,8 +197,3 @@ class User extends \blog\app\models\User
 }
 
 $user = new User();
-//$user->insertUser('toto','tata','merde');
-$curent_user = $user->connectUser('toto', 'tata');
-var_dump($curent_user);
-//$curent_user = $user->updateUser('toto');
-//var_dump($curent_user);
