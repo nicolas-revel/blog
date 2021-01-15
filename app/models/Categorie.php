@@ -2,7 +2,7 @@
 
 namespace blog\app\models;
 
-require('Article.php');
+require('../app/models/Article.php');
 
 class categorie extends Article {
 

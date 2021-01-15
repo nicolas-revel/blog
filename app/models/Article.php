@@ -3,7 +3,10 @@
 
 namespace blog\app\models;
 
-
+/**
+ * Class Article
+ * @package blog\app\models
+ */
 class Article
 {
     protected $table = "articles";
@@ -14,42 +17,34 @@ class Article
     public $date;
 
     /**
-     * Methode qui permet d'inserer un article dans la base de donnée
-     * @param int $article
-     * @return bool
+     * @param string $article
+     * @param int $id_utilisateur
+     * @param int $id_categorie
      */
-<<<<<<< Updated upstream
-    public function insertArticle (string $article, int $id_utilisateur, int $id_categorie, string $date) {
-=======
-    public function insertArticleDb (string $article, int $id_utilisateur, int $id_categorie): void {
->>>>>>> Stashed changes
+    public function insertArticleDb (string $article, int $id_utilisateur, int $id_categorie) {
 
         $bdd = $this->getBdd();
 
-        $req = $bdd->prepare("INSERT INTO articles ($article, $id_utilisateur, $id_categorie, $date) VALUES (:article :id_utilisateur, :id_categorie)");
-        $req->bindValue(':article', $article, \PDO::PARAM_STR);
+        $req = $bdd->prepare("INSERT INTO articles (article, id_utilisateur, id_categorie, date) VALUES (:article, :id_utilisateur, :id_categorie, NOW())");
+        $req->bindValue(':article', $article);
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
         $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
-        $req->bindValue(':date', $date, \PDO::PARAM_STR);
         $req->execute()or die(print_r($req->errorInfo()));
 
     }
+
 
     /**
      * Méthode qui permet de modifier un article dans la base de donnée
      * @param int $id
      * @return void
      */
-<<<<<<< Updated upstream
-    public function updateArticle (string $article, int $id_utilisateur, int $id_categorie, string $date): void {
-=======
     public function updateArticleBd (int $id, string $article, int $id_utilisateur, int $id_categorie) {
->>>>>>> Stashed changes
 
         $bdd = $this->getBdd();
 
         $req = $bdd->prepare('UPDATE articles SET article = :article, id_utilisateur = :id_utilisateur, id_categorie = :id_categorie, date = NOW() WHERE id = :id');
-        $req->bindValue(':article', $article,  \PDO::PARAM_STR);
+        $req->bindValue(':article', $article);
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
         $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
         $req->bindValue(':id', $id, \PDO::PARAM_INT);
@@ -62,7 +57,7 @@ class Article
      * @param $id
      * @return void
      */
-    public function delete (int $id): void {
+    public function deleteBd (int $id): void {
 
         $bdd = $this->getBdd();
 
@@ -76,7 +71,7 @@ class Article
      * @param int $id_utilisateur
      * @return array
      */
-    public function findArticle (int $id_utilisateur): array {
+    public function findArticleBd (int $id_utilisateur): array {
 
         $bdd = $this->getBdd();
 
@@ -97,7 +92,7 @@ class Article
      * @param int $id
      * @return array
      */
-    public function find (int $id): array {
+    public function findBd (int $id): array {
 
         $bdd = $this->getBdd();
 
@@ -112,18 +107,15 @@ class Article
 
     /**
      * Méthode qui permet de récupérer l'id et le nom des catégories
-     * @return array
+     *
      */
-<<<<<<< Updated upstream
-    public function findCategorie (): array {
-=======
-    public function findCategorieBd (): array {
->>>>>>> Stashed changes
+    public function findCategorieBd () {
 
         $bdd = $this->getBdd();
 
         $req = $bdd->prepare("SELECT id, nom FROM categories");
-        $result = $req->fetch(\PDO::FETCH_ASSOC);
+        $req->execute();
+        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
 
         return $result;
 
@@ -134,20 +126,20 @@ class Article
      * @param int $line 3(affichage accueil) ou 5(affichage articles)
      * @return array $articles
      */
-    public function getArticle (?int $line = null): array {
+    public function getArticleBd (?int $line = null): array {
 
         $bdd = $this->getBdd();
 
-        $req = "SELECT article, date FROM articles";
+        $req = "SELECT article, id_categorie, date FROM articles";
         //Requête = SQL SELECT article, date FROM articles LIMIT $line ORDER BY date DESC
 
         if($line){
-            $req .= " LIMIT " . $line . "ORDER BY date DESC";
+            $req .= " ORDER BY date DESC LIMIT " . $line;
         }
 
         $result = $bdd->query($req);
         // On fouille le résultat pour en extraire les données réelles
-        $articles = $result->fetchAll();
+        $articles = $result->fetchAll(\PDO::FETCH_ASSOC);
 
         return $articles;
 

@@ -3,26 +3,27 @@
 
 namespace blog\app\views;
 
+require('../app/controllers/Article.php');
 
-class Article
+
+class Article extends \blog\app\controllers\Article
 {
-<<<<<<< Updated upstream
-=======
     public function showArticleAccueil() {
 
         $nameCat = $this->tabCategorie();
 
         $articles = $this->ArticleAccueil();
 
-            foreach($articles as $keyA => $values){
+        foreach($nameCat as $key => $value) {
 
-                foreach($nameCat as $key => $value) {
+            foreach($articles as $keyA => $values){
 
                 if($values['id_categorie'] == $value){
 
                     echo $key.'<br>'.'Article :'.$values['article'].'<br>'.'écrit le :'.$values['date'].'<br>';
                 }
             }
->>>>>>> Stashed changes
 
+        }
+    }
 }

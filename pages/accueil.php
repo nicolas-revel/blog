@@ -23,15 +23,16 @@ $pageTitle = "Accueil";
     <div class="col-12">
         <button id="buttonSub" type="submit" name="envoyer">Envoyer</button>
     </div>
-        <?php
-        if(isset($_POST['envoyer'])) {
+    <?php
+    if(isset($_POST['envoyer'])) {
 
-            $post = new blog\app\controllers\Article();
-            $post->updateArticle (1, 2);
+        $post = new blog\app\controllers\Article();
+        $post->updateArticle (9, 3);
 
-        }
-        ?>
+    }
+    ?>
 </form>
 
 <div><?= $show->showArticleAccueil(); ?></div>
+<a href="articles.php">Articles</a>
 
