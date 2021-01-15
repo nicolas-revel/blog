@@ -18,7 +18,7 @@ class Article extends \blog\app\controllers\Article
 
             foreach($articles as $keyA => $values){
 
-                if($value == $values['id_categorie']){
+                if($values['id_categorie'] == $value){
 
                     echo $key.'<br>'.'Article :'.$values['article'].'<br>'.'écrit le :'.$values['date'].'<br>';
                 }

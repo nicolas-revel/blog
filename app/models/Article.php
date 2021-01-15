@@ -20,7 +20,6 @@ class Article
      * @param string $article
      * @param int $id_utilisateur
      * @param int $id_categorie
-     * @param int $date
      */
     public function insertArticleDb (string $article, int $id_utilisateur, int $id_categorie) {
 
@@ -40,15 +39,15 @@ class Article
      * @param int $id
      * @return void
      */
-    public function updateArticleBd (string $article, int $id_utilisateur, int $id_categorie, string $date) {
+    public function updateArticleBd (int $id, string $article, int $id_utilisateur, int $id_categorie) {
 
         $bdd = $this->getBdd();
 
-        $req = $bdd->prepare('UPDATE articles SET article = :article, id_utilisateur = :id_utilisateur, id_categorie = :id_categorie, date = :date WHERE id = "'.$this->id.'"');
-        $req->bindValue(':article', $article,  \PDO::PARAM_STR);
+        $req = $bdd->prepare('UPDATE articles SET article = :article, id_utilisateur = :id_utilisateur, id_categorie = :id_categorie, date = NOW() WHERE id = :id');
+        $req->bindValue(':article', $article);
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
         $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
-        $req->bindValue(':date', $date, \PDO::PARAM_STR);
+        $req->bindValue(':id', $id, \PDO::PARAM_INT);
         $req->execute()or die(print_r($req->errorInfo()));
 
     }

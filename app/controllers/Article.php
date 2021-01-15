@@ -24,8 +24,6 @@ class Article extends \blog\app\models\Article
         }
 
         $findCat = $this->tabCategorie();
-        var_dump($findCat);
-
 
         foreach($findCat as $key => $value) {
 

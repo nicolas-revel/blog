@@ -27,11 +27,12 @@ $pageTitle = "Accueil";
     if(isset($_POST['envoyer'])) {
 
         $post = new blog\app\controllers\Article();
-        $post->updateArticle (1, 2);
+        $post->updateArticle (9, 3);
 
     }
     ?>
 </form>
 
 <div><?= $show->showArticleAccueil(); ?></div>
+<a href="articles.php">Articles</a>
 
