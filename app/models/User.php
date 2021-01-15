@@ -12,70 +12,70 @@ class User
     /**
      * @var int
      */
-    private $_id;
+    private $id;
 
     /**
      * @var string
      */
-    private $_login;
+    private $login;
 
     /**
      * @var string
      */
-    private $_password;
+    private $password;
 
     /**
      * @var string
      */
-    private $_mail;
+    private $email;
 
     /**
      * @var int
      */
-    private $_droits;
+    private $droit;
 
     //Methods
 
     //setters
 
     /**
-     * @param int $id
+     * @param int | null $id
      */
-    public function setId(int $id): void
+    public function setId($id): void
     {
-        $this->_id = $id;
+        $this->id = $id;
     }
 
     /**
-     * @param string $login
+     * @param string | null $login
      */
-    public function setLogin(string $login): void
+    public function setLogin($login): void
     {
-        $this->_login = $login;
+        $this->login = $login;
     }
 
     /**
-     * @param string $password
+     * @param string | null $password
      */
-    public function setPassword(string $password): void
+    public function setPassword($password): void
     {
-        $this->_password = $password;
+        $this->password = $password;
     }
 
     /**
-     * @param string $mail
+     * @param string | null $email
      */
-    public function setMail(string $mail): void
+    public function setEmail($email): void
     {
-        $this->_mail = $mail;
+        $this->email = $email;
     }
 
     /**
-     * @param int $droits
+     * @param int | null $droits
      */
-    public function setDroits(int $droits): void
+    public function setDroits($droits): void
     {
-        $this->_droits = $droits;
+        $this->droit = $droits;
     }
 
     //getters
@@ -85,7 +85,7 @@ class User
      */
     public function getId(): int
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -93,7 +93,7 @@ class User
      */
     public function getLogin(): string
     {
-        return $this->_login;
+        return $this->login;
     }
 
     /**
@@ -101,15 +101,15 @@ class User
      */
     public function getPassword(): string
     {
-        return $this->_password;
+        return $this->password;
     }
 
     /**
      * @return string
      */
-    public function getMail(): string
+    public function getEmail(): string
     {
-        return $this->_mail;
+        return $this->email;
     }
 
     /**
@@ -117,18 +117,39 @@ class User
      */
     public function getDroits(): int
     {
-        return $this->_droits;
+        return $this->droit;
     }
 
     // Other Methods
 
+    /*public function __construct(int $id = null, string $login = null, string
+$password = null, string $email = null, int $droits = null)
+    {
+        $this->setId($id);
+        $this->setLogin($login);
+        $this->setPassword($password);
+        $this->setEmail($email);
+        $this->setDroits($droits);
+    }*/
+
     /**
      * @return \PDO
      */
-    public function connectDB()
+    protected function connectDB()
     {
         $db = new \PDO("mysql:dbname=blog;host=localhost", "root", "");
         return $db;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getDroitsDb() {
+        $pdo = (new User)->connectDB();
+        $querystring = "SELECT id, nom FROM droits";
+        $query = $pdo->query($querystring);
+        $result = $query->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
     }
 
     /**
@@ -138,30 +159,36 @@ class User
     {
         $pdo = $this->connectDB();
         $querystring = "SELECT id, login, password, email, droit FROM utilisateurs";
-        $query = $pdo->query($strquery);
-        $result = $query->fetchAll(\PDO::FETCH_ASSOC);
+        $query = $pdo->query($querystring);
+        // $query->setFetchMode(\PDO::FETCH_CLASS, "\blog\app\models\User", [,login, password, email, droits]);
+        $result = $query->fetchAll(\PDO::FETCH_CLASS,
+            '\blog\app\models\User');
         return $result;
     }
 
     /**
      * @param $login string
-     * @return array
      */
-    public function getUserDb(string $login): array
+    public function getUserDb(string $login)
     {
         $pdo = $this->connectDB();
         $querystring = "SELECT id, login, password, email, droit FROM utilisateurs WHERE login = :login";
-        $query = $pdo->prepare($strquery);
+        $query = $pdo->prepare($querystring);
         $query->bindValue(':login', $login);
         $query->execute() or die(print_r($query->errorInfo()));
-        $result = $query->fetch(\PDO::FETCH_ASSOC);
-        return $result;
+        $result = $query->fetch(\PDO::FETCH_CLASS);
+        var_dump($result);
+        if (!empty($result)) {
+            return $result;
+        } else {
+            return false;
+        }
     }
 
     /**
      * @param string $login
      * @param string $password
-     * @param string $mail
+     * @param string $email
      * @param int $droit
      * @return bool
      */
@@ -170,13 +197,16 @@ class User
     {
         $pdo = $this->connectDB();
         $querystring = "INSERT INTO utilisateurs(login, password, email, droit) VALUES (:login, :password, :email, :droit)";
-        $query = $pdo->prepare($strquery);
+        $query = $pdo->prepare($querystring);
         $query->bindValue(':login', $login);
         $query->bindValue(':password', $password);
         $query->bindValue(':email', $email);
         $query->bindValue(':droit', $droit);
-        $query->execute() or die(print_r($query->errorInfo()));
-        return $query;
+        if ($query->execute() === true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -186,7 +216,7 @@ class User
     {
         $pdo = $this->connectDB();
         $querystring = "DELETE FROM utilisateurs WHERE id = {$this->_id}";
-        $query = $pdo->query($strquery);
+        $query = $pdo->query($querystring);
         return $query;
     }
 
@@ -199,22 +229,33 @@ class User
         $query->bindValue(':login', $login);
         $query->bindValue(':password', $password);
         $query->bindValue(':email', $email);
-        $query->execute() or die(print_r($query->errorInfo()));
-        return $query;
+        if ($query->execute() === true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
      * @param int $droit
+     * @param int $id_utilisateur
      * @return bool
      */
-    public function updateUserDroitDb(int $droit) : bool
+    public function updateUserDroitDb(int $droit, int $id_utilisateur) : bool
     {
         $pdo = $this->connectDB();
         $string = "UPDATE utilisateurs SET droit = :droit WHERE id = :id";
         $query = $pdo->prepare($string);
-        $query->bindValue(':id', $this->_id);
+        $query->bindValue(':id', $id_utilisateur);
         $query->bindValue(':droit', $droit);
-        $query->execute();
-        return $query;
+        if ($query->execute() === true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
+
+$user = new User();
+$getusers = $user->getUsersDb();
+var_dump($getusers);
