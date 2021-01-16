@@ -37,18 +37,6 @@ class Article extends \blog\app\models\Article
 
     }
 
-    public function tabCategorie() {
-
-        $result = $this->findCategorieBd();
-
-        foreach($result as $key => $value){
-
-            $tab[$value['nom']] = intval($value['id']);
-        }
-
-        return $tab;
-    }
-
     /**
      * Méthode qui permet de récupérer les titre et ses id des categories
      * @return array
@@ -63,7 +51,7 @@ class Article extends \blog\app\models\Article
         }
 
         return $tab;
->>>>>>> Stashed changes
+
     }
 
     /**
@@ -96,6 +84,32 @@ class Article extends \blog\app\models\Article
         }
     }
 
+    public function ArticleByCategorie($premier, $parPage) {
+
+        if(!empty($_GET['categorie'])){
+
+            $id_categorie = $_GET['categorie'];
+
+            $articles = $this->selectArticleWithCategorie($premier, $parPage, $id_categorie);
+        }
+
+            return $articles;
+
+    }
+
+    public function nbrArticleId () {
+
+        if(!empty($_GET['categorie'])){
+
+            $id_categorie = $_GET['categorie'];
+
+            $articles = $this->countArticleById($id_categorie);
+            $nbArticles = (int)$articles['nb_articles'];
+        }
+
+            return $nbArticles;
+    }
+
     /**
      * Méthode qui permet de supprimer un article par rapport bouton/lien
      * @return void
@@ -111,23 +125,27 @@ class Article extends \blog\app\models\Article
     /**
      * Méthode qui permet d'afficher les 3 premiers articles sur la page d'accueil
      */
-    public function ArticleAccueil() {
+    public function ArticleAccueil($premier, $parPage) {
 
-        $getArticle = $this->getArticleBd(3);
+        $getArticle = $this->selectPages($premier, $parPage);
 
         return $getArticle;
 
     }
 
-    /**
-     * Méthode qui permet d'afficher l'ensemble des article (max 5) du plus récent au plus ancien + pagination
-     */
-    public function showArticles () {
-        //Traitement de $_GET pour pagination
-        // Appel de la fonction ->findCategorie () pour afficher le nom de la catégorie
-        //Appel de la fonction ->getFiveArticle () 'blog\app\models'
-        // Redirection avec Renderer ?
+    public function paginationArticles ($premier, $parPage) {
 
+        $articles = $this->selectPages($premier, $parPage);
+
+        return $articles;
+    }
+
+    public function nbrArticle () {
+
+        $result = $this->countArticle();
+        $nbArticles = (int) $result['nb_articles'];
+
+        return $nbArticles;
     }
 
     /**

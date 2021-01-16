@@ -29,7 +29,7 @@ class categorie {
         $all = $modelCategorie->getAllCategorie();
 
         foreach($all as $key => $value){
-            $tab[$key] = $value['nom'];
+            $tab[$value['id']] = $value['nom'];
         }
         return $tab;
     }
