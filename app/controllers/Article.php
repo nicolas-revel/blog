@@ -37,6 +37,13 @@ class Article extends \blog\app\models\Article
 
     }
 
+    public function showArticleAlone ($id_article){
+
+        $article = $this->findBd($id_article);
+
+        return $article;
+    }
+
     /**
      * Méthode qui permet de récupérer les titre et ses id des categories
      * @return array
