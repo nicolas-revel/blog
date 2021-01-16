@@ -69,7 +69,7 @@ class Article extends \blog\app\controllers\Article
                             <tbody>
                                 <tr>
                                     <td><?= $key; ?></td>
-                                    <td><?= $values['article']; ?></td>
+                                    <td><a href="article.php?id=<?= $values['id']; ?>"><?= $values['article']; ?></a></td>
                                     <td><?= $values['date']; ?></td>
                                 </tr>
                             </tbody>
@@ -119,7 +119,7 @@ class Article extends \blog\app\controllers\Article
                     <tbody>
                         <tr>
                             <td><?= $key; ?></td>
-                            <td><?= $values['article']; ?></td>
+                            <td><a href="article.php?id=<?= $values['id']; ?>"><?= $values['article']; ?></a></td>
                             <td><?= $values['date']; ?></td>
                         </tr>
                     </tbody>
@@ -178,7 +178,24 @@ class Article extends \blog\app\controllers\Article
         <?php
     }
 
+    public function showOneArticle ()
+    {
+
+        $nameCat = $this->tabCategorie();
+
+        $article = $this->showArticleAlone();
+      
+            foreach ($nameCat as $key => $value) {
+
+                if ($article['id_categorie'] == $value) {
+
+                    echo $key . '<br>' . 'Article :' . $article['article'] . '<br>' . 'écrit le :' . $article['date'] . '<br>';
+                }
+            }
 
 
 
+    }
 }
+
+

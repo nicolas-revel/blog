@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3b29d08b-5929-4733-a043-3c6069b0cff0" name="Default Changelist" comment="">
+    <list default="true" id="597e4ec1-5a86-4736-b00f-5aa7cc63be85" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/Article.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Article.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Article.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Article.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/article.php" beforeDir="false" afterPath="$PROJECT_DIR$/pages/article.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,8 +33,13 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="1" />
+  </component>
   <component name="ProjectId" id="1mvTNbcbcMuDnsw3L0lXw1ryNJh" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
