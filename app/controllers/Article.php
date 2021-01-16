@@ -86,44 +86,28 @@ class Article extends \blog\app\models\Article
 
     public function ArticleByCategorie($premier, $parPage) {
 
-        if(!empty($_POST['categorie'])){
-            $categorie = htmlspecialchars($_POST['categorie']);
+        if(!empty($_GET['categorie'])){
+
+            $id_categorie = $_GET['categorie'];
+
+            $articles = $this->selectArticleWithCategorie($premier, $parPage, $id_categorie);
         }
 
-        $findCat = $this->tabCategorie();
+            return $articles;
 
-        foreach($findCat as $key => $value) {
-
-            if($key === $categorie) {
-
-                $id_categorie = $value;
-
-                $articles = $this->selectArticleWithCategorie($premier, $parPage, $id_categorie);
-            }
-        }
-
-        return $articles;
     }
 
     public function nbrArticleId () {
 
-        if(!empty($_POST['categorie'])){
-            $categorie = htmlspecialchars($_POST['categorie']);
+        if(!empty($_GET['categorie'])){
+
+            $id_categorie = $_GET['categorie'];
+
+            $articles = $this->countArticleById($id_categorie);
+            $nbArticles = (int)$articles['nb_articles'];
         }
 
-        $findCat = $this->tabCategorie();
-
-        foreach($findCat as $key => $value) {
-
-            if($key === $categorie) {
-
-                $id_categorie = $value;
-
-                $articles = $this->countArticleById($id_categorie);
-                $nbArticles = (int)$articles['nb_articles'];
-            }
-        }
-        return $nbArticles;
+            return $nbArticles;
     }
 
     /**
@@ -141,9 +125,9 @@ class Article extends \blog\app\models\Article
     /**
      * Méthode qui permet d'afficher les 3 premiers articles sur la page d'accueil
      */
-    public function ArticleAccueil($line) {
+    public function ArticleAccueil($premier, $parPage) {
 
-        $getArticle = $this->getArticleBd($line);
+        $getArticle = $this->selectPages($premier, $parPage);
 
         return $getArticle;
 

@@ -26,6 +26,15 @@ class categorie {
         }
     }
 
+    public function showFiltre() {
+        $controlCat = new \blog\app\controllers\categorie();
+        $table = $controlCat-> showAllNavBar();
+
+        foreach($table as $key => $value) {
+            echo "<a href='articles.php?categorie=$key'>$value</a><br>";
+        }
+    }
+
 
 
     }

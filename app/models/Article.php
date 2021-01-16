@@ -33,7 +33,6 @@ class Article
 
     }
 
-
     /**
      * Méthode qui permet de modifier un article dans la base de donnée
      * @param int $id
@@ -121,30 +120,6 @@ class Article
 
     }
 
-    /**
-     * Méthode qui permet de récupérer les 3 derniers articles ou les 5 derniers du plus récent au plus ancien
-     * @param int $line 3(affichage accueil) ou 5(affichage articles)
-     * @return array $articles
-     */
-    public function getArticleBd (?int $line = null): array {
-
-        $bdd = $this->getBdd();
-
-        $req = "SELECT article, id_categorie, date FROM articles";
-        //Requête = SQL SELECT article, date FROM articles LIMIT $line ORDER BY date DESC
-
-        if($line){
-            $req .= " ORDER BY date DESC LIMIT " . $line;
-        }
-
-        $result = $bdd->query($req);
-        // On fouille le résultat pour en extraire les données réelles
-        $articles = $result->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $articles;
-
-    }
-
     public function selectPages($premier, $parPage) {
 
         $bdd = $this->getBdd();
@@ -171,6 +146,20 @@ class Article
         $result = $req->fetchAll(\PDO::FETCH_ASSOC);
 
         return $result;
+    }
+
+    public function getArticlebyIdCategorie($id_categorie){
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare("SELECT * FROM articles WHERE id_categorie = :id_categorie");
+        $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
+        $req->execute();
+
+        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $result;
+
     }
 
     public function countArticle() {
