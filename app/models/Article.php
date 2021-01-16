@@ -91,12 +91,12 @@ class Article
      * @param int $id
      * @return array
      */
-    public function findBd (int $id): array {
+    public function findBd (int $id_article): array {
 
         $bdd = $this->getBdd();
 
         $req = $bdd->prepare("SELECT id, article, id_utilisateur, id_categorie, date FROM articles WHERE id = :id ");
-        $req->execute(['id' => $id]);
+        $req->execute(['id' => $id_article]);
 
         $result = $req->fetch(\PDO::FETCH_ASSOC);
 

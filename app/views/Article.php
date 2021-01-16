@@ -180,11 +180,12 @@ class Article extends \blog\app\controllers\Article
 
     public function showOneArticle ()
     {
+        if(isset($_GET['id']) && ctype_digit($_GET['id'])) {
+            $id_article = $_GET['id'];
+            $article = $this->showArticleAlone($id_article);
 
-        $nameCat = $this->tabCategorie();
+            $nameCat = $this->tabCategorie();
 
-        $article = $this->showArticleAlone();
-      
             foreach ($nameCat as $key => $value) {
 
                 if ($article['id_categorie'] == $value) {
@@ -192,7 +193,7 @@ class Article extends \blog\app\controllers\Article
                     echo $key . '<br>' . 'Article :' . $article['article'] . '<br>' . 'écrit le :' . $article['date'] . '<br>';
                 }
             }
-
+        }
 
 
     }

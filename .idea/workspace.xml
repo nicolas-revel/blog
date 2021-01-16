@@ -4,7 +4,11 @@
     <list default="true" id="597e4ec1-5a86-4736-b00f-5aa7cc63be85" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/Article.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Article.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Comment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/Article.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Article.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Comment.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/Article.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Article.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Comment.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/article.php" beforeDir="false" afterPath="$PROJECT_DIR$/pages/article.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

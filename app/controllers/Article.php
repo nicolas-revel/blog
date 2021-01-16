@@ -37,12 +37,10 @@ class Article extends \blog\app\models\Article
 
     }
 
-    public function showArticleAlone (){
+    public function showArticleAlone ($id_article){
 
-        if(isset($_GET['id']) && ctype_digit($_GET['id'])) {
-            $id_event = $_GET['id'];
-            $article = $this->findBd ($id_event);
-        }
+        $article = $this->findBd($id_article);
+
         return $article;
     }
 
