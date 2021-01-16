@@ -7,13 +7,17 @@ require('../app/controllers/Comment.php');
 
 class Comment extends \blog\app\controllers\Comment
 {
-    public function insertCommmentByArticle($id_utilisateur) {
+    public function showCommentWithArticle() {
 
         if(isset($_GET['id']) && ctype_digit($_GET['id'])) {
             $id_article = $_GET['id'];
-            $this->insertComments($id_article, $id_utilisateur);
+            $comment = $this->showComments($id_article);
+
+            foreach($comment as $key => $value){
+
+                echo '<br>' . 'Article :' . $value['commentaire'] . '<br>' . 'écrit le :' . $value['date'] . '<br>';
+            }
+
         }
-
-
     }
 }
