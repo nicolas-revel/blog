@@ -95,7 +95,7 @@ class Article
 
         $bdd = $this->getBdd();
 
-        $req = $bdd->prepare("SELECT id, article, id_utilisateur, id_categorie, date FROM articles WHERE id = :id ");
+        $req = $bdd->prepare("SELECT id, article, id_utilisateur, id_categorie, date FROM articles WHERE id = :id");
         $req->execute(['id' => $id_article]);
 
         $result = $req->fetch(\PDO::FETCH_ASSOC);

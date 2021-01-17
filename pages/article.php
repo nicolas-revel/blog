@@ -1,10 +1,9 @@
 <?php
 require('../config/header.php');
 require('../app/views/Article.php');
-//require('../app/controllers/Comment.php');
 require('../app/views/Comment.php');
+
 $articlesTable = new blog\app\views\Article();
-//$comment = new blog\app\controllers\Comment();
 $showComment = new blog\app\views\Comment();
 ?>
 <?= $articlesTable->showOneArticle(); ?>

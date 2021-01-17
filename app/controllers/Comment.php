@@ -4,6 +4,7 @@
 namespace blog\app\controllers;
 
 require_once("../app/models/Comment.php");
+require_once("../app/Http.php");
 
 class Comment extends \blog\app\models\Comment
 {
@@ -24,6 +25,8 @@ class Comment extends \blog\app\models\Comment
         }
 
             $this->insertCommentBd($commentaire, $id_article, $id_utilisateur);
+
+            \Http::redirect("article.php?id=$id_article");
 
     }
 

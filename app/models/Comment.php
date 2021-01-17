@@ -36,7 +36,7 @@ class Comment extends Article
 
         $bdd = $this->getBdd();
 
-        $req = $bdd->prepare("SELECT id, commentaire, id_article, id_utilisateur, date FROM commentaires WHERE id_article = :id");
+        $req = $bdd->prepare("SELECT id, commentaire, id_article, id_utilisateur, date FROM commentaires WHERE id_article = :id ORDER BY date DESC");
         $req->execute(['id' => $article_id]);
 
         $result = $req->fetchAll();
