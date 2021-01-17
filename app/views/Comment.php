@@ -15,7 +15,7 @@ class Comment extends \blog\app\controllers\Comment
 
             foreach($comment as $key => $value){
 
-                echo '<br>' . 'Article :' . $value['commentaire'] . '<br>' . 'écrit le :' . $value['date'] . '<br>';
+                echo '<br>' . 'Commentaire :' . $value['commentaire'] . '<br>' . 'écrit le :' . $value['date'] . '<br>';
             }
 
         }

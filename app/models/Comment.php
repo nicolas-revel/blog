@@ -11,6 +11,9 @@ class Comment extends Article
 
     /**
      * Méthode qui permet d'insérer un commentaire en base de donnée
+     * @param $commentaire
+     * @param $id_article
+     * @param $id_utilisateur
      */
     public function insertCommentBd ($commentaire, $id_article, $id_utilisateur) {
 
