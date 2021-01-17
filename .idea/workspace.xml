@@ -3,9 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="597e4ec1-5a86-4736-b00f-5aa7cc63be85" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/app/controllers/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/Comment.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Comment.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/article.php" beforeDir="false" afterPath="$PROJECT_DIR$/pages/article.php" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/app/Autoload.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Autoload.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/inscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/pages/inscription.php" afterDir="false" />
+>>>>>>> hotfixautoload
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +84,7 @@
       <workItem from="1610528525622" duration="3228000" />
       <workItem from="1610532360559" duration="13895000" />
       <workItem from="1610715724562" duration="2904000" />
+      <workItem from="1610893413170" duration="1335000" />
     </task>
     <servers />
   </component>

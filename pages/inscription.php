@@ -1,3 +1,11 @@
+<?php
+
+require_once('../app/Autoload.php');
+
+$user = new \blog\app\models\User();
+var_dump($user);
+
+?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -8,6 +16,7 @@
     <title>Document</title>
 </head>
 <body>
+    <?php require_once('../config/header.php'); ?>
     <h1>FORMULAIRE D'INSCRIPTION</h1>
     <form id="inscription" action="inscription.php" method="POST">
         <br>
