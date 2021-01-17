@@ -3,7 +3,6 @@
 require_once('../app/Autoload.php');
 
 $user = new \blog\app\models\User();
-var_dump($user);
 
 ?>
 <!doctype html>
