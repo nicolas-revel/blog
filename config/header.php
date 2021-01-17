@@ -1,6 +1,6 @@
 <?php
-require('../app/views/Categorie.php');
-$nameCat = new blog\app\views\categorie();
+require_once('../app/Autoload.php');
+$nameCat = new \blog\app\views\categorie;
 ?>
 <!doctype html>
 <html lang="fr">
