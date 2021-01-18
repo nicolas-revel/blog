@@ -32,16 +32,32 @@ class Comment extends Article
      * @param int $article_id
      * @return array
      */
-    public function findAllWithArticle (int $article_id): array {
+    public function findAllWithArticle (int $article_id, $premier, $parPage): array {
 
         $bdd = $this->getBdd();
 
-        $req = $bdd->prepare("SELECT id, commentaire, id_article, id_utilisateur, date FROM commentaires WHERE id_article = :id ORDER BY date DESC");
-        $req->execute(['id' => $article_id]);
+        $req = $bdd->prepare("SELECT id, commentaire, id_article, id_utilisateur, date FROM commentaires WHERE id_article = :id ORDER BY date DESC LIMIT :premier, :parpage ");
+        $req->bindValue(':id', $article_id, \PDO::PARAM_INT);
+        $req->bindValue(':premier', $premier, \PDO::PARAM_INT);
+        $req->bindValue(':parpage', $parPage, \PDO::PARAM_INT);
+        $req->execute();
 
         $result = $req->fetchAll();
 
         return $result;
+    }
+
+    public function countCommentById ($article_id) {
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare('SELECT COUNT(*) AS nb_comment FROM commentaires WHERE id_article = :id_article');
+        $req->bindValue(':id_article', $article_id, \PDO::PARAM_INT);
+        $req->execute();
+        $result = $req->fetch();
+
+        return $result;
+
     }
 
 }

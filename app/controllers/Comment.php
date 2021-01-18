@@ -36,10 +36,23 @@ class Comment extends \blog\app\models\Comment
         //Appel de la méthode ->delete($id)
     }
 
-    public function showComments($id_article) {
+    public function showComments($id_article, $premier, $parPage) {
 
-        $comment = $this->findAllWithArticle($id_article);
+        $comment = $this->findAllWithArticle($id_article, $premier, $parPage);
 
         return $comment;
+    }
+
+    public function nbrCommentId () {
+
+        if(!empty($_GET['id'])){
+
+            $article_id = $_GET['id'];
+
+            $comment = $this->countCommentById($article_id);
+            $nbComment = (int)$comment['nb_comment'];
+        }
+
+        return $nbComment;
     }
 }
