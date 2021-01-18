@@ -9,8 +9,6 @@ namespace blog\app\controllers;
  * @package blog\app\controllers
  */
 
-require_once('../models/User.php');
-
 class User extends \blog\app\models\User
 {
 
