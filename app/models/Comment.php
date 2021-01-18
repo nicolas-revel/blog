@@ -47,6 +47,19 @@ class Comment extends Article
         return $result;
     }
 
+    public function updateArticleBd (int $id, string $commentaire, int $article_id, int $id_utilisateur) {
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare('UPDATE commentaires SET commentaire = :commentaire, id_article = :id_article, id_utilisateur = :id_utilisateur, date = NOW() WHERE id = :id');
+        $req->bindValue(':commentaire', $commentaire);
+        $req->bindValue(':id_article', $article_id, \PDO::PARAM_INT);
+        $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
+        $req->bindValue(':id', $id, \PDO::PARAM_INT);
+        $req->execute()or die(print_r($req->errorInfo()));
+
+    }
+
     public function countCommentById ($article_id) {
 
         $bdd = $this->getBdd();
@@ -59,5 +72,6 @@ class Comment extends Article
         return $result;
 
     }
+
 
 }

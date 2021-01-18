@@ -30,6 +30,22 @@ class Comment extends \blog\app\models\Comment
 
     }
 
+    public function updateComments(int $id, int $article_id, int $id_utilisateur) {
+
+        if(!empty($_POST['commentaire'])){
+
+            $commentaire = htmlspecialchars($_POST['commentaire']);
+
+        }else {
+            die("Votre formulaire à été mal rempli");
+        }
+
+        $this->updateArticleBd ($id, $commentaire, $article_id, $id_utilisateur);
+
+        \Http::redirect("article.php?id=$article_id");
+
+    }
+
     public function deleteComments () {
         //Traitement des $_GET
         //Appel de la méthode ->find(id_article) pour vérifier si l'article existe
