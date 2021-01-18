@@ -207,16 +207,14 @@ class User extends \blog\app\models\User
     /**
      * @param string $criteria
      */
-    public function chooseAdminTab(string $criteria)
+    public function chooseAdminTab($criteria)
     {
-        if ($criteria === "users" || empty($criteria)) {
-            \blog\app\views\User::tableUser();
+        if ($criteria === "users" || $criteria === null) {
+            $users = new \blog\app\views\User();
+            return $users->tableUser();
         }
         if ($criteria === "art") {
             \blog\app\views\Article::tableArticle();
-        }
-        if ($criteria === "cat") {
-            \blog\app\views\Categorie::tableCategorie();
         }
     }
 }

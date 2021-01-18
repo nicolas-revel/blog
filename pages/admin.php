@@ -2,6 +2,9 @@
 
 require_once('../app/Autoload.php');
 $user =new blog\app\controllers\User();
+if (empty($_GET['table'])) {
+    $_GET['table'] = "users";
+}
 
 ?>
 <!DOCTYPE HTML>
@@ -17,12 +20,13 @@ $user =new blog\app\controllers\User();
 <h1>Page d'administration</h1>
 <form action="admin.php" method="get">
     <select id="table" name="table">
+        <option value=""></option>
         <option value="users">Utilisateurs</option>
         <option value="art">Articles</option>
-        <option value="cat">Catégories</option>
     </select>
     <input type="submit" value="Filtrer" name="filter" id="filter">
 </form>
-<?php $user->chooseAdminTab($_GET['table']) ?>
+<?= $user->chooseAdminTab($_GET['table']) ?>
+
 </body>
 </html>

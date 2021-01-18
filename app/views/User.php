@@ -13,7 +13,7 @@ class User extends \blog\app\controllers\User
     /**
      * @return string
      */
-    static public function listDroits(): string
+    static private function listDroits(): string
     {
         $droits = (new \blog\app\models\User)->getDroitsDb();
         return "<option value=''></option>
@@ -22,7 +22,7 @@ class User extends \blog\app\controllers\User
                 <option value='{$droits[2]['id']}'>{$droits[2]['nom']}</option>";
     }
 
-    static public function listEachUsers()
+    static private function listEachUsers()
     {
         $users = (new \blog\app\models\User)->getUsersDb();
         $droits = User::listDroits();
@@ -37,7 +37,7 @@ class User extends \blog\app\controllers\User
     <td>{$user->getEmail()}</td>
     <td>{$userDroits}</td>
     <td>
-        <form method='get'>
+        <form method='post'>
             <select name='droituser' id='droituser'>
                 {$droits}
             </select>
@@ -54,10 +54,11 @@ HTML;
         return $tbody;
     }
 
-    static public function tableUser()
+    public function tableUser()
     {
         $tbody = User::listEachUsers();
-        $table = <<<HTML
+        $vue = <<<HTML
+<h2>Liste des utilisateurs</h2>
 <table>
     <thead>
         <tr>
@@ -74,7 +75,7 @@ HTML;
     </tbody>
 </table>
 HTML;
-        return $table;
+        return $vue;
 
     }
 }
