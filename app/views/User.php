@@ -3,43 +3,79 @@
 
 namespace blog\app\views;
 
-require_once("../models/User.php");
-
 /**
  * Class User
  * @package blog\app\views
  */
 
-class User extends \blog\app\models\User
+class User extends \blog\app\controllers\User
 {
-    static public function dispAllUsers()
+    /**
+     * @return string
+     */
+    static private function listDroits(): string
+    {
+        $droits = (new \blog\app\models\User)->getDroitsDb();
+        return "<option value=''></option>
+                <option value='{$droits[0]['id']}'>{$droits[0]['nom']}</option>
+                <option value='{$droits[1]['id']}'>{$droits[1]['nom']}</option>
+                <option value='{$droits[2]['id']}'>{$droits[2]['nom']}</option>";
+    }
+
+    static private function listEachUsers()
     {
         $users = (new \blog\app\models\User)->getUsersDb();
-        var_dump($users);
+        $droits = User::listDroits();
+        $tbody = "";
         foreach ($users as $user) {
-            echo "<tr>
-                    <td>{$user->getId()}</td>
-                    <td>{$user->getLogin()}</td>
-                    <td>{$user->getPassword()}</td>
-                    <td>" . User::listDroits() . "</td>
-                  </tr>";
-
+            $userDroits = \blog\app\controllers\User::convertDroits
+            ($user->getDroits());
+            $tbody = $tbody . <<<HTML
+<tr>
+    <th>{$user->getId()}</th>
+    <td>{$user->getLogin()}</td>
+    <td>{$user->getEmail()}</td>
+    <td>{$userDroits}</td>
+    <td>
+        <form method='post'>
+            <select name='droituser' id='droituser'>
+                {$droits}
+            </select>
+            <input type='text' id='userid' name='userid' value='{$user->getId()}' style='display: none'>                            
+            <input type='submit' value='Maj Droits' id='submit' name='submit'> 
+        </form>
+    </td>
+    <td>
+        <a href='{$_SERVER['PHP_SELF']}?del={$user->getId()}'>Supprimer l'utilisateur</a>
+    </td>
+</tr>
+HTML;
         }
+        return $tbody;
     }
 
-    /**
-     * @return void
-     */
-    static public function listDroits() :void
+    public function tableUser()
     {
-        echo "<select>";
-        $droits = (new \blog\app\models\User)->getDroitsDb();
-        echo "<option value=''></option>";
-        foreach ($droits as $droit) {
-            echo "<option value='{$droit['id']}'>{$droit['nom']}</option>";
-        }
-        echo "</select>";
+        $tbody = User::listEachUsers();
+        $vue = <<<HTML
+<h2>Liste des utilisateurs</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Login</th>
+            <th>Email</th>
+            <th>Droits</th>
+            <th>Modifier Droits</th>
+            <th>Supprimer l'utilisateur</th>
+        </tr>
+    </thead>
+    <tbody>
+        {$tbody}
+    </tbody>
+</table>
+HTML;
+        return $vue;
+
     }
 }
-User::listDroits();
-User::dispAllUsers();

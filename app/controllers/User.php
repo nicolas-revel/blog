@@ -9,8 +9,6 @@ namespace blog\app\controllers;
  * @package blog\app\controllers
  */
 
-require_once('../models/User.php');
-
 class User extends \blog\app\models\User
 {
 
@@ -79,6 +77,17 @@ class User extends \blog\app\models\User
             return false;
         } else {
             return true;
+        }
+    }
+
+    static public function convertDroits(int $droits)
+    {
+        if ($droits === 1) {
+            return "utilisateur";
+        } elseif ($droits === 42) {
+            return "modérateur";
+        } elseif ($droits === 1337) {
+            return "administrateur";
         }
     }
 
@@ -188,12 +197,24 @@ class User extends \blog\app\models\User
      */
     public function updateUserDroit(int $droit, int $id_utilisateur) : bool
     {
-        if ($this->updateUserDroitDb($droit,$id_utilisateur) === true) {
+        if ($this->updateUserDroitDb($droit, $id_utilisateur) === true) {
             return true;
         } else {
             return false;
         }
     }
-}
 
-$user = new User();
+    /**
+     * @param string $criteria
+     */
+    public function chooseAdminTab($criteria)
+    {
+        if ($criteria === "users" || $criteria === null) {
+            $users = new \blog\app\views\User();
+            return $users->tableUser();
+        }
+        if ($criteria === "art") {
+            \blog\app\views\Article::tableArticle();
+        }
+    }
+}

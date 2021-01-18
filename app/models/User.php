@@ -1,9 +1,12 @@
 <?php
 
 
-
 namespace blog\app\models;
 
+/**
+ * Class User
+ * @package blog\app\models
+ */
 
 class User
 {
@@ -123,15 +126,6 @@ class User
 
     // Other Methods
 
-    /*public function __construct(int $id = null, string $login = null, string
-$password = null, string $email = null, int $droits = null)
-    {
-        $this->setId($id);
-        $this->setLogin($login);
-        $this->setPassword($password);
-        $this->setEmail($email);
-        $this->setDroits($droits);
-    }*/
 
     /**
      * @return \PDO
@@ -145,7 +139,8 @@ $password = null, string $email = null, int $droits = null)
     /**
      * @return array
      */
-    protected function getDroitsDb() {
+    protected function getDroitsDb()
+    {
         $pdo = (new User)->connectDB();
         $querystring = "SELECT id, nom FROM droits";
         $query = $pdo->query($querystring);
@@ -177,8 +172,7 @@ $password = null, string $email = null, int $droits = null)
         $query = $pdo->prepare($querystring);
         $query->bindValue(':login', $login);
         $query->execute() or die(print_r($query->errorInfo()));
-        $result = $query->fetch(\PDO::FETCH_CLASS);
-        var_dump($result);
+        $result = $query->fetchAll(\PDO::FETCH_CLASS, '\blog\app\models\User');
         if (!empty($result)) {
             return $result;
         } else {
@@ -193,8 +187,7 @@ $password = null, string $email = null, int $droits = null)
      * @param int $droit
      * @return bool
      */
-    public function insertUserDb(string $login, string $password, string $email, int
-    $droit) : bool
+    public function insertUserDb(string $login, string $password, string $email, int $droit): bool
     {
         $pdo = $this->connectDB();
         $querystring = "INSERT INTO utilisateurs(login, password, email, droit) VALUES (:login, :password, :email, :droit)";
@@ -213,7 +206,7 @@ $password = null, string $email = null, int $droits = null)
     /**
      * @return bool
      */
-    public function deleteUserDb() : bool
+    public function deleteUserDb(): bool
     {
         $pdo = $this->connectDB();
         $querystring = "DELETE FROM utilisateurs WHERE id = {$this->_id}";
@@ -221,7 +214,7 @@ $password = null, string $email = null, int $droits = null)
         return $query;
     }
 
-    public function updateUserDb(string $login, string $password, string $email) : bool
+    public function updateUserDb(string $login, string $password, string $email): bool
     {
         $pdo = $this->connectDB();
         $string = "UPDATE utilisateurs SET login = :login, password = :password, email = :email WHERE id = :id";
@@ -242,7 +235,7 @@ $password = null, string $email = null, int $droits = null)
      * @param int $id_utilisateur
      * @return bool
      */
-    public function updateUserDroitDb(int $droit, int $id_utilisateur) : bool
+    public function updateUserDroitDb(int $droit, int $id_utilisateur): bool
     {
         $pdo = $this->connectDB();
         $string = "UPDATE utilisateurs SET droit = :droit WHERE id = :id";
@@ -255,8 +248,6 @@ $password = null, string $email = null, int $droits = null)
             return false;
         }
     }
-}
 
-$user = new User();
-$getusers = $user->getUsersDb();
-var_dump($getusers);
+
+}
