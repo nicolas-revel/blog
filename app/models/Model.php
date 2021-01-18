@@ -49,10 +49,9 @@ class model
     {
 
         $bdd = $this->getBdd();
-        $resultWhere = $this->resultWhere;
 
         $req = $bdd->prepare("SELECT * FROM {$this->table} WHERE {$this->where} = {$this->resultWhere} ORDER BY date DESC LIMIT :premier, :parpage ");
-        $req->bindValue( ':id', $id_categorie, \PDO::PARAM_INT);
+        $req->bindValue( "$this->resultWhere", $id_categorie, \PDO::PARAM_INT);
         $req->bindValue(':premier', $premier, \PDO::PARAM_INT);
         $req->bindValue(':parpage', $parPage, \PDO::PARAM_INT);
         $req->execute();

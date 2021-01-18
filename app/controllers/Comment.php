@@ -22,6 +22,12 @@ class Comment extends \blog\app\models\Comment
             die("Votre formulaire à été mal rempli");
         }
 
+        //Expression régulière afin de limiter le nombre de caractères, max 1024
+        if(!preg_match("/^[a-zA-Z0-9_:-]{1,1024}$/", $commentaire)) {
+
+            die("Le commentaire doit contenir 1024 caractères maximum");
+        }
+
             $this->insertCommentBd($commentaire, $id_article, $id_utilisateur);
 
             \Http::redirect("article.php?id=$id_article");

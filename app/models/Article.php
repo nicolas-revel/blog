@@ -86,7 +86,6 @@ class Article extends model
      */
     public function findBd(int $id_article): array
     {
-
         $bdd = $this->getBdd();
 
         $req = $bdd->prepare("SELECT id, article, id_utilisateur, id_categorie, date FROM articles WHERE id = :id");
@@ -95,7 +94,6 @@ class Article extends model
         $result = $req->fetch(\PDO::FETCH_ASSOC);
 
         return $result;
-
     }
 
     /**

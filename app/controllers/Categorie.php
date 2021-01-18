@@ -13,8 +13,18 @@ class categorie extends \blog\app\models\categorie {
         if(!empty($_POST['name'])) {
 
             $nom = htmlspecialchars($_POST['name']);
-            $this->insertCategorie($nom);
+
+        }else {
+            die("Votre formulaire à été mal rempli");
         }
+
+        //Expression régulière afin de limiter le nombre de caractères, max 1024
+        if(!preg_match("/^[a-zA-Z0-9_:-]{1,80}$/", $nom)) {
+
+            die("Le commentaire doit contenir 1024 caractères maximum");
+        }
+
+        $this->insertCategorie($nom);
     }
 
     /**
