@@ -1,6 +1,7 @@
 <?php
 require('../config/header.php');
-require('../app/views/Article.php');
+//require('../app/views/Article.php');
+require_once('../app/Autoload.php');
 $nameCat = new blog\app\views\Categorie();
 $articlesTable = new blog\app\views\Article();
 ?>

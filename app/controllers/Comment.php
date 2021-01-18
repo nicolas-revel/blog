@@ -3,8 +3,6 @@
 
 namespace blog\app\controllers;
 
-require_once("../app/models/Comment.php");
-require_once("../app/Http.php");
 
 class Comment extends \blog\app\models\Comment
 {
@@ -54,7 +52,7 @@ class Comment extends \blog\app\models\Comment
 
     public function showComments($id_article, $premier, $parPage) {
 
-        $comment = $this->findAllWithArticle($id_article, $premier, $parPage);
+        $comment = $this->selectArticleWithCategorie($premier, $parPage, $id_article);
 
         return $comment;
     }

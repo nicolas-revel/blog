@@ -2,9 +2,8 @@
 
 namespace blog\app\models;
 
-require('../app/models/Article.php');
 
-class categorie extends Article {
+class categorie extends model {
 
     private $id;
     public $nom;
@@ -30,34 +29,17 @@ class categorie extends Article {
      * Méthode qui permet de récupérer toutes les categories
      * @return array
      */
-    public function getAllCategorie (): array {
+    public function getAllCategorie(): array {
 
-        $bdd = $this->getBdd();
+        $req = $this->findCategorieBd();
 
-        $req = $bdd->prepare("SELECT id, nom FROM categories");
-        $req->execute();
-        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
+        foreach($req as $key => $value){
+            $this->id = $value['id'];
+            $this->nom = $value['nom'];
+        }
 
-        return $result;
+        return $req;
 
-    }
-
-    /**
-     * Méthode qui retourne une categorie
-     * @return array
-     */
-    public function getCat (): array {
-
-        $bdd = $this->getBdd();
-
-        $req = $bdd->prepare("SELECT id, nom FROM categories");
-        $req->execute();
-        $result = $req->fetchAll(\PDO::FETCH_OBJ);
-
-        $this->id = $result->id;
-        $this->nom = $result->nom;
-
-        return $result;
     }
 
     /**
@@ -65,7 +47,7 @@ class categorie extends Article {
      * @param string $nom
      * @param int $id
      */
-    public function updateCategorie (string $nom, int $id) {
+    public function updateCategorieBd (string $nom, int $id) {
 
         $bdd = $this->getBdd();
 

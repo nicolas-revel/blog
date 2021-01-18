@@ -3,7 +3,6 @@
 
 namespace blog\app\views;
 
-require('../app/controllers/Comment.php');
 
 class Comment extends \blog\app\controllers\Comment
 {
@@ -15,7 +14,7 @@ class Comment extends \blog\app\controllers\Comment
             $currentPage = $this->getStart();
 
             $nbComment = $this->nbrCommentId();
-            var_dump($nbComment);
+
             $parPage = 5;
 
             $pages = ceil($nbComment / $parPage);
@@ -29,9 +28,8 @@ class Comment extends \blog\app\controllers\Comment
                 echo '<br>' . 'Commentaire :' . $value['commentaire'] . '<br>' . 'écrit le :' . $value['date'] . '<br>';
 
             }
-            $this->showPagination($article_id, $currentPage, $pages);
 
-
+            $this->showPaginationComment($article_id, $currentPage, $pages);
 
         }
     }
@@ -46,7 +44,7 @@ class Comment extends \blog\app\controllers\Comment
         return $currentPage;
     }
 
-    public function showPagination($article_id, $currentPage, $pages){
+    public function showPaginationComment($article_id, $currentPage, $pages){
 
         if(isset($article_id) && !empty($article_id)) {
         ?>

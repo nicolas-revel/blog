@@ -1,15 +1,17 @@
 <?php
 
-
 namespace blog\app\models;
+
 
 /**
  * Class Article
  * @package blog\app\models
  */
-class Article
+class Article extends model
 {
     protected $table = "articles";
+    protected $where = "id_categorie";
+    protected $resultWhere = ":id_categorie";
 
     private $id;
     public $article;
@@ -21,7 +23,8 @@ class Article
      * @param int $id_utilisateur
      * @param int $id_categorie
      */
-    public function insertArticleDb (string $article, int $id_utilisateur, int $id_categorie) {
+    public function insertArticleDb(string $article, int $id_utilisateur, int $id_categorie)
+    {
 
         $bdd = $this->getBdd();
 
@@ -29,16 +32,19 @@ class Article
         $req->bindValue(':article', $article);
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
         $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
-        $req->execute()or die(print_r($req->errorInfo()));
+        $req->execute() or die(print_r($req->errorInfo()));
 
     }
 
     /**
      * Méthode qui permet de modifier un article dans la base de donnée
      * @param int $id
-     * @return void
+     * @param string $article
+     * @param int $id_utilisateur
+     * @param int $id_categorie
      */
-    public function updateArticleBd (int $id, string $article, int $id_utilisateur, int $id_categorie) {
+    public function updateArticleBd(int $id, string $article, int $id_utilisateur, int $id_categorie)
+    {
 
         $bdd = $this->getBdd();
 
@@ -47,21 +53,7 @@ class Article
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
         $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
         $req->bindValue(':id', $id, \PDO::PARAM_INT);
-        $req->execute()or die(print_r($req->errorInfo()));
-
-    }
-
-    /**
-     * Méthode qui permet la suppresion d'un article dans la base de donnée
-     * @param $id
-     * @return void
-     */
-    public function deleteBd (int $id): void {
-
-        $bdd = $this->getBdd();
-
-        $req = $bdd->prepare("DELETE FROM {$this->table} WHERE id = :id");
-        $req->execute(['id' => $id]);
+        $req->execute() or die(print_r($req->errorInfo()));
 
     }
 
@@ -70,7 +62,8 @@ class Article
      * @param int $id_utilisateur
      * @return array
      */
-    public function findArticleBd (int $id_utilisateur): array {
+    public function findArticleBd(int $id_utilisateur): array
+    {
 
         $bdd = $this->getBdd();
 
@@ -87,11 +80,12 @@ class Article
     }
 
     /**
-     * Méthode qui permet de récupérer un article par rapport à son id
+     * Méthode qui permet de récupérer un article par rapport à l'id de l'article
      * @param int $id
      * @return array
      */
-    public function findBd (int $id_article): array {
+    public function findBd(int $id_article): array
+    {
 
         $bdd = $this->getBdd();
 
@@ -105,23 +99,13 @@ class Article
     }
 
     /**
-     * Méthode qui permet de récupérer l'id et le nom des catégories
-     *
+     * Méthode qui permet de récupérer les 5 premiers articles dans l'ordre decroissant
+     * @param int $premier
+     * @param int $parPage
+     * @return array
      */
-    public function findCategorieBd () {
-
-        $bdd = $this->getBdd();
-
-        $req = $bdd->prepare("SELECT id, nom FROM categories");
-        $req->execute();
-        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $result;
-
-    }
-
-    public function selectPages($premier, $parPage) {
-
+    public function selectPages(int $premier, int $parPage): array
+    {
         $bdd = $this->getBdd();
 
         $req = $bdd->prepare('SELECT * FROM articles ORDER BY date DESC LIMIT :premier, :parpage');
@@ -133,55 +117,32 @@ class Article
         return $articles;
     }
 
-    public function selectArticleWithCategorie ($premier, $parPage, $id_categorie) {
-
+    /**
+     * Méthode qui permet de compter le nombre d'article en général ou par rapport l'id de la catégorie
+     * @param string|null $withCategorie
+     * @param int|null $id_categorie
+     * @return mixed
+     */
+    public function countArticle(?string $withCategorie = "", ?int $id_categorie)
+    {
         $bdd = $this->getBdd();
+        $sql = "SELECT COUNT(*) AS nb_articles FROM articles";
 
-        $req = $bdd->prepare("SELECT * FROM articles WHERE id_categorie = :id_categorie ORDER BY date DESC LIMIT :premier, :parpage ");
-        $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
-        $req->bindValue(':premier', $premier, \PDO::PARAM_INT);
-        $req->bindValue(':parpage', $parPage, \PDO::PARAM_INT);
-        $req->execute();
+        if ($withCategorie) {
 
-        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
+            $sql .= $withCategorie;
+            $req = $bdd->prepare($sql);
+            $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
+            $req->execute();
+            $result = $req->fetch();
 
-        return $result;
-    }
+        } else {
 
-    public function getArticlebyIdCategorie($id_categorie){
-
-        $bdd = $this->getBdd();
-
-        $req = $bdd->prepare("SELECT * FROM articles WHERE id_categorie = :id_categorie");
-        $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
-        $req->execute();
-
-        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $result;
-
-    }
-
-    public function countArticle() {
-
-        $bdd = $this->getBdd();
-
-        $req = $bdd->prepare('SELECT COUNT(*) AS nb_articles FROM articles');
-        $req->execute();
-        $result = $req->fetch();
-
-        return $result;
-
-    }
-
-    public function countArticleById ($id_categorie) {
-
-        $bdd = $this->getBdd();
-
-        $req = $bdd->prepare('SELECT COUNT(*) AS nb_articles FROM articles WHERE id_categorie = :id_categorie');
-        $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
-        $req->execute();
-        $result = $req->fetch();
+            $sql;
+            $req = $bdd->prepare($sql);
+            $req->execute();
+            $result = $req->fetch();
+        }
 
         return $result;
 
@@ -218,19 +179,7 @@ class Article
     {
         return $this->table;
     }
- 
-    /**
-     * Méthode qui permet de se connecter à la base de donnée
-     * @return \PDO
-     */
-    public function getBdd() {
-
-        return new \PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', 'root', [
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
-        ]);
-    }
-    }
+}
 
 
 
