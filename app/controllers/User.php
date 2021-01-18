@@ -80,6 +80,17 @@ class User extends \blog\app\models\User
         }
     }
 
+    static public function convertDroits(int $droits)
+    {
+        if ($droits === 1) {
+            return "utilisateur";
+        } elseif ($droits === 42) {
+            return "modérateur";
+        } elseif ($droits === 1337) {
+            return "administrateur";
+        }
+    }
+
     //Public Methods
 
     /**
@@ -186,12 +197,26 @@ class User extends \blog\app\models\User
      */
     public function updateUserDroit(int $droit, int $id_utilisateur) : bool
     {
-        if ($this->updateUserDroitDb($droit,$id_utilisateur) === true) {
+        if ($this->updateUserDroitDb($droit, $id_utilisateur) === true) {
             return true;
         } else {
             return false;
         }
     }
-}
 
-$user = new User();
+    /**
+     * @param string $criteria
+     */
+    public function chooseAdminTab(string $criteria)
+    {
+        if ($criteria === "users" || empty($criteria)) {
+            \blog\app\views\User::tableUser();
+        }
+        if ($criteria === "art") {
+            \blog\app\views\Article::tableArticle();
+        }
+        if ($criteria === "cat") {
+            \blog\app\views\Categorie::tableCategorie();
+        }
+    }
+}

@@ -8,7 +8,7 @@ namespace blog\app\views;
  * @package blog\app\views
  */
 
-class User extends \blog\app\models\User
+class User extends \blog\app\controllers\User
 {
     /**
      * @return string
@@ -26,13 +26,16 @@ class User extends \blog\app\models\User
     {
         $users = (new \blog\app\models\User)->getUsersDb();
         $droits = User::listDroits();
+        $tbody = "";
         foreach ($users as $user) {
-            echo <<<HTML
+            $userDroits = \blog\app\controllers\User::convertDroits
+            ($user->getDroits());
+            $tbody = $tbody . <<<HTML
 <tr>
     <th>{$user->getId()}</th>
     <td>{$user->getLogin()}</td>
     <td>{$user->getEmail()}</td>
-    <td>{$user->getDroits()}</td>
+    <td>{$userDroits}</td>
     <td>
         <form method='get'>
             <select name='droituser' id='droituser'>
@@ -48,6 +51,30 @@ class User extends \blog\app\models\User
 </tr>
 HTML;
         }
+        return $tbody;
     }
 
+    static public function tableUser()
+    {
+        $tbody = User::listEachUsers();
+        $table = <<<HTML
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Login</th>
+            <th>Email</th>
+            <th>Droits</th>
+            <th>Modifier Droits</th>
+            <th>Supprimer l'utilisateur</th>
+        </tr>
+    </thead>
+    <tbody>
+        {$tbody}
+    </tbody>
+</table>
+HTML;
+        return $table;
+
+    }
 }

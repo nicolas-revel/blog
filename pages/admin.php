@@ -1,7 +1,7 @@
 <?php
 
 require_once('../app/Autoload.php');
-$user = new \blog\app\views\User();
+$user =new blog\app\controllers\User();
 
 ?>
 <!DOCTYPE HTML>
@@ -15,21 +15,14 @@ $user = new \blog\app\views\User();
 </head>
 <body>
 <h1>Page d'administration</h1>
-<h2>Table des utilisateurs</h2>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Login</th>
-        <th>Email</th>
-        <th>Droits</th>
-        <th>Modifier les Droits</th>
-        <th>Supprimer l'utilisateur</th>
-    </tr>
-    <?= blog\app\views\User::listEachUsers() ?>
-</table>
-<h2>Table des articles</h2>
-<table>
-    
-</table>
+<form action="admin.php" method="get">
+    <select id="table" name="table">
+        <option value="users">Utilisateurs</option>
+        <option value="art">Articles</option>
+        <option value="cat">Catégories</option>
+    </select>
+    <input type="submit" value="Filtrer" name="filter" id="filter">
+</form>
+<?php $user->chooseAdminTab($_GET['table']) ?>
 </body>
 </html>
