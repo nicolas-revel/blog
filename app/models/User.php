@@ -16,27 +16,27 @@ class User
     /**
      * @var int
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      */
-    private $login;
+    private string $login;
 
     /**
      * @var string
      */
-    private $password;
+    private string $password;
 
     /**
      * @var string
      */
-    private $email;
+    private string $email;
 
     /**
      * @var int
      */
-    private $droit;
+    private int $droit;
 
     //Methods
 
@@ -139,24 +139,11 @@ class User
     /**
      * @return array
      */
-    protected function getDroitsDb()
-    {
-        $pdo = (new User)->connectDB();
-        $querystring = "SELECT id, nom FROM droits";
-        $query = $pdo->query($querystring);
-        $result = $query->fetchAll(\PDO::FETCH_ASSOC);
-        return $result;
-    }
-
-    /**
-     * @return array
-     */
-    public function getUsersDb(): array
+    protected function getUsersDb(): array
     {
         $pdo = $this->connectDB();
         $querystring = "SELECT id, login, password, email, droit FROM utilisateurs";
         $query = $pdo->query($querystring);
-        // $query->setFetchMode(\PDO::FETCH_CLASS, "\blog\app\models\User", [,login, password, email, droits]);
         $result = $query->fetchAll(\PDO::FETCH_CLASS,
             '\blog\app\models\User');
         return $result;
@@ -178,6 +165,18 @@ class User
         } else {
             return false;
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function getDroitsDb()
+    {
+        $pdo = $this->connectDB();
+        $querystring = "SELECT id, nom FROM droits";
+        $query = $pdo->query($querystring);
+        $result = $query->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
     }
 
     /**
@@ -248,6 +247,5 @@ class User
             return false;
         }
     }
-
-
 }
+$user = new User();

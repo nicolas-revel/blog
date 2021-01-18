@@ -94,6 +94,31 @@ class User extends \blog\app\models\User
     //Public Methods
 
     /**
+     * @return array
+     */
+    public function getUsers(): array
+    {
+        return $this->getUsersDb();
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllDroits(): array
+    {
+        return $this->getDroitsDb();
+    }
+
+    /**
+     * @param string $login
+     * @return array
+     */
+    public function getUser(string $login): array
+    {
+        return $this->getUsersDb();
+    }
+
+    /**
      * @param string $login
      * @param string $password
      * @param string $email
@@ -210,8 +235,8 @@ class User extends \blog\app\models\User
     public function chooseAdminTab($criteria)
     {
         if ($criteria === "users" || $criteria === null) {
-            $users = new \blog\app\views\User();
-            return $users->tableUser();
+            $tabvue = new \blog\app\views\User;
+            $tabvue->tableUser();
         }
         if ($criteria === "art") {
             \blog\app\views\Article::tableArticle();
