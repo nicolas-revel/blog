@@ -23,7 +23,8 @@ $showComment = new blog\app\views\Comment();
         <button id="buttonSub" type="submit" name="envoyer">Envoyer</button>
     </div>
     <?php if(isset($_POST['envoyer'])){
-        $showComment->insertComments($_GET['id'], 1);
+        //$showComment->insertComments($_GET['id'], 1);
+        $showComment->updateComments(5, $_GET['id'], 2);
     }
     ?>
 </form>
