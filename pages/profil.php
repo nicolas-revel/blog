@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+require_once ('../app/Autoload.php');
+
+$currentUser = new \blog\app\controllers\User();
 ?>
 <!doctype html>
 <html lang="fr">
@@ -12,6 +16,7 @@ session_start();
 </head>
 <body>
 <h1>FORMULAIRE DE MODIFICATION</h1>
+<?php $currentUser->getUserProfil(); ?>
 <form id="profil" action="profil.php" method="POST">
     <br>
     <div>

@@ -16,27 +16,27 @@ class User
     /**
      * @var int
      */
-    private int $id;
+    protected int $id;
 
     /**
      * @var string
      */
-    private string $login;
+    protected string $login;
 
     /**
      * @var string
      */
-    private string $password;
+    protected string $password;
 
     /**
      * @var string
      */
-    private string $email;
+    protected string $email;
 
     /**
      * @var int
      */
-    private int $droit;
+    protected int $droit;
 
     //Methods
 

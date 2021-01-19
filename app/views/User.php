@@ -2,11 +2,10 @@
 
 namespace blog\app\views;
 
-    /**
-     * Class User
-     * @package blog\app\views
-     */
-
+/**
+ * Class User
+ * @package blog\app\views
+ */
 class User extends \blog\app\controllers\User
 {
     /**
@@ -75,5 +74,27 @@ HTML;
 </table>
 HTML;
         echo $vue;
+    }
+
+    public function displayProfil()
+    {
+        if ($this->getIsconnected() !== true) {
+            echo <<<HTML
+<h2>Information utilisateur</h2>
+<form action="profil.php" method="post">
+<p>Login utilisateur : {$_SESSION['user']->getLogin()}</p>
+<div>
+    <label for="login">Modifier votre login :</label>
+    <input type="text" name="login" id="login" placeholder="Votre Login ici">
+</div>
+</form>
+HTML;
+        } else {
+            echo <<<HTML
+<p>Vous ne devriez pas être sur cette page !</p>
+HTML;
+
+        }
+
     }
 }
