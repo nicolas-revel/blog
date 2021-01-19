@@ -1,7 +1,7 @@
 #card_article {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     margin-top: 5em;
     flex-wrap: wrap;
 }
@@ -13,7 +13,7 @@
     flex-wrap: wrap;
 }
 
-#pagination {
-    display: flex;
-    flex-direction: column;
+.pagination {
+    position: center;
+
 }

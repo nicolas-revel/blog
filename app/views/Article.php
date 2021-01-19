@@ -26,20 +26,14 @@ class Article extends \blog\app\controllers\Article
 
                 foreach($nameCat as $key => $value) {
 
-                if($values['id_categorie'] == $value){ ?>
+                if($values['id_categorie'] == $value){
 
-                <div id="row_article">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Title Article</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></h6>
-                                    <p class="card-text"><?= $values['article']; ?></p>
-                                <a href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
-                                <a href="article.php?id=<?= $values['id'] ?>" class="card-link">VOIR L'ARTICLE</a>
-                        </div>
-                    </div>
-                </div>
-                    <?php
+                    $valuesArticle = $values['article'];
+                    $valuesId = $values['id'];
+                    $title = $values['titre'];
+
+                    $this->cardArticle ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
+
                 }
             }
 
@@ -47,27 +41,16 @@ class Article extends \blog\app\controllers\Article
 
     }
 
-    public function getStart (){
-        if(isset($_GET['start']) && !empty($_GET['start'])){
-            $currentPage = (int) strip_tags($_GET['start']);
-        }else{
-            $currentPage = 1;
-        }
-        return $currentPage;
-    }
-
     public function showArticleArticles($currentPage) {
 
         $nbArticles = $this->nbrArticle();
-        $parPage = 4;
+        $parPage = 5;
 
         // On calcule le nombre de pages total
         $pages = ceil($nbArticles / $parPage);
         // Calcul du 1er article de la page
         $premier = ($currentPage * $parPage) - $parPage;
-
         $nameCat = $this->tabCategorie();
-
         $articles = $this->ShowArticleDesc($premier, $parPage);
 
             foreach($articles as $keyA => $values){
@@ -80,20 +63,14 @@ class Article extends \blog\app\controllers\Article
 
                 foreach($nameCat as $key => $value) {
 
-                    if($values['id_categorie'] == $value){ ?>
+                    if($values['id_categorie'] == $value){
 
-                    <div id="row_article">
-                        <div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">Title Article</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></h6>
-                                <p class="card-text"><?= $values['article']; ?></p>
-                                <a href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
-                                <a href="article.php?id=<?= $values['id'] ?>" class="card-link">VOIR L'ARTICLE</a>
-                            </div>
-                        </div>
-                    </div>
-                        <?php
+                        $valuesArticle = $values['article'];
+                        $valuesId = $values['id'];
+                        $title = $values['titre'];
+
+                        $this->cardArticle ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
+
                     }
                 }
 
@@ -125,73 +102,35 @@ class Article extends \blog\app\controllers\Article
 
                 foreach($nameCat as $key => $value) {
 
-                    if($values['id_categorie'] == $value){ ?>
+                    if($values['id_categorie'] == $value){
 
-                        <div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">Title Article</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></h6>
-                                <p class="card-text"><?= $values['article']; ?></p>
-                                <a href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
-                                <a href="article.php?id=<?= $values['id'] ?>" class="card-link">VOIR L'ARTICLE</a>
-                            </div>
-                        </div>
-                        <?php
+                        $valuesArticle = $values['article'];
+                        $valuesId = $values['id'];
+                        $title = $values['titre'];
+
+                        $this->cardArticle ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
+
                     }
                 }
             }
-        return $pages;
+            return $pages;
     }
 
-    public function showPagination($currentPage, $pages){
-
+    public function cardArticle ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
         ?>
-            <nav>
-                <ul class="pagination">
-                <!-- Lien vers la page précédente (désactivé si on se trouve sur la 1ère page) -->
-                <li class="page-item <?= ($currentPage == 1) ? "disabled" : "" ?>">
-                    <a href="?start=<?= $currentPage - 1 ?>" class="page-link">Précédente</a>
-                </li>
-                <?php for($page = 1; $page <= $pages; $page++): ?>
-                    <!-- Lien vers chacune des pages (activé si on se trouve sur la page correspondante) -->
-                    <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
-                    <a href="?start=<?= $page ?>" class="page-link"><?= $page ?></a>
-                 </li>
-                <?php endfor ?>
-                <!-- Lien vers la page suivante (désactivé si on se trouve sur la dernière page) -->
-                    <li class="page-item <?= ($currentPage == $pages) ? "disabled" : "" ?>">
-                    <a href="?start=<?= $currentPage + 1 ?>" class="page-link">Suivante</a>
-                </li>
-                </ul>
-            </nav>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><?= $title; ?></h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></h6>
+                    <p class="card-text"><?= $valuesArticle; ?></p>
+                    <a href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
+                    <a href="article.php?id=<?= $valuesId ?>" class="card-link">VOIR L'ARTICLE</a>
+                </div>
+            </div>
         <?php
     }
 
-    public function showPaginationWithCategorie($currentPage, $pages){
 
-        if(isset($_GET['categorie']) && !empty($_GET['categorie'])){ ?>
-
-            <nav>
-                <ul class="pagination">
-                    <!-- Lien vers la page précédente (désactivé si on se trouve sur la 1ère page) -->
-                    <li class="page-item <?= ($currentPage == 1) ? "disabled" : "" ?>">
-                        <a href="?categorie=<?=$_GET['categorie'] ?>&start=<?= $currentPage - 1 ?>" class="page-link">Précédente</a>
-                    </li>
-                    <?php for($page = 1; $page <= $pages; $page++): ?>
-                        <!-- Lien vers chacune des pages (activé si on se trouve sur la page correspondante) -->
-                        <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
-                            <a href="?categorie=<?=$_GET['categorie'] ?>&start=<?= $page ?>" class="page-link"><?= $page ?></a>
-                        </li>
-                    <?php endfor ?>
-                    <!-- Lien vers la page suivante (désactivé si on se trouve sur la dernière page) -->
-                    <li class="page-item <?= ($currentPage == $pages) ? "disabled" : "" ?>">
-                        <a href="?categorie=<?=$_GET['categorie'] ?>&start=<?= $currentPage + 1 ?>" class="page-link">Suivante</a>
-                    </li>
-                </ul>
-            </nav>
-            <?php
-        }
-    }
 
     public function showOneArticle ()
     {

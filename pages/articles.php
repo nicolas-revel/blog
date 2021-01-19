@@ -2,6 +2,8 @@
 require_once('../app/Autoload.php');
 $nameCat = new blog\app\views\Categorie();
 $articlesTable = new blog\app\views\Article();
+$pagination = new blog\app\views\view();
+
 if(isset($_GET['start']) && !empty($_GET['start'])){
     $currentPage = (int) strip_tags($_GET['start']);
 }else{
@@ -20,12 +22,12 @@ if(isset($_GET['start']) && !empty($_GET['start'])){
     <?php if(isset($_GET['categorie'])): ?>
         <div id="card_article"><?php $pages = $articlesTable->showArticleByCategorie($currentPage); ?></div>
     <br>
-        <div class="pagination"><?= $articlesTable->showPaginationWithCategorie($currentPage, $pages); ?></div>
+        <div class="pagination"><?= $pagination->showPagination($url = "?categorie=", $get = $_GET['categorie'], $start = "&start=", $currentPage, $pages); ?></div>
 
     <?php elseif(!isset($_GET['categorie'])): ?>
             <div id="card_articles"><?php $pages = $articlesTable->showArticleArticles($currentPage); ?></div>
         <br>
-            <div class="pagination"><?= $articlesTable->showPagination($currentPage, $pages); ?></div>
+            <div class="pagination"><?= $pagination->showPagination(null, null, $start = "?start=", $currentPage, $pages); ?></div>
     <?php endif; ?>
 
 
