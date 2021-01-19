@@ -32,7 +32,7 @@ class Article extends \blog\app\controllers\Article
                     $valuesId = $values['id'];
                     $title = $values['titre'];
 
-                    $this->cardArticle ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
+                    $this->cardArticle($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
 
                 }
             }
@@ -69,7 +69,7 @@ class Article extends \blog\app\controllers\Article
                         $valuesId = $values['id'];
                         $title = $values['titre'];
 
-                        $this->cardArticle ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
+                        $this->cardArticleByFive($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
 
                     }
                 }
@@ -125,6 +125,24 @@ class Article extends \blog\app\controllers\Article
                     <p class="card-text"><?= $valuesArticle; ?></p>
                     <a href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
                     <a href="article.php?id=<?= $valuesId ?>" class="card-link">VOIR L'ARTICLE</a>
+                </div>
+            </div>
+        <?php
+    }
+
+    public function cardArticleByFive ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
+        ?>
+            <div id="card_accueil">
+                <div id="card_title">
+                <h5><?= $title; ?></h5>
+                    <span id="title_h6">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></span>
+                </div>
+                <div id="card_articleText">
+                    <p><?= $valuesArticle; ?></p>
+                </div>
+                <div id="card_button">
+                    <a class= "buttonCard" href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
+                    <a class= "buttonCard" href="article.php?id=<?= $valuesId ?>" class="card-link">VOIR L'ARTICLE</a>
                 </div>
             </div>
         <?php

@@ -1,3 +1,8 @@
+@font-face {
+    font-family: xolo;
+    src: url("../fonts/POMCRG__.TTF");
+}
+
 #card_article {
     display: flex;
     flex-direction: row;
@@ -6,14 +11,96 @@
     flex-wrap: wrap;
 }
 
-#card_articles {
+.card_articles {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
+
 }
 
 .pagination {
     position: center;
 
+}
+
+/* CSS CARD ARTICLES */
+
+#card_accueil {
+    width: 80%;
+    min-height: 20vh;
+    border: solid black 1px;
+    margin: 2em 0 1em 0;
+    border-radius: 0.2em;
+}
+
+#card_title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: solid black 1px;
+    height: 3em;
+    padding: 0.7em;
+}
+
+#card_title h5 {
+    color: black;
+    font-family: xolo, serif;
+    font-size: 1.5em;
+    text-transform: uppercase;
+}
+
+#showArticles {
+    display: flex;
+    flex-direction: row;
+}
+
+.articlePagination {
+    display: flex;
+    flex-direction: column;
+
+}
+
+#title_h6 {
+    font-size: 13px;
+    font-family: Calibri, sans-serif;
+    text-align: right;
+    height: 2.2em;
+}
+
+#card_articleText{
+    padding: 0.5em;
+    background-color: #e3dddd;
+}
+
+#card_button {
+    border-top: solid black 1px;
+    margin: 0 0 1em 0;
+    padding-top: 1em;
+}
+
+.buttonCard {
+    background-image: linear-gradient(to right, #7351ef 0%, #aa8fea 51%, #c0a7ee 100%);
+    margin: 7px;
+    padding: 5px 10px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    border-radius: 5px;
+    font-size: 13px;
+    font-family: Calibri, sans-serif;
+    text-decoration: none;
+
+}
+
+.buttonCard:hover{
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.buttonCard a {
+    text-decoration: none;
 }
