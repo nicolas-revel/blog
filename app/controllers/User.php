@@ -271,4 +271,9 @@ class User extends \blog\app\models\User
         }
     }
 
+    public function deleteUser($id)
+    {
+        $this->deleteUserDb($id);
+    }
+
 }

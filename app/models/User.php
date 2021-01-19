@@ -205,12 +205,11 @@ class User
     /**
      * @return bool
      */
-    public function deleteUserDb(): bool
+    public function deleteUserDb($id): void
     {
         $pdo = $this->connectDB();
-        $querystring = "DELETE FROM utilisateurs WHERE id = {$this->_id}";
+        $querystring = "DELETE FROM utilisateurs WHERE id = {$id}";
         $query = $pdo->query($querystring);
-        return $query;
     }
 
     public function updateUserDb(string $login, string $password, string $email): bool

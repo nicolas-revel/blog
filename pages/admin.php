@@ -10,6 +10,9 @@ if (empty($_GET['table'])) {
 if (isset($_POST['submit'])) {
     $user->updateUserDroit($_POST['droituser'], $_POST['userid']);
 }
+if (isset($_GET['del'])) {
+    $user->deleteUser($_GET['del']);
+}
 ?>
 <!DOCTYPE HTML>
 <html lang="fr">
