@@ -1,15 +1,13 @@
 <?php
 require('../config/header.php');
-require('../app/views/Article.php');
-require('../app/views/Comment.php');
-
+require_once('../app/Autoload.php');
 $articlesTable = new blog\app\views\Article();
 $showComment = new blog\app\views\Comment();
 ?>
 <?= $articlesTable->showOneArticle(); ?>
 <br>
 <h2>Commentaires :</h2>
-<?= $showComment->showCommentWithArticle($_GET['id']); ?>
+<?= $showComment->showCommentWithArticle(); ?>
 <br>
 <br>
 <h1>FORMULAIRE COMMENTAIRE</h1>

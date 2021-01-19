@@ -3,11 +3,12 @@
 
 namespace blog\app\models;
 
-require_once("../app/models/Article.php");
 
-class Comment extends Article
+class Comment extends model
 {
     protected $table = "commentaires";
+    protected $where = "id_article";
+    protected $resultWhere = ":id";
 
     /**
      * Méthode qui permet d'insérer un commentaire en base de donnée
@@ -27,26 +28,14 @@ class Comment extends Article
 
     }
 
+
     /**
-     * Méthode qui permet de récupérer les commentaire d'un article
+     * Méthode qui permet de modifier un commentaire par rapport à son id
+     * @param int $id
+     * @param string $commentaire
      * @param int $article_id
-     * @return array
+     * @param int $id_utilisateur
      */
-    public function findAllWithArticle (int $article_id, $premier, $parPage): array {
-
-        $bdd = $this->getBdd();
-
-        $req = $bdd->prepare("SELECT id, commentaire, id_article, id_utilisateur, date FROM commentaires WHERE id_article = :id ORDER BY date DESC LIMIT :premier, :parpage ");
-        $req->bindValue(':id', $article_id, \PDO::PARAM_INT);
-        $req->bindValue(':premier', $premier, \PDO::PARAM_INT);
-        $req->bindValue(':parpage', $parPage, \PDO::PARAM_INT);
-        $req->execute();
-
-        $result = $req->fetchAll();
-
-        return $result;
-    }
-
     public function updateArticleBd (int $id, string $commentaire, int $article_id, int $id_utilisateur) {
 
         $bdd = $this->getBdd();
@@ -60,7 +49,12 @@ class Comment extends Article
 
     }
 
-    public function countCommentById ($article_id) {
+    /**
+     * Méthode qui permet de compter le nombre de commentaires par rapport à l'id de l'article
+     * @param int $article_id
+     * @return mixed
+     */
+    public function countCommentById (int $article_id) {
 
         $bdd = $this->getBdd();
 

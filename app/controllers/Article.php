@@ -3,7 +3,6 @@
 
 namespace blog\app\controllers;
 
-require_once("../app/models/Article.php");
 
 class Article extends \blog\app\models\Article
 {
@@ -37,6 +36,11 @@ class Article extends \blog\app\models\Article
 
     }
 
+    /**
+     * Permet d'afficher un article en particulier par rapport à l'id de l'article
+     * @param $id_article
+     * @return array
+     */
     public function showArticleAlone ($id_article){
 
         $article = $this->findBd($id_article);
@@ -58,7 +62,6 @@ class Article extends \blog\app\models\Article
         }
 
         return $tab;
-
     }
 
     /**
@@ -104,13 +107,13 @@ class Article extends \blog\app\models\Article
 
     }
 
-    public function nbrArticleId () {
+    public function nbrArticleId ($withCategorie) {
 
         if(!empty($_GET['categorie'])){
 
             $id_categorie = $_GET['categorie'];
 
-            $articles = $this->countArticleById($id_categorie);
+            $articles = $this->countArticle($withCategorie, $id_categorie);
             $nbArticles = (int)$articles['nb_articles'];
         }
 
@@ -132,7 +135,7 @@ class Article extends \blog\app\models\Article
     /**
      * Méthode qui permet d'afficher les 3 premiers articles sur la page d'accueil
      */
-    public function ArticleAccueil($premier, $parPage) {
+    public function ShowArticleDesc($premier, $parPage) {
 
         $getArticle = $this->selectPages($premier, $parPage);
 
@@ -140,32 +143,14 @@ class Article extends \blog\app\models\Article
 
     }
 
-    public function paginationArticles ($premier, $parPage) {
+    public function nbrArticle() {
 
-        $articles = $this->selectPages($premier, $parPage);
-
-        return $articles;
-    }
-
-    public function nbrArticle () {
-
-        $result = $this->countArticle();
+        $result = $this->countArticle(null, null);
         $nbArticles = (int) $result['nb_articles'];
 
         return $nbArticles;
     }
 
-    /**
-     * Méthode qui permet d'afficher un article et ses commentaires
-     */
-    public function showArticle () {
-        //Traitement des $_GET
-        //Appel de la fonction ->findArticle($id_utilisateur) 'blog\app\models' pour récupérer l'id de l'article
-        //$article = $this->model->find($id);
-        //$comment = $this->model->findAllWithArticle($article_id)
-        // Redirection avec Renderer ?
-
-    }
 
 
 

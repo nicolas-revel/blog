@@ -13,7 +13,7 @@ class Article extends \blog\app\controllers\Article
 
         $nameCat = $this->tabCategorie();
 
-        $articles = $this->ArticleAccueil(0, 3);
+        $articles = $this->ShowArticleDesc(0, 3);
 
             foreach($articles as $keyA => $values){
 
@@ -52,7 +52,7 @@ class Article extends \blog\app\controllers\Article
 
         $nameCat = $this->tabCategorie();
 
-        $articles = $this->paginationArticles($premier, $parPage);
+        $articles = $this->ShowArticleDesc($premier, $parPage);
 
             foreach($articles as $keyA => $values){
 
@@ -90,7 +90,7 @@ class Article extends \blog\app\controllers\Article
 
         $currentPage = $this->getStart();
 
-        $nbArticles = $this->nbrArticleId();
+        $nbArticles = $this->nbrArticleId(" WHERE id_categorie = :id_categorie ");
 
         $parPage = 4;
 
@@ -180,6 +180,7 @@ class Article extends \blog\app\controllers\Article
 
     public function showOneArticle ()
     {
+
         if(isset($_GET['id']) && ctype_digit($_GET['id'])) {
             $id_article = $_GET['id'];
             $article = $this->showArticleAlone($id_article);
