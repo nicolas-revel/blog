@@ -161,7 +161,7 @@ class User
         $query->execute() or die(print_r($query->errorInfo()));
         $result = $query->fetchAll(\PDO::FETCH_CLASS, '\blog\app\models\User');
         if (!empty($result)) {
-            return $result;
+            return $result[0];
         } else {
             return false;
         }
@@ -218,7 +218,7 @@ class User
         $pdo = $this->connectDB();
         $string = "UPDATE utilisateurs SET login = :login, password = :password, email = :email WHERE id = :id";
         $query = $pdo->prepare($string);
-        $query->bindValue(':id', $this->_id);
+        $query->bindValue(':id', $this->id);
         $query->bindValue(':login', $login);
         $query->bindValue(':password', $password);
         $query->bindValue(':email', $email);

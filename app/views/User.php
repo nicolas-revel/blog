@@ -76,25 +76,36 @@ HTML;
         echo $vue;
     }
 
-    public function displayProfil()
+    /**
+     * @param object $object
+     */
+    public function displayProfil(object $object)
     {
-        if ($this->getIsconnected() !== true) {
-            echo <<<HTML
+        echo <<<HTML
 <h2>Information utilisateur</h2>
 <form action="profil.php" method="post">
-<p>Login utilisateur : {$_SESSION['user']->getLogin()}</p>
+<p>Login utilisateur : {$object->getLogin()}</p>
 <div>
     <label for="login">Modifier votre login :</label>
-    <input type="text" name="login" id="login" placeholder="Votre Login ici">
+    <input type="text" name="login" id="login" placeholder="Votre nouveau Login 
+    ici">
 </div>
+<p>Email utilisateur : {$object->getEmail()}</p>
+<div>
+    <label for="email">Modifier votre Email :</label>
+    <input type="text" name="email" id="email" placeholder="Votre nouveau Email 
+    ici">
+</div>
+<div>
+    <label for="password">Modifier votre mot de passe :</label>
+    <input type="password" name="password" placeholder="Mot de passe">
+</div>
+<div>
+    <label for="c_password">Confirmez votre nouveau mot de passe :</label>
+    <input type="password" name="c_password" placeholder="Mot de passe">
+</div>
+<input type="submit" name="submit" id="submit">
 </form>
 HTML;
-        } else {
-            echo <<<HTML
-<p>Vous ne devriez pas être sur cette page !</p>
-HTML;
-
-        }
-
     }
 }
