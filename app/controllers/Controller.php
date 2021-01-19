@@ -2,14 +2,12 @@
 
 namespace blog\app\controllers;
 
-abstract class controller
+
+class Controller
 {
-    protected $model;
-    protected $modelName;
 
-    public function __construct () {
-
-        $this->model = new $this->modelName();
+    public function index ()
+    {
+        Header('Location: pages/accueil.php?action=accueil');
     }
-
 }
