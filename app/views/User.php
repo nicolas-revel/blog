@@ -35,12 +35,13 @@ class User extends \blog\app\controllers\User
     <td>{$user->getEmail()}</td>
     <td>{$userDroits}</td>
     <td>
-        <form method='post'>
+        <form method='post' action="">
             <select name='droituser' id='droituser'>
                 {$droits}
             </select>
             <input type='text' id='userid' name='userid' value='{$user->getId()}' style='display: none'>                            
-            <input type='submit' value='Maj Droits' id='submit' name='submit'> 
+            <input type='submit' value='Maj Droits' id='submit' 
+            name='submit'> 
         </form>
     </td>
     <td>

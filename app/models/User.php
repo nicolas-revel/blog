@@ -142,7 +142,7 @@ class User
     protected function getUsersDb(): array
     {
         $pdo = $this->connectDB();
-        $querystring = "SELECT id, login, password, email, droit FROM utilisateurs";
+        $querystring = "SELECT id, login, password, email, droit FROM utilisateurs ORDER BY id ASC";
         $query = $pdo->query($querystring);
         $result = $query->fetchAll(\PDO::FETCH_CLASS,
             '\blog\app\models\User');

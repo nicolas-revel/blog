@@ -249,16 +249,11 @@ class User extends \blog\app\models\User
     /**
      * @param int $droit
      * @param int $id_utilisateur
-     * @return bool
      */
     public
-    function updateUserDroit(int $droit, int $id_utilisateur): bool
+    function updateUserDroit(int $droit, int $id_utilisateur)
     {
-        if ($this->updateUserDroitDb($droit, $id_utilisateur) === true) {
-            return true;
-        } else {
-            return false;
-        }
+        $this->updateUserDroitDb($droit, $id_utilisateur);
     }
 
     /**
