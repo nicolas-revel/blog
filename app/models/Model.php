@@ -2,7 +2,11 @@
 
 namespace blog\app\models;
 
-class model
+/**
+ * Class Model
+ * @package blog\app\models
+ */
+class Model
 {
 
     protected $table;
@@ -63,7 +67,7 @@ class model
 
     public function getBdd() {
 
-        return new \PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', 'root', [
+        return new \PDO('mysql:host=localhost;dbname=blog;charset=utf8', 'root', '', [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
         ]);

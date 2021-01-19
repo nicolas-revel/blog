@@ -3,7 +3,7 @@
 require_once('../app/Autoload.php');
 
 $user = new \blog\app\controllers\User();
-$nameCat = new \blog\app\views\categorie;
+$nameCat = new \blog\app\views\categorie();
 
 if (isset($_POST['envoyer'])) {
     $checklogin = \blog\app\controllers\User::checkLoginValidity($_POST['login']);

@@ -2,12 +2,14 @@
 
 namespace blog\app\models;
 
-
 /**
  * Class Article
  * @package blog\app\models
  */
-class Article extends model
+
+require_once('../Autoload.php');
+
+class Article extends Model
 {
     protected $table = "articles";
     protected $where = "id_categorie";
@@ -146,6 +148,16 @@ class Article extends model
 
     }
 
+    public function getArticlesAuthors()
+    {
+        $bdd = $this->getBdd();
+        $sql = "SELECT articles.id, article, id_utilisateur, id_categorie, date, utilisateurs.login, categories.nom FROM articles INNER JOIN utilisateurs ON utilisateurs.id = id_utilisateur INNER JOIN categories ON categories.id = id_categorie";
+        $req = $bdd->prepare($sql);
+        $req->execute();
+        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     /**
      * @return mixed
      */
@@ -178,8 +190,6 @@ class Article extends model
         return $this->table;
     }
 }
-
-
 
 
 
