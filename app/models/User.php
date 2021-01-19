@@ -16,27 +16,27 @@ class User
     /**
      * @var int
      */
-    private $id;
+    protected int $id;
 
     /**
      * @var string
      */
-    private $login;
+    protected string $login;
 
     /**
      * @var string
      */
-    private $password;
+    protected string $password;
 
     /**
      * @var string
      */
-    private $email;
+    protected string $email;
 
     /**
      * @var int
      */
-    private $droit;
+    protected int $droit;
 
     //Methods
 
@@ -139,24 +139,11 @@ class User
     /**
      * @return array
      */
-    protected function getDroitsDb()
-    {
-        $pdo = (new User)->connectDB();
-        $querystring = "SELECT id, nom FROM droits";
-        $query = $pdo->query($querystring);
-        $result = $query->fetchAll(\PDO::FETCH_ASSOC);
-        return $result;
-    }
-
-    /**
-     * @return array
-     */
-    public function getUsersDb(): array
+    protected function getUsersDb(): array
     {
         $pdo = $this->connectDB();
-        $querystring = "SELECT id, login, password, email, droit FROM utilisateurs";
+        $querystring = "SELECT id, login, password, email, droit FROM utilisateurs ORDER BY id ASC";
         $query = $pdo->query($querystring);
-        // $query->setFetchMode(\PDO::FETCH_CLASS, "\blog\app\models\User", [,login, password, email, droits]);
         $result = $query->fetchAll(\PDO::FETCH_CLASS,
             '\blog\app\models\User');
         return $result;
@@ -174,10 +161,22 @@ class User
         $query->execute() or die(print_r($query->errorInfo()));
         $result = $query->fetchAll(\PDO::FETCH_CLASS, '\blog\app\models\User');
         if (!empty($result)) {
-            return $result;
+            return $result[0];
         } else {
             return false;
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function getDroitsDb()
+    {
+        $pdo = $this->connectDB();
+        $querystring = "SELECT id, nom FROM droits";
+        $query = $pdo->query($querystring);
+        $result = $query->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
     }
 
     /**
@@ -206,12 +205,11 @@ class User
     /**
      * @return bool
      */
-    public function deleteUserDb(): bool
+    public function deleteUserDb($id): void
     {
         $pdo = $this->connectDB();
-        $querystring = "DELETE FROM utilisateurs WHERE id = {$this->_id}";
+        $querystring = "DELETE FROM utilisateurs WHERE id = {$id}";
         $query = $pdo->query($querystring);
-        return $query;
     }
 
     public function updateUserDb(string $login, string $password, string $email): bool
@@ -219,7 +217,7 @@ class User
         $pdo = $this->connectDB();
         $string = "UPDATE utilisateurs SET login = :login, password = :password, email = :email WHERE id = :id";
         $query = $pdo->prepare($string);
-        $query->bindValue(':id', $this->_id);
+        $query->bindValue(':id', $this->id);
         $query->bindValue(':login', $login);
         $query->bindValue(':password', $password);
         $query->bindValue(':email', $email);
@@ -248,6 +246,5 @@ class User
             return false;
         }
     }
-
-
 }
+$user = new User();

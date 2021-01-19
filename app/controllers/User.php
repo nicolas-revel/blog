@@ -1,16 +1,41 @@
 <?php
 
 
-
 namespace blog\app\controllers;
 
 /**
  * Class User
  * @package blog\app\controllers
  */
-
 class User extends \blog\app\models\User
 {
+
+    //Properties
+
+    /**
+     * @var bool
+     */
+    protected bool $isconnected;
+
+    //Setters
+
+    /**
+     * @param bool $isconnected
+     */
+    public function setIsconnected(bool $isconnected): void
+    {
+        $this->isconnected = $isconnected;
+    }
+
+    //Getters
+
+    /**
+     * @return bool
+     */
+    public function getIsconnected(): bool
+    {
+        return $this->isconnected;
+    }
 
     //Static methods
 
@@ -19,7 +44,7 @@ class User extends \blog\app\models\User
      * @param string $c_password
      * @return bool
      */
-    static public function checkPassword(string $password, string $c_password) : bool
+    static public function checkPassword(string $password, string $c_password): bool
     {
         if ($password === $c_password) {
             return true;
@@ -32,7 +57,7 @@ class User extends \blog\app\models\User
      * @param string $email
      * @return bool
      */
-    static public function checkMailFormat(string $email) : bool
+    static public function checkMailFormat(string $email): bool
     {
         if (!preg_match("/^[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+.[a-zA-Z]{2,4}$/",
             $email)) {
@@ -51,7 +76,7 @@ class User extends \blog\app\models\User
      * @param string $password
      * @return bool
      */
-    static public function checkPasswordFormat (string $password) : bool
+    static public function checkPasswordFormat(string $password): bool
     {
         $number = preg_match("/[0-9]+/i", $password);
         $uppercase = preg_match("/[A-Z]+/i", $password);
@@ -70,7 +95,7 @@ class User extends \blog\app\models\User
      * @param string $login
      * @return bool
      */
-    static public function checkLoginValidity (string $login) : bool
+    static public function checkLoginValidity(string $login): bool
     {
         $userExist = (new \blog\app\models\User)->getUserDb($login);
         if (!empty($userExist)) {
@@ -94,22 +119,55 @@ class User extends \blog\app\models\User
     //Public Methods
 
     /**
+     * @return array
+     */
+    public function getUsers(): array
+    {
+        return $this->getUsersDb();
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllDroits(): array
+    {
+        return $this->getDroitsDb();
+    }
+
+    /**
+     * @param string $login
+     * @return object
+     */
+    public function getUser(string $login): object
+    {
+        return $this->getUserDb($login);
+    }
+
+    public function getUserProfil()
+    {
+        if ($this->getIsconnected() === true) {
+            $profilvue = new \blog\app\views\User;
+            return $profilvue->displayProfil($this);
+        }
+    }
+
+    /**
      * @param string $login
      * @param string $password
      * @param string $email
      * @param int $droit
      * @return bool
      */
-    public function insertUser(string $login, string $password, string $email, int $droit = 1) : bool
+    public function insertUser(string $login, string $password, string $email, int $droit = 1): bool
     {
         if (!empty($login) && !empty($password) && !empty($email)) {
             $this->setLogin(htmlspecialchars(trim($login)));
             $this->setPassword(htmlspecialchars(trim(password_hash($password,
                 PASSWORD_BCRYPT))));
-            $this->setMail(htmlspecialchars(trim($email)));
+            $this->setEmail(htmlspecialchars(trim($email)));
             $this->setDroits($droit);
-            $this->insertUserDb($this->getLogin(),$this->getPassword(),
-                $this->getMail(),$this->getDroits());
+            $this->insertUserDb($this->getLogin(), $this->getPassword(),
+                $this->getEmail(), $this->getDroits());
             return true;
         } else {
             return false;
@@ -126,15 +184,16 @@ class User extends \blog\app\models\User
         $login = htmlspecialchars(trim($login));
         $password = htmlspecialchars(trim($password));
         $userDb = $this->getUserDb($login);
-        if (password_verify($password,$userDb['password'])) {
-            $this->setId($userDb['id']);
-            $this->setLogin($userDb['login']);
-            $this->setPassword($userDb['password']);
-            $this->setMail($userDb['email']);
-            $this->setDroits($userDb['droit']);
+        if (password_verify($password, $userDb[0]->getPassword())) {
+            $this->setId($userDb[0]->getId());
+            $this->setLogin($userDb[0]->getLogin());
+            $this->setPassword($userDb[0]->getPassword());
+            $this->setEmail($userDb[0]->getEmail());
+            $this->setDroits($userDb[0]->getDroits());
+            $this->setIsconnected(true);
             return $this;
         } else {
-           return false;
+            return false;
         }
     }
 
@@ -154,67 +213,67 @@ class User extends \blog\app\models\User
     /**
      * @param string|null $login
      * @param string|null $password
+     * @param string|null $c_password
      * @param string|null $email
      * @return bool
      */
     public function updateUser(string $login = null, string $password = null,
-                               string $email = null) : bool
+                               string $c_password = null, string $email =
+                               null):
+    bool
     {
-        if (!empty($login)) {
+        if (!empty($login) && self::checkLoginValidity($login)) {
             $login = htmlspecialchars(trim($login));
             $this->setLogin($login);
         }
-        if (!empty($password)) {
+        if (!empty($password) && self::checkPassword($password, $c_password)) {
             $password = htmlspecialchars(trim(password_hash($password,
                 PASSWORD_BCRYPT)));
             $this->setPassword($password);
         }
         if (!empty($email)) {
             $email = htmlspecialchars(trim($email));
-            $this->setMail($email);
+            $this->setEmail($email);
         }
-        $checklogin = self::checkLoginValidity($this->getLogin());
-        if ($checklogin === true) {
-            $try = $this->updateUserDb($this->getLogin(),$this->getPassword(),
-                $this->getMail());
-            if ($try === true) {
-                $this->setLogin($login);
-                $this->setPassword($password);
-                $this->setMail($email);
-                return true;
-            } else {
-                return false;
-            }
+        $try = $this->updateUserDb($this->getLogin(), $this->getPassword(),
+            $this->getEmail());
+        if ($try === true) {
+            $this->getUser($this->getLogin());
+            return true;
         } else {
             return false;
         }
+
     }
 
     /**
      * @param int $droit
      * @param int $id_utilisateur
-     * @return bool
      */
-    public function updateUserDroit(int $droit, int $id_utilisateur) : bool
+    public
+    function updateUserDroit(int $droit, int $id_utilisateur)
     {
-        if ($this->updateUserDroitDb($droit, $id_utilisateur) === true) {
-            return true;
-        } else {
-            return false;
-        }
+        $this->updateUserDroitDb($droit, $id_utilisateur);
     }
 
     /**
      * @param string $criteria
      */
-    public function chooseAdminTab($criteria)
+    public
+    function chooseAdminTab($criteria)
     {
         if ($criteria === "users" || $criteria === null) {
-            $users = new \blog\app\views\User();
-            return $users->tableUser();
+            $tabvue = new \blog\app\views\User;
+            $tabvue->tableUser();
         }
         if ($criteria === "art") {
             \blog\app\views\Article::tableArticle();
         }
     }
+
+    public function deleteUser($id)
+    {
+        $this->deleteUserDb($id);
+    }
+
 }
