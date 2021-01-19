@@ -1,38 +1,18 @@
 <?php
-require('../config/header.php');
-require('../app/views/Article.php');
-$nameCat = new blog\app\views\Categorie();
+require_once('../app/Autoload.php');
 $show = new blog\app\views\Article();
-$pageTitle = "Accueil";
 ?>
 
-<form id="insertArticle" action="accueil.php" method="POST">
-    <br>
-    <div>
-        <label for="article" class="form-label">Article :</label>
-        <input type="text" class="form-control" name="article" required>
-    </div>
-    <br>
-    <div>
-        <label for="categorie">Categories :</label>
-        <select  name="categorie" required>
-            <?= $nameCat->showNameCategorieForm(); ?>
-        </select>
-    </div>
-    <br>
-    <div class="col-12">
-        <button id="buttonSub" type="submit" name="envoyer">Envoyer</button>
-    </div>
-    <?php
-    if(isset($_POST['envoyer'])) {
+<?php $pageTitle = 'ACCUEIL'; ?>
+<?php ob_start(); ?>
+<?php require_once('../config/header.php'); ?>
 
-        $post = new blog\app\controllers\Article();
-        $post->insertArticle(2);
 
-    }
-    ?>
-</form>
+<div id="card_article"><?= $show->showArticleAccueil(); ?></div>
 
-<div><?= $show->showArticleAccueil(); ?></div>
 <a href="articles.php">Articles</a>
+
+<?php $pageContent = ob_get_clean(); ?>
+
+<?php require_once('template.php'); ?>
 

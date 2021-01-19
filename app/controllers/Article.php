@@ -151,9 +151,4 @@ class Article extends \blog\app\models\Article
         return $nbArticles;
     }
 
-
-
-
-
-
 }

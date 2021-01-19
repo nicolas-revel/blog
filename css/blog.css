@@ -1,0 +1,19 @@
+#card_article {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 5em;
+    flex-wrap: wrap;
+}
+
+#card_articles {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#pagination {
+    display: flex;
+    flex-direction: column;
+}
