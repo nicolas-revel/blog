@@ -7,7 +7,7 @@ $show = new blog\app\views\Article();
 <?php ob_start(); ?>
 <?php require_once('../config/header.php'); ?>
 
-<main id="homeArticles">
+<main>
 
     <section id="present_blog">
         <div id="avatars">
@@ -18,10 +18,20 @@ $show = new blog\app\views\Article();
             <h2 id="title_blogout"><span class="bw">H</span><span class="bw">e</span><span class="bw">l</span><span class="bw">l</span><span class="bw">o</span> <span class="bw">W</span><span class="bw">o</span><span class="bw">r</span><span class="bw">l</span><span class="bw">d</span><span class="bw">!</span></h2>
             <p id="presentBlog">bLogOut est un petit blog créé par <strong>Nicolas REVEL</strong> et <strong>Emma LAPREVOTE</strong>,
                 tout deux étudiants au sein de l'école La Plateforme et passionnés par le développement web.
-            Ce blog est une vue généralisé de tout ce qui se passe dans l'univers du web, sur nos expériences tout au long de l'apprentissage, afin de partager
-                notre vécu avec vous tous.
+            Ce blog est une vue généralisé de tout ce qui se passe dans l'univers du web, sur leurs expériences tout au long de leurs l'apprentissages, afin de partager
+                leurs vécus avec vous tous.
             </p>
         </div>
+    </section>
+
+    <section id="info_user">
+        <i class="fas fa-user-astronaut"></i>
+        <h6 id="login_user">BIENVENUE USER !</h6>
+        <div id="link_user">
+        <button id="button_user" type="button" class="btn btn-outline-light">PROFIL</button>
+        <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button>
+        <button id="button_user" type="button" class="btn btn-outline-light">ADMIN</button>
+    </div>
     </section>
 
     <article id="LastArticle">

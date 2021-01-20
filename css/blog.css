@@ -29,6 +29,7 @@ body {
     position: fixed;
     width: 90%;
     margin: auto;
+    top: 0;
 }
 
 .nav-link,
@@ -172,9 +173,9 @@ body {
 
 /* CSS ACCUEIL */
 
-#homeArticles{
+main{
     min-height: 100vh;
-    padding-top: 7em;
+    padding-top: 5em;
     margin-bottom: 4em;
 }
 
@@ -182,7 +183,7 @@ body {
     width: 25%;
     min-height: 20vh;
     border: solid darkslategrey 1px;
-    margin: 2em 0 0 0;
+    margin: 2em 2em 0 2em;
     border-radius: 0.2em;
 }
 
@@ -199,7 +200,6 @@ body {
     font-size: 13px;
     width: 100%;
     font-family: 'Quicksand', sans-serif;
-    border-bottom: darkslategrey solid 3px;
 }
 
 #title_blogout {
@@ -218,6 +218,7 @@ body {
 
 #presentBlog {
     margin: 0 3em 0 2em;
+    font-size: 15px;
 }
 
 #elementColumn {
@@ -226,6 +227,41 @@ body {
     background-color: #34374c;
     color: white;
     padding-top: 3em;
+}
+
+#info_user {
+   background-color: cadetblue;
+    width: 100%;
+    height: 5em;
+    color: white;
+    display: flex;
+    flex-direction: row;
+}
+
+#info_user i {
+    font-size: 2.8em;
+    margin: 0.4em 0 0 6em;
+    color: #34374c;
+}
+
+#i_title {
+    margin-right: 0.5em;
+}
+
+#login_user {
+    letter-spacing: 2px;
+    font-weight: 450;
+    font-size: 18px;
+    margin: 1.5em 0 0 1em;
+}
+
+#button_user {
+    height: 2.7em;
+    margin: 1em 0.5em 0 0;
+}
+
+#link_user{
+    margin-left: 3em;
 }
 
 #card_title3 {
@@ -237,11 +273,11 @@ body {
 }
 
 #title3_h6 {
-    font-size: 13px;
+    font-size: 15px;
     font-family: Calibri, sans-serif;
     height: 1em;
     line-height: 1em;
-    margin-left: 0.8em;
+    margin-left: 2.4em;
 }
 
 #title3 {
@@ -287,7 +323,7 @@ footer {
 #adress {
     font-size: 15px;
     font-family: Calibri, sans-serif;
-    margin: 0.2em 0 0 0.5em;
+    margin: 0.2em 0 0 0.3em;
 }
 
 #menu_footer1{
