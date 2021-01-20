@@ -12,6 +12,11 @@ body {
     src: url("../fonts/POMCRG__.TTF");
 }
 
+@font-face {
+    font-family: slice;
+    src: url("../fonts/yummy.ttf");
+}
+
 /* CSS HEADER */
 
 #navBar {
@@ -169,6 +174,39 @@ body {
     border: solid black 1px;
     margin: 2em 0 0 0;
     border-radius: 0.2em;
+}
+
+#avatars {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    margin: 2em 2em 0 0;
+}
+
+#present_blog {
+    display: flex;
+    flex-direction: row;
+    margin-left: 3em;
+    font-size: 13px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+#title_blogout {
+    font-family: slice, sans-serif;
+    color: #34374c;
+    font-size: 4em;
+    margin-left: 0.5em;
+}
+
+#presentBlog {
+    margin: 0 3em 0 2em;
+}
+
+#elementColumn {
+    display: flex;
+    flex-direction: column;
+    background-color: #34374c;
+    color: white;
 }
 
 #card_title3 {
