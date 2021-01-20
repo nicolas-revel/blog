@@ -2,7 +2,6 @@
 require_once('../app/Autoload.php');
 $articlesTable = new blog\app\views\Article();
 $showComment = new blog\app\views\Comment();
-$pagination = new blog\app\views\view();
 
 if(isset($_GET['start']) && !empty($_GET['start'])){
     $currentPage = (int) strip_tags($_GET['start']);
@@ -17,9 +16,10 @@ if(isset($_GET['start']) && !empty($_GET['start'])){
 <br>
 <h2>Commentaires :</h2>
 <?php $pages = $showComment->showCommentWithArticle($currentPage); ?>
-<div class="pagination"><?= $pagination->showPagination($url = "?id=", $get = $_GET['id'], $start = "&start=", $currentPage, $pages); ?></div>
+<div class="pagination"><?= $articlesTable->showPagination($url = "?id=", $get = $_GET['id'], $start = "&start=", $currentPage, $pages); ?></div>
 <br>
 <br>
+
 <h1>FORMULAIRE COMMENTAIRE</h1>
 <form id="article" action="article.php?id=<?= $_GET['id']; ?>" method="POST">
     <div>
@@ -31,8 +31,7 @@ if(isset($_GET['start']) && !empty($_GET['start'])){
         <button id="buttonSub" type="submit" name="envoyer">Envoyer</button>
     </div>
     <?php if(isset($_POST['envoyer'])){
-        //$showComment->insertComments($_GET['id'], 1);
-        $showComment->updateComments(5, $_GET['id'], 2);
+        $showComment->insertComments($_GET['id'], 1);
     }
     ?>
 </form>
