@@ -50,10 +50,8 @@ class Comment extends \blog\app\models\Comment
 
     }
 
-    public function deleteComments () {
-        //Traitement des $_GET
-        //Appel de la méthode ->find(id_article) pour vérifier si l'article existe
-        //Appel de la méthode ->delete($id)
+    public function deleteComments ($id) {
+        $this->deleteCommentDb($id);
     }
 
     public function showComments($id_article, $premier, $parPage) {
@@ -74,5 +72,10 @@ class Comment extends \blog\app\models\Comment
         }
 
         return $nbComment;
+    }
+
+    public function creaTableComment()
+    {
+        return $this->getAllCommentDb();
     }
 }

@@ -4,6 +4,7 @@ require_once('../app/Autoload.php');
 $nameCat = new \blog\app\views\categorie;
 $user =new blog\app\controllers\User();
 $article = new \blog\app\controllers\Article();
+$comment = new \blog\app\controllers\Comment();
 if (empty($_GET['table'])) {
     $_GET['table'] = "users";
 }
@@ -16,6 +17,9 @@ if (isset($_GET['delUser'])) {
 }
 if (isset($_GET['delArti'])) {
     $article->deletArticle($_GET['delArti']);
+}
+if (isset($_GET['delCom'])) {
+    $comment->deleteComments($_GET['delCom']);
 }
 ?>
 <!DOCTYPE HTML>
