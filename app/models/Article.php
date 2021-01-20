@@ -7,8 +7,6 @@ namespace blog\app\models;
  * @package blog\app\models
  */
 
-require_once('../Autoload.php');
-
 class Article extends Model
 {
     protected $table = "articles";
@@ -151,11 +149,16 @@ class Article extends Model
     public function getArticlesAuthors()
     {
         $bdd = $this->getBdd();
-        $sql = "SELECT articles.id, article, id_utilisateur, id_categorie, date, utilisateurs.login, categories.nom FROM articles INNER JOIN utilisateurs ON utilisateurs.id = id_utilisateur INNER JOIN categories ON categories.id = id_categorie";
+        $sql = "SELECT articles.id, article, id_utilisateur, id_categorie, date, utilisateurs.login, categories.nom FROM articles INNER JOIN utilisateurs ON utilisateurs.id = id_utilisateur INNER JOIN categories ON categories.id = id_categorie ORDER BY id ASC";
         $req = $bdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
+    }
+
+    public function deletArticleDB($id)
+    {
+        $this->deleteBd($id);
     }
 
     /**

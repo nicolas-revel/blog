@@ -124,12 +124,8 @@ class Article extends \blog\app\models\Article
      * Méthode qui permet de supprimer un article par rapport bouton/lien
      * @return void
      */
-    public function deletArticle (): void {
-        //Traitement des $_GET
-        // Appel de la fonction ->findCategorie () pour afficher le nom de la catégorie
-        //Appel de la fonction ->findArticle($id_utilisateur) 'blog\app\models' pour récupérer l'id de l'article
-        //Appel de la fonction ->delete($id) 'blog\app\models'
-        //Redirection
+    public function deletArticle ($id): void {
+        $this->deletArticleDB($id);
     }
 
     /**
@@ -152,8 +148,9 @@ class Article extends \blog\app\models\Article
     }
 
 
-
-
-
+    public function createTabArticles()
+    {
+        return $this->getArticlesAuthors();
+    }
 
 }

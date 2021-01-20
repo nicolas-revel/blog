@@ -67,5 +67,11 @@ class Comment extends model
 
     }
 
+    public function getAllCommentDb()
+    {
+        $sql = $this->getBdd();
+        $req = "SELECT ";
+
+    }
 
 }

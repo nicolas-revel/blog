@@ -69,4 +69,10 @@ class Comment extends \blog\app\controllers\Comment
         <?php
         }
     }
+
+
+
+    public function tableComment()
+    {
+    }
 }

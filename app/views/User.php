@@ -45,7 +45,8 @@ class User extends \blog\app\controllers\User
         </form>
     </td>
     <td>
-        <a href='{$_SERVER['PHP_SELF']}?del={$user->getId()}'>Supprimer l'utilisateur</a>
+        <a href='{$_SERVER['PHP_SELF']}?delUser={$user->getId()}'>Supprimer 
+        l'utilisateur</a>
     </td>
 </tr>
 HTML;

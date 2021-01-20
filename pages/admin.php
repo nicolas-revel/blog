@@ -3,6 +3,7 @@
 require_once('../app/Autoload.php');
 $nameCat = new \blog\app\views\categorie;
 $user =new blog\app\controllers\User();
+$article = new \blog\app\controllers\Article();
 if (empty($_GET['table'])) {
     $_GET['table'] = "users";
 }
@@ -10,8 +11,11 @@ if (empty($_GET['table'])) {
 if (isset($_POST['submit'])) {
     $user->updateUserDroit($_POST['droituser'], $_POST['userid']);
 }
-if (isset($_GET['del'])) {
-    $user->deleteUser($_GET['del']);
+if (isset($_GET['delUser'])) {
+    $user->deleteUser($_GET['delUser']);
+}
+if (isset($_GET['delArti'])) {
+    $article->deletArticle($_GET['delArti']);
 }
 ?>
 <!DOCTYPE HTML>
@@ -35,6 +39,8 @@ if (isset($_GET['del'])) {
         <option value=""></option>
         <option value="users">Utilisateurs</option>
         <option value="art">Articles</option>
+        <option value="com">Commentaires</option>
+        <option value="cat">Catégories</option>
     </select>
     <input type="submit" value="Filtrer" name="filter" id="filter">
 </form>

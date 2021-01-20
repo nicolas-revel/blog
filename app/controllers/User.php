@@ -267,15 +267,16 @@ class User extends \blog\app\models\User
             $tabvue->tableUser();
         }
         if ($criteria === "art") {
-            \blog\app\views\Article::tableArticle();
-            /*
-             * - [MODEL]Récupère tous les articles en base de données avec les
-             * login des auteurs de l'article en les classant par ordre d'id.
-             * - [CONTROLLER] Pour chaque article, créé un objet
-             * comprennant les cases de de chaque donnée de l'article.
-             * - [VUE] Affiche dans une boucle une ligne d'un tableau HTML par
-             * article.
-             */
+            $articles = new \blog\app\views\Article();
+            $articles->tableArticle();
+        }
+        if ($criteria === "com") {
+            $commentaires = new \blog\app\views\Comment();
+            $commentaires->tableComment();
+        }
+        if ($criteria === "cat") {
+            $cat = new \blog\app\views\categorie();
+            $cat->tableCategorie();
         }
     }
 

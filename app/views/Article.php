@@ -3,8 +3,6 @@
 
 namespace blog\app\views;
 
-require('../app/controllers/Article.php');
-
 
 class Article extends \blog\app\controllers\Article
 {
@@ -198,6 +196,48 @@ class Article extends \blog\app\controllers\Article
 
 
     }
+
+    public function listArticleAdmin()
+    {
+        $articles = $this->createTabArticles();
+        $tbody = "";
+        foreach ($articles as $article) {
+            $tbody = $tbody . <<<HTML
+<tr>
+    <td>{$article['id']}</td>
+    <td>{$article['article']}</td>
+    <td>{$article['nom']}</td>
+    <td>{$article['login']}</td>
+    <td>{$article['date']}</td>
+    <td><a href="{$_SERVER['PHP_SELF']}?delArti={$article['id']}">Supprimer 
+    l'article</a></td>
+</tr>
+HTML;
+        }
+        return $tbody;
+    }
+
+    public function tableArticle()
+    {
+        $tbody = $this->listArticleAdmin();
+        $vue = <<<HTML
+<h2>Liste des articles</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Article</th>
+            <th>Catégorie</th>
+            <th>Auteur</th>
+            <th>Date</th>
+            <th>Supprimer l'article</th>
+        </tr>
+    </thead>
+    <tbody>
+        {$tbody}
+    </tbody>
+</table>
+HTML;
+        echo $vue;
+    }
 }
-
-
