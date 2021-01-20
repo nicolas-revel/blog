@@ -108,7 +108,7 @@ class Article extends \blog\app\controllers\Article
                         $valuesId = $values['id'];
                         $title = $values['titre'];
 
-                        $this->cardArticle ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
+                        $this->cardArticleByFive($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
 
                     }
                 }
@@ -118,15 +118,19 @@ class Article extends \blog\app\controllers\Article
 
     public function cardArticle ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
         ?>
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title"><?= $title; ?></h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></h6>
-                    <p class="card-text"><?= $valuesArticle; ?></p>
-                    <a href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
-                    <a href="article.php?id=<?= $valuesId ?>" class="card-link">VOIR L'ARTICLE</a>
-                </div>
+        <div id="card_accueil3">
+            <div id="title3">
+                <h5 id="card_title3"><?= $title; ?></h5>
+                <h6 id="title3_h6">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></h6>
             </div>
+            <div id="card_articleText">
+                <p><?= $valuesArticle; ?></p>
+            </div>
+            <div id="card_button3">
+                <a class= "buttonCard" href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
+                <a class= "buttonCard" href="article.php?id=<?= $valuesId ?>" class="card-link">VOIR L'ARTICLE</a>
+            </div>
+        </div>
         <?php
     }
 

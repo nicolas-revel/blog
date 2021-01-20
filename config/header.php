@@ -3,37 +3,37 @@ require_once('../app/Autoload.php');
 $nameCat = new \blog\app\views\categorie;
 ?>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav id="navBar" class="navbar navbar-expand-lg navbar-white bg-white">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">BLOG</a>
+                <a class="navbar-brand" href="#"><img id="bloglogo" src="../images/logoblog.PNG" alt="logo du blogout"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="../index.php">Home</a>
+                            <a class="nav-link active" aria-current="page" href="../index.php"><span class="line">|</span> Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../pages/inscription.php">Inscription</a>
+                            <a class="nav-link" href="../pages/inscription.php"><span class="line">|</span> Inscription</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../pages/connexion.php">Connexion</a>
+                            <a class="nav-link" href="../pages/connexion.php"><span class="line">|</span> Connexion</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../pages/profil.php">Mon compte</a>
+                            <a class="nav-link" href="../pages/profil.php"><span class="line">|</span> Profil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../pages/creer_article.php">Ecrire un article</a>
+                            <a class="nav-link" href="../pages/creer_article.php"><span class="line">|</span> Article</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../pages/admin.php">Admin</a>
+                            <a class="nav-link" href="../pages/admin.php"><span class="line">|</span> Admin</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Categories
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <ul class="dropdown-menu dropdown-menu-white dropdown-menu-white" aria-labelledby="navbarDropdown">
                                 <?= $nameCat->showNameCategorie(); ?>
                             </ul>
                         </li>

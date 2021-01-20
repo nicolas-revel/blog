@@ -30,8 +30,10 @@ if(isset($_GET['start']) && !empty($_GET['start'])){
     <?php endif; ?>
 
     <div>
-        <h3>Filtrer par categorie:</h3>
-        <?= $nameCat->showFiltre(); ?>
+        <div id="filter">
+            <h3 id="title_filter">CATEGORIES <span id="fleche">&#9660</span></h3>
+            <?= $nameCat->showFiltre(); ?>
+        </div>
     </div>
 </main>
 
