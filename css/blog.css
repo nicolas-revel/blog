@@ -13,14 +13,22 @@ body {
 }
 
 @font-face {
-    font-family: slice;
+    font-family: yummy;
     src: url("../fonts/yummy.ttf");
+}
+
+@font-face {
+    font-family: slice;
+    src: url("../fonts/slice.ttf");
 }
 
 /* CSS HEADER */
 
 #navBar {
     border-bottom: darkslategrey solid 3px;
+    position: fixed;
+    width: 90%;
+    margin: auto;
 }
 
 .nav-link,
@@ -113,7 +121,7 @@ body {
 
 #card_articleText{
     padding: 0.8em;
-    background-color: #f6ecec;
+    background-color: #eac09a;
 }
 
 #card_button {
@@ -123,7 +131,7 @@ body {
 }
 
 .buttonCard {
-    background-image: linear-gradient(to right, #41445d 0%, #6563b1 51%, #c0a7ee 100%);
+    background-image: linear-gradient(to right, #41445d 0%, #6563b1 51%, #493e5f 100%);
     margin: 7px;
     padding: 5px 10px;
     text-align: center;
@@ -166,12 +174,14 @@ body {
 
 #homeArticles{
     min-height: 100vh;
+    padding-top: 7em;
+    margin-bottom: 4em;
 }
 
 #card_accueil3 {
     width: 25%;
     min-height: 20vh;
-    border: solid black 1px;
+    border: solid darkslategrey 1px;
     margin: 2em 0 0 0;
     border-radius: 0.2em;
 }
@@ -186,16 +196,24 @@ body {
 #present_blog {
     display: flex;
     flex-direction: row;
-    margin-left: 3em;
     font-size: 13px;
+    width: 100%;
     font-family: 'Quicksand', sans-serif;
+    border-bottom: darkslategrey solid 3px;
 }
 
 #title_blogout {
-    font-family: slice, sans-serif;
+    font-family: yummy, sans-serif;
     color: #34374c;
     font-size: 4em;
     margin-left: 0.5em;
+}
+
+.bw {
+    background-color: white;
+    padding: 5px;
+    margin-right: 2px;
+
 }
 
 #presentBlog {
@@ -207,14 +225,15 @@ body {
     flex-direction: column;
     background-color: #34374c;
     color: white;
+    padding-top: 3em;
 }
 
 #card_title3 {
-    color: black;
     font-family: xolo, serif;
-    font-size: 1.2em;
+    font-size: 1em;
     text-transform: uppercase;
     margin: 0.5em 0 0 0.5em;
+    color: #34374c;
 }
 
 #title3_h6 {
@@ -226,13 +245,80 @@ body {
 }
 
 #title3 {
-    border-bottom: solid black 1px;
+    border-bottom: solid darkslategrey 1px;
     padding: 0.5em;
 }
 
 #card_button3 {
-    border-top: solid black 1px;
+    border-top: solid darkslategrey 1px;
     margin: 0 0 1em 0;
     padding: 1em 0 0 0.8em;
+}
+
+#title_lastArticle {
+    font-family: slice, sans-serif;
+    font-size: 2em;
+    margin: 1em 0 0 2em;
+    color: #34374c;
+}
+
+#text_lastArticle {
+    margin-left: 4em;
+    font-size: 17px;
+    font-family: Calibri, sans-serif;
+}
+
+/* CSS FOOTER */
+
+footer {
+    background-color: #4d5066;
+    height: 9em;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#logoblogfooter {
+    width: 50%;
+    margin-top: 1.5em;
+}
+
+#adress {
+    font-size: 15px;
+    font-family: Calibri, sans-serif;
+    margin: 0.2em 0 0 0.5em;
+}
+
+#menu_footer1{
+    list-style-type: none;
+    color: white;
+    text-align: end;
+    margin: 2em 0.7em 0 0;
+}
+
+#menu_footer{
+    list-style-type: none;
+    color: white;
+    margin: 2em 0.7em 0 -15em;
+}
+
+.nav-link2 {
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 350;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: end;
+}
+
+.nav-link2:hover{
+    color: white;
+    font-size: 16px;
+}
+
+#link_footer{
+    margin-left: -10em;
 }
 
