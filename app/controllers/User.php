@@ -184,7 +184,8 @@ class User extends \blog\app\models\User
         $login = htmlspecialchars(trim($login));
         $password = htmlspecialchars(trim($password));
         $userDb = $this->getUserDb($login);
-        if (password_verify($password, $userDb->getPassword())) {
+        if (!empty($userDb) && password_verify($password, $userDb->getPassword()
+        )) {
             $this->setId($userDb->getId());
             $this->setLogin($userDb->getLogin());
             $this->setPassword($userDb->getPassword());
