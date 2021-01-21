@@ -6,7 +6,6 @@ $show = new blog\app\views\Article();
 $art = new \blog\app\controllers\Article();
 if (isset($_GET['modifart'])) {
     $modifart = $art->findBd($_GET['modifart']);
-    var_dump($modifart);
 }
 ?>
 <?php $pageTitle = 'THE FACTORY'; ?>

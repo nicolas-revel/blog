@@ -13,6 +13,16 @@ if (empty($_GET['table'])) {
 if (isset($_POST['submit'])) {
     $user->updateUserDroit($_POST['droituser'], $_POST['userid']);
 }
+if (isset($_POST['sendcat'])) {
+    $category->insertCat();
+}
+if (isset($_GET['modifcat'])) {
+    $cat = $category->getCategory($_GET['modifcat']);
+    var_dump($cat);
+}
+if (isset($_POST['majcat'])) {
+    $category->updateCategorie($cat['id']);
+}
 if (isset($_GET['delUser'])) {
     $user->deleteUser($_GET['delUser']);
 }
@@ -40,8 +50,23 @@ if (isset($_GET['delCat'])) {
     <title>Document</title>
 </head>
 <body>
-<?php require_once('../config/header.php')?>
+<?php require_once('../config/header.php') ?>
 <h1>Page d'administration</h1>
+<form action="admin.php<?php if (isset($cat)) : echo "?modifcat={$cat['id']}";
+endif;
+?>"
+      method="post">
+    <div>
+        <label for="newcat">Ajouter une catégorie :</label>
+        <input type="text" name="newcat" id="newcat" value="<?php if (isset
+        ($_GET['modifcat'])) : echo "{$cat['nom']}"; endif; ?>">
+    </div>
+    <?php if (isset($cat)) : ?>
+        <button type="submit" name="majcat" id="majcat">Mettre à jour</button>
+    <?php else: ?>
+        <button type="submit" name="sendcat" id="sendcat">Ajouter</button>
+    <?php endif; ?>
+</form>
 <form action="admin.php" method="get">
     <select id="table" name="table">
         <option value=""></option>
