@@ -561,6 +561,13 @@ footer {
     width: 100%;
 }
 
+/* CSS PAGE PROFIL */
+
+#codeRetro {
+    width: 100%;
+    min-height: 100vh;
+}
+
 
 
 
