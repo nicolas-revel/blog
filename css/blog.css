@@ -568,6 +568,24 @@ footer {
     min-height: 100vh;
 }
 
+/* CSS PAGE CREER ARTICLE */
+
+#buttonCreer {
+    margin-top: 2em;
+}
+
+#formIns select {
+    padding: 0.5em;
+    font-size: 15px;
+}
+
+#redac{
+    width: 90%;
+}
+
+#illusRedac {
+    margin-top: 7em;
+}
 
 
 
