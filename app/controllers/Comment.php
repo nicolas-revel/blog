@@ -48,7 +48,7 @@ class Comment extends \blog\app\models\Comment
 
         $this->updateArticleBd($id, $commentaire, $article_id, $id_utilisateur);
 
-        \Http::redirect("article.php?id=$article_id");
+        //\Http::redirect("article.php?id=$article_id");
 
     }
 
@@ -82,5 +82,10 @@ class Comment extends \blog\app\models\Comment
     public function creaTableComment()
     {
         return $this->getAllCommentDb();
+    }
+
+    public function getComment($id)
+    {
+        $this->getCommentBd($id);
     }
 }
