@@ -6,12 +6,12 @@ namespace blog\app\controllers;
 
 class Article extends \blog\app\models\Article
 {
+
     /**
      * Méthode qui traite le formulaire de création d'article puis insère dans la BDD
-     * @param int $id_utilisateur
+     * @param $id_utilisateur
      */
-    public function insertArticle($id_utilisateur) {
-
+    public function insertArticle($id_utilisateur): void {
 
         if(!empty ($_POST['categorie']) && ($_POST['article'])) {
 
@@ -36,20 +36,9 @@ class Article extends \blog\app\models\Article
 
     }
 
-    /**
-     * Permet d'afficher un article en particulier par rapport à l'id de l'article
-     * @param $id_article
-     * @return array
-     */
-    public function showArticleAlone ($id_article){
-
-        $article = $this->findBd($id_article);
-
-        return $article;
-    }
 
     /**
-     * Méthode qui permet de récupérer les titre et ses id des categories
+     * Méthode qui permet de récupérer les noms et ids des categories
      * @return array
      */
     public function tabCategorie(): array {
@@ -65,7 +54,7 @@ class Article extends \blog\app\models\Article
     }
 
     /**
-     * Méthode qui traite de formulaire de modification d'article puis remplace les nouvelles informations dans la BDD
+     * Méthode qui traite le formulaire de modification d'article puis remplace les nouvelles informations dans la BDD
      * @param int $id
      * @param int $id_utilisateur
      * @return void
@@ -94,19 +83,11 @@ class Article extends \blog\app\models\Article
         }
     }
 
-    public function ArticleByCategorie($premier, $parPage) {
-
-        if(!empty($_GET['categorie'])){
-
-            $id_categorie = $_GET['categorie'];
-
-            $articles = $this->selectArticleWithCategorie($premier, $parPage, $id_categorie);
-        }
-
-            return $articles;
-
-    }
-
+    /**
+     * Méthode qui permet de compter le nombre d'article par rapport à sa categorie
+     * @param $withCategorie
+     * @return int
+     */
     public function nbrArticleId ($withCategorie) {
 
         if(!empty($_GET['categorie'])){
@@ -129,16 +110,9 @@ class Article extends \blog\app\models\Article
     }
 
     /**
-     * Méthode qui permet d'afficher les 3 premiers articles sur la page d'accueil
+     * Méthode qui permet de compter tous les articles présents dans la base de donnée
+     * @return int
      */
-    public function ShowArticleDesc($premier, $parPage) {
-
-        $getArticle = $this->selectPages($premier, $parPage);
-
-        return $getArticle;
-
-    }
-
     public function nbrArticle() {
 
         $result = $this->countArticle(null, null);

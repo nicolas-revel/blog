@@ -1,73 +1,53 @@
 <?php
-
 require_once('../app/Autoload.php');
-
-$user = new \blog\app\controllers\User();
-$nameCat = new \blog\app\views\categorie();
-
-if (isset($_POST['envoyer'])) {
-    $checklogin = \blog\app\controllers\User::checkLoginValidity($_POST['login']);
-    $confirmedpass = \blog\app\controllers\User::checkPassword($_POST['password'], $_POST['c_password']);
-    /* blog\app\controllers\User::checkPasswordFormat
-    ($_POST['password']);
-    $checkmailformat = \blog\app\controllers\User::checkMailFormat
-    ($_POST['email']);*/
-    if ($checklogin === true && $confirmedpass === true) {
-        $user->insertUser($_POST['login'], $_POST['password'], $_POST['mail']);
-    }
-}
+$user = new blog\app\models\User();
 ?>
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
-          crossorigin="anonymous">
-    <title>Document</title>
-</head>
-<body>
-<?php require_once('../config/header.php'); ?>
-<h1>FORMULAIRE D'INSCRIPTION</h1>
-<form id="inscription" action="inscription.php" method="POST">
-    <br>
-    <div>
-        <label for="login" class="form-label">Login *</label>
-        <input type="text" class="form-control" name="login" required
-               placeholder="Nom d'utilisateur">
-    </div>
-    <br>
-    <div>
-        <label for="mail">E-mail *</label>
-        <input type="mail" name="mail" required placeholder="E-mail">
-    </div>
-    <br>
-    <div>
-        <label for="password">password *</label>
-        <input type="password" name="password" required
-               placeholder="Mot de passe">
-    </div>
-    <br>
-    <div>
-        <label for="c_password">Confirm password *</label>
-        <input type="password" name="c_password" required
-               placeholder="Mot de passe">
-    </div>
-    <br>
-    <div class="col-12">
-        <button id="buttonSub" type="submit" name="envoyer">Envoyer</button>
-    </div>
-</form>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
-        integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"
-        integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
-        crossorigin="anonymous"></script>
 
-</body>
-</html>
+<?php $pageTitle = 'INSCRIPTION'; ?>
+<?php ob_start(); ?>
+<?php require_once('../config/header.php'); ?>
+
+<main>
+
+    <section id="pageInscription"><!-- row -->
+        <div id="illusPCguy">
+            <img id="pcguy" src="../images/pcguy.png" alt="illustration pc guy">
+        </div>
+
+    <div id="formIns">
+        <h3 id="title_ins"><span class="bw">I</span><span class="bw">n</span><span class="bw">s</span><span class="bw">c</span><span class="bw">r</span><span class="bw">i</span><span class="bw">p</span><span class="bw">t</span><span class="bw">i</span><span class="bw">o</span><span class="bw">n</span></h3>
+        <p id="slogan1">Saute le pas et rejoins-nous!</p>
+        <br>
+    <form id="blogForm" action="inscription.php" method="POST">
+        <div>
+            <label for="login">Login *</label><br>
+            <input type="text" name="login" required placeholder="Nom d'utilisateur">
+        </div>
+        <br>
+        <div>
+            <label for="mail">E-mail *</label><br>
+            <input type="mail" name="mail" required placeholder="E-mail">
+        </div>
+        <br>
+        <div>
+            <label for="password">password *</label><br>
+            <input type="password" name="password" required placeholder="Mot de passe">
+        </div>
+        <br>
+        <div>
+            <label for="confirm_password">Confirm password *</label><br>
+            <input type="password" name="confirm_password" required placeholder="Mot de passe">
+        </div>
+        <br>
+        <div>
+            <button type="button" class="btn btn-outline-light" name="envoyer">Envoyer</button>
+        </div>
+    </form>
+    </div>
+    </section>
+</main>
+
+<?php require_once('../config/footer.php'); ?>
+<?php $pageContent = ob_get_clean(); ?>
+
+<?php require_once('template.php'); ?>

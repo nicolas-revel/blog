@@ -6,13 +6,14 @@ namespace blog\app\views;
 
 class Article extends \blog\app\controllers\Article
 {
-
+    /**
+     * Méthode qui permet d'afficher sur la page accueil les 3 derniers articles
+     */
     public function showArticleAccueil()
     {
 
         $nameCat = $this->tabCategorie();
-
-        $articles = $this->ShowArticleDesc(0, 3);
+        $articles = $this->selectPages(0, 3);
 
         foreach ($articles as $keyA => $values) {
 
@@ -39,6 +40,10 @@ class Article extends \blog\app\controllers\Article
 
     }
 
+    /**
+     * Méthode qui permet d'afficher sur la pages Articles, tout articles confondus 5 par 5 grâce a une pagination
+     * @param $currentPage
+     */
     public function showArticleArticles($currentPage)
     {
 
@@ -50,7 +55,7 @@ class Article extends \blog\app\controllers\Article
         // Calcul du 1er article de la page
         $premier = ($currentPage * $parPage) - $parPage;
         $nameCat = $this->tabCategorie();
-        $articles = $this->ShowArticleDesc($premier, $parPage);
+        $articles = $this->selectPages($premier, $parPage);
 
         foreach ($articles as $keyA => $values) {
 
@@ -77,8 +82,13 @@ class Article extends \blog\app\controllers\Article
         $this->showPagination(null, null, $start = "?start=", $currentPage, $pages);
     }
 
-
+    /**
+     * Méthode qui permet d'afficher tout les articles d'une categorie, 5 par 5 avec une pagination
+     * @param $currentPage
+     */
         public function showArticleByCategorie($currentPage) {
+
+            if(isset($_GET['categorie']) && !empty($_GET['categorie'])){
 
             $nbArticles = $this->nbrArticleId(" WHERE id_categorie = :id_categorie ");
             $parPage = 4;
@@ -89,7 +99,7 @@ class Article extends \blog\app\controllers\Article
             // Calcul du 1er article de la page
             $premier = ($currentPage * $parPage) - $parPage;
             $nameCat = $this->tabCategorie();
-            $articles = $this->ArticleByCategorie($premier, $parPage);
+            $articles = $this->selectArticleWithCategorie($premier, $parPage, $_GET['categorie']);
 
             foreach($articles as $keyA => $values){
 
@@ -112,13 +122,21 @@ class Article extends \blog\app\controllers\Article
                     }
                 }
             }
-            if(isset($_GET['categorie']) && !empty($_GET['categorie'])){
                 $this->showPagination($url = "?categorie=", $get = $_GET['categorie'], $start = "&start=", $currentPage, $pages);
             }
 
         }
 
-
+    /**
+     * Card affichage des articles sur la page Accueil
+     * @param $title
+     * @param $dateFr
+     * @param $HourForm
+     * @param $valuesArticle
+     * @param $value
+     * @param $key
+     * @param $valuesId
+     */
         public function cardArticle ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
         ?>
         <div id="card_accueil3">
@@ -137,6 +155,16 @@ class Article extends \blog\app\controllers\Article
         <?php
     }
 
+    /**
+     * Card affichage articles sur la page articles
+     * @param $title
+     * @param $dateFr
+     * @param $HourForm
+     * @param $valuesArticle
+     * @param $value
+     * @param $key
+     * @param $valuesId
+     */
     public function cardArticleByFive($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId)
     {
         ?>
@@ -156,6 +184,35 @@ class Article extends \blog\app\controllers\Article
         <?php
     }
 
+    public function cardOneArticle($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
+
+        ?>
+        <div id="card_accueil">
+            <div id="card_title">
+                <h5><i id="i_title" class="fas fa-project-diagram"></i><?= $title; ?></h5>
+                <span id="title_h6">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></span>
+            </div>
+            <div id="card_articleText">
+                <p><?= $valuesArticle; ?></p>
+            </div>
+            <div id="card_button">
+                <a class="buttonCard" href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
+            </div>
+        </div>
+        <?php
+
+    }
+
+    /**
+     * Card affichage article sur la page article + les commentaitres
+     * @param $title
+     * @param $dateFr
+     * @param $HourForm
+     * @param $valuesArticle
+     * @param $value
+     * @param $key
+     * @param $valuesId
+     */
     public function cardOneArticle($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
 
         ?>
@@ -209,12 +266,15 @@ class Article extends \blog\app\controllers\Article
     }
 
 
+    /**
+     * Méthode pour afficher un article en particulier
+     */
     public function showOneArticle()
     {
 
         if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
             $id_article = $_GET['id'];
-            $article = $this->showArticleAlone($id_article);
+            $article = $this->findbd($id_article);
 
             $nameCat = $this->tabCategorie();
 
@@ -237,7 +297,6 @@ class Article extends \blog\app\controllers\Article
                 }
             }
         }
-
 
     }
 
