@@ -1,5 +1,6 @@
-
 <?php
+
+    namespace blog\app;
 
         spl_autoload_register(function($className)
         {

@@ -1,34 +1,39 @@
 <?php
+require_once('../app/Autoload.php');
 session_start();
+$nameCat = new blog\app\views\Categorie();
+$show = new blog\app\views\Article();
 ?>
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+<?php $pageTitle = 'THE FACTORY'; ?>
+<?php ob_start(); ?>
+<?php require_once('../config/header.php'); ?>
+
 <h1>FORMULAIRE ARTICLE</h1>
-<form id="creer_article" action="creer_article.php" method="POST">
+<form id="insertArticle" action="accueil.php" method="POST">
     <br>
     <div>
         <label for="article" class="form-label">Article :</label>
-        <input type="textarea" class="form-control" name="article" required>
+        <input type="text" class="form-control" name="article" required>
     </div>
     <br>
     <div>
-        <label for="categorie">Categorie :</label>
-        <select for="categorie" name="categorie">
-            <option>Boucle PHP</option>
+        <label for="categorie">Categories :</label>
+        <select  name="categorie" required>
+            <?= $nameCat->showNameCategorieForm(); ?>
         </select>
     </div>
     <br>
-    <div>
+    <div class="col-12">
         <button id="buttonSub" type="submit" name="envoyer">Envoyer</button>
     </div>
+    <?php
+    if(isset($_POST['envoyer'])) {
+        $post = new blog\app\controllers\Article();
+        $post->insertArticle(2);
+    }
+    ?>
 </form>
-</body>
-</html>
+
+<?php $pageContent = ob_get_clean(); ?>
+
+<?php require_once('template.php'); ?>
