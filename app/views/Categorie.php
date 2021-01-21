@@ -31,7 +31,7 @@ class categorie {
         $table = $controlCat-> showAllNavBar();
 
         foreach($table as $key => $value) {
-            echo "<a href='articles.php?categorie=$key'>$value</a><br>";
+            echo "<a id='filtre_categorie' href='articles.php?categorie=$key'>$value</a><br>";
         }
     }
 

@@ -29,11 +29,27 @@ class Comment extends \blog\app\controllers\Comment
 
             foreach($comment as $key => $value){
 
-                echo '<br>' . 'Commentaire :' . $value['commentaire'] . '<br>' . 'écrit le :' . $value['date'] . '<br>';
+                $date = explode(' ', $value['date'])[0];
+                $dateFr = strftime('%d-%m-%Y',strtotime($date));
 
+                $Hour = explode(' ', $value['date'])[1];
+                $HourForm = date('H:i', strtotime($Hour));
+
+                ?>
+                <div id="card_accueil">
+                    <div id="card_titleComment">
+                        <h6 id="title_h6Comment">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></h6>
+                    </div>
+                    <div id="card_articleText">
+                        <p><?= $value['commentaire']; ?></p>
+                    </div>
+                </div>
+                <?php
             }
         }
-        return $pages;
+
+        $pagination = new \blog\app\views\Article();
+        $pagination->showPagination($url = "?id=", $get = $_GET['id'], $start = "&start=", $currentPage, $pages);
     }
 
 }
