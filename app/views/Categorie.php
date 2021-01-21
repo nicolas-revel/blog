@@ -30,8 +30,8 @@ class categorie extends \blog\app\controllers\categorie
         $controlCat = new \blog\app\controllers\categorie();
         $table = $controlCat->showAllNavBar();
 
-        foreach ($table as $key => $value) {
-            echo "<a href='articles.php?categorie=$key'>$value</a><br>";
+        foreach($table as $key => $value) {
+            echo "<a id='filtre_categorie' href='articles.php?categorie=$key'>$value</a><br>";
         }
     }
 

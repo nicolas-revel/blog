@@ -7,23 +7,24 @@ namespace blog\app\views;
 class Article extends \blog\app\controllers\Article
 {
 
-    public function showArticleAccueil() {
+    public function showArticleAccueil()
+    {
 
         $nameCat = $this->tabCategorie();
 
         $articles = $this->ShowArticleDesc(0, 3);
 
-            foreach($articles as $keyA => $values){
+        foreach ($articles as $keyA => $values) {
 
-                $date = explode(' ', $values['date'])[0];
-                $dateFr = strftime('%d-%m-%Y',strtotime($date));
+            $date = explode(' ', $values['date'])[0];
+            $dateFr = strftime('%d-%m-%Y', strtotime($date));
 
-                $Hour = explode(' ', $values['date'])[1];
-                $HourForm = date('H:i', strtotime($Hour));
+            $Hour = explode(' ', $values['date'])[1];
+            $HourForm = date('H:i', strtotime($Hour));
 
-                foreach($nameCat as $key => $value) {
+            foreach ($nameCat as $key => $value) {
 
-                if($values['id_categorie'] == $value){
+                if ($values['id_categorie'] == $value) {
 
                     $valuesArticle = $values['article'];
                     $valuesId = $values['id'];
@@ -38,7 +39,8 @@ class Article extends \blog\app\controllers\Article
 
     }
 
-    public function showArticleArticles($currentPage) {
+    public function showArticleArticles($currentPage)
+    {
 
         $nbArticles = $this->nbrArticle();
         $parPage = 5;
@@ -50,6 +52,45 @@ class Article extends \blog\app\controllers\Article
         $nameCat = $this->tabCategorie();
         $articles = $this->ShowArticleDesc($premier, $parPage);
 
+        foreach ($articles as $keyA => $values) {
+
+            $date = explode(' ', $values['date'])[0];
+            $dateFr = strftime('%d-%m-%Y', strtotime($date));
+
+            $Hour = explode(' ', $values['date'])[1];
+            $HourForm = date('H:i', strtotime($Hour));
+
+            foreach ($nameCat as $key => $value) {
+
+                if ($values['id_categorie'] == $value) {
+
+                    $valuesArticle = $values['article'];
+                    $valuesId = $values['id'];
+                    $title = $values['titre'];
+
+                    $this->cardArticleByFive($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
+
+                }
+            }
+
+        }
+        $this->showPagination(null, null, $start = "?start=", $currentPage, $pages);
+    }
+
+
+        public function showArticleByCategorie($currentPage) {
+
+            $nbArticles = $this->nbrArticleId(" WHERE id_categorie = :id_categorie ");
+            $parPage = 4;
+
+            // On calcule le nombre de pages total
+            $pages = ceil($nbArticles / $parPage);
+
+            // Calcul du 1er article de la page
+            $premier = ($currentPage * $parPage) - $parPage;
+            $nameCat = $this->tabCategorie();
+            $articles = $this->ArticleByCategorie($premier, $parPage);
+
             foreach($articles as $keyA => $values){
 
                 $date = explode(' ', $values['date'])[0];
@@ -66,54 +107,19 @@ class Article extends \blog\app\controllers\Article
                         $valuesId = $values['id'];
                         $title = $values['titre'];
 
-                        $this->cardArticleByFive($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
-
-                    }
-                }
-
-            }
-        return $pages;
-    }
-
-
-    public function showArticleByCategorie($currentPage) {
-
-        $nbArticles = $this->nbrArticleId(" WHERE id_categorie = :id_categorie ");
-        $parPage = 4;
-
-        // On calcule le nombre de pages total
-        $pages = ceil($nbArticles / $parPage);
-
-        // Calcul du 1er article de la page
-        $premier = ($currentPage * $parPage) - $parPage;
-        $nameCat = $this->tabCategorie();
-        $articles = $this->ArticleByCategorie($premier, $parPage);
-
-            foreach($articles as $keyA => $values){
-
-                $date = explode(' ', $values['date'])[0];
-                $dateFr = strftime('%d-%m-%Y',strtotime($date));
-
-                $Hour = explode(' ', $values['date'])[1];
-                $HourForm = date('H:i', strtotime($Hour));
-
-                foreach($nameCat as $key => $value) {
-
-                    if($values['id_categorie'] == $value){
-
-                        $valuesArticle = $values['article'];
-                        $valuesId = $values['id'];
-                        $title = $values['titre'];
-
-                        $this->cardArticleByFive($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
+                            $this->cardArticleByFive($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
 
                     }
                 }
             }
-            return $pages;
-    }
+            if(isset($_GET['categorie']) && !empty($_GET['categorie'])){
+                $this->showPagination($url = "?categorie=", $get = $_GET['categorie'], $start = "&start=", $currentPage, $pages);
+            }
 
-    public function cardArticle ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
+        }
+
+
+        public function cardArticle ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
         ?>
         <div id="card_accueil3">
             <div id="title3">
@@ -124,29 +130,49 @@ class Article extends \blog\app\controllers\Article
                 <p><?= $valuesArticle; ?></p>
             </div>
             <div id="card_button3">
-                <a class= "buttonCard" href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
-                <a class= "buttonCard" href="article.php?id=<?= $valuesId ?>" class="card-link">VOIR L'ARTICLE</a>
+                <a class="buttonCard" href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
+                <a class="buttonCard" href="article.php?id=<?= $valuesId ?>" class="card-link">VOIR L'ARTICLE</a>
             </div>
         </div>
         <?php
     }
 
-    public function cardArticleByFive ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
+    public function cardArticleByFive($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId)
+    {
         ?>
-            <div id="card_accueil">
-                <div id="card_title">
-                <h5><?= $title; ?></h5>
-                    <span id="title_h6">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></span>
-                </div>
-                <div id="card_articleText">
-                    <p><?= $valuesArticle; ?></p>
-                </div>
-                <div id="card_button">
-                    <a class= "buttonCard" href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
-                    <a class= "buttonCard" href="article.php?id=<?= $valuesId ?>" class="card-link">VOIR L'ARTICLE</a>
-                </div>
+        <div id="card_accueil">
+            <div id="card_title">
+                <h5><i id="i_title" class="fas fa-project-diagram"></i><?= $title; ?></h5>
+                <span id="title_h6">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></span>
             </div>
+            <div id="card_articleText">
+                <p><?= $valuesArticle; ?></p>
+            </div>
+            <div id="card_button">
+                <a class="buttonCard" href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
+                <a class="buttonCard" href="article.php?id=<?= $valuesId ?>" class="card-link">VOIR L'ARTICLE</a>
+            </div>
+        </div>
         <?php
+    }
+
+    public function cardOneArticle($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
+
+        ?>
+        <div id="card_accueil">
+            <div id="card_title">
+                <h5><i id="i_title" class="fas fa-project-diagram"></i><?= $title; ?></h5>
+                <span id="title_h6">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></span>
+            </div>
+            <div id="card_articleText">
+                <p><?= $valuesArticle; ?></p>
+            </div>
+            <div id="card_button">
+                <a class="buttonCard" href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
+            </div>
+        </div>
+        <?php
+
     }
 
     /**
@@ -157,7 +183,8 @@ class Article extends \blog\app\controllers\Article
      * @param $currentPage
      * @param $pages
      */
-    public function showPagination(?string $url = null, ?int $get = null, ?string $start = null, $currentPage, $pages){
+    public function showPagination(?string $url = null, ?int $get = null, ?string $start = null, $currentPage, $pages)
+    {
 
         ?>
         <nav>
@@ -166,10 +193,10 @@ class Article extends \blog\app\controllers\Article
                 <li class="page-item <?= ($currentPage == 1) ? "disabled" : "" ?>">
                     <a href="<?= $url . $get ?><?= $start . ($currentPage - 1) ?>" class="page-link">Précédente</a>
                 </li>
-                <?php for($page = 1; $page <= $pages; $page++): ?>
+                <?php for ($page = 1; $page <= $pages; $page++): ?>
                     <!-- Lien vers chacune des pages (activé si on se trouve sur la page correspondante) -->
                     <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
-                        <a href="<?= $url .  $get ?><?= $start . $page ?>" class="page-link"><?= $page ?></a>
+                        <a href="<?= $url . $get ?><?= $start . $page ?>" class="page-link"><?= $page ?></a>
                     </li>
                 <?php endfor ?>
                 <!-- Lien vers la page suivante (désactivé si on se trouve sur la dernière page) -->
@@ -182,11 +209,10 @@ class Article extends \blog\app\controllers\Article
     }
 
 
-
-    public function showOneArticle ()
+    public function showOneArticle()
     {
 
-        if(isset($_GET['id']) && ctype_digit($_GET['id'])) {
+        if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
             $id_article = $_GET['id'];
             $article = $this->showArticleAlone($id_article);
 
@@ -196,7 +222,18 @@ class Article extends \blog\app\controllers\Article
 
                 if ($article['id_categorie'] == $value) {
 
-                    echo $key . '<br>' . 'Article :' . $article['article'] . '<br>' . 'écrit le :' . $article['date'] . '<br>';
+                    $date = explode(' ', $article['date'])[0];
+                    $dateFr = strftime('%d-%m-%Y',strtotime($date));
+
+                    $Hour = explode(' ', $article['date'])[1];
+                    $HourForm = date('H:i', strtotime($Hour));
+
+                    $valuesArticle = $article['article'];
+                    $valuesId = $article['id'];
+                    $title = $article['titre'];
+
+                    $this->cardOneArticle($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
+
                 }
             }
         }
