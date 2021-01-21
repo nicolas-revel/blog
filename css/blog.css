@@ -240,7 +240,7 @@ main{
 
 #info_user i {
     font-size: 2.8em;
-    margin: 0.4em 0 0 6em;
+    margin: 0.4em 0 0 5em;
     color: #34374c;
 }
 
@@ -302,6 +302,14 @@ main{
     margin-left: 4em;
     font-size: 17px;
     font-family: Calibri, sans-serif;
+}
+
+#deleteUser {
+    margin: 1em 0 0 2em;
+}
+
+#delete{
+    height: 2.7em;
 }
 
 /* CSS FOOTER */

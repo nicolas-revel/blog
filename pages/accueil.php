@@ -31,7 +31,10 @@ $show = new blog\app\views\Article();
         <button id="button_user" type="button" class="btn btn-outline-light">PROFIL</button>
         <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button>
         <button id="button_user" type="button" class="btn btn-outline-light">ADMIN</button>
-    </div>
+        </div>
+        <form id="deleteUser" action="accueil.php" method="POST">
+            <button id="delete" type="submit" class="btn btn-light">DECONNEXION</button>
+        </form>
     </section>
 
     <article id="LastArticle">
