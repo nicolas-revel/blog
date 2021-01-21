@@ -1,38 +1,53 @@
 <?php
-require('../config/header.php');
-require('../app/views/Article.php');
-$nameCat = new blog\app\views\Categorie();
+require_once('../app/Autoload.php');
 $show = new blog\app\views\Article();
-$pageTitle = "Accueil";
 ?>
 
-<form id="insertArticle" action="accueil.php" method="POST">
-    <br>
-    <div>
-        <label for="article" class="form-label">Article :</label>
-        <input type="text" class="form-control" name="article" required>
-    </div>
-    <br>
-    <div>
-        <label for="categorie">Categories :</label>
-        <select  name="categorie" required>
-            <?= $nameCat->showNameCategorieForm(); ?>
-        </select>
-    </div>
-    <br>
-    <div class="col-12">
-        <button id="buttonSub" type="submit" name="envoyer">Envoyer</button>
-    </div>
-    <?php
-    if(isset($_POST['envoyer'])) {
+<?php $pageTitle = 'ACCUEIL'; ?>
+<?php ob_start(); ?>
+<?php require_once('../config/header.php'); ?>
 
-        $post = new blog\app\controllers\Article();
-        $post->insertArticle(2);
+<main>
 
-    }
-    ?>
-</form>
+    <section id="present_blog">
+        <div id="avatars">
+            <img id="avatarNico" src="../images/avatarnico.jpg">
+            <img id="avatarEmma" src="../images/avataremma.jpg">
+        </div>
+        <div id="elementColumn">
+            <h2 id="title_blogout"><span class="bw">H</span><span class="bw">e</span><span class="bw">l</span><span class="bw">l</span><span class="bw">o</span> <span class="bw">W</span><span class="bw">o</span><span class="bw">r</span><span class="bw">l</span><span class="bw">d</span><span class="bw">!</span></h2>
+            <p id="presentBlog">bLogOut est un petit blog créé par <strong>Nicolas REVEL</strong> et <strong>Emma LAPREVOTE</strong>,
+                tout deux étudiants au sein de l'école La Plateforme et passionnés par le développement web.
+            Ce blog est une vue généralisé de tout ce qui se passe dans l'univers du web, sur leurs expériences tout au long de leurs l'apprentissages, afin de partager
+                leurs vécus avec vous tous.
+            </p>
+        </div>
+    </section>
 
-<div><?= $show->showArticleAccueil(); ?></div>
-<a href="articles.php">Articles</a>
+    <section id="info_user">
+        <i class="fas fa-user-astronaut"></i>
+        <h6 id="login_user">BIENVENUE USER !</h6>
+        <div id="link_user">
+        <button id="button_user" type="button" class="btn btn-outline-light">PROFIL</button>
+        <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button>
+        <button id="button_user" type="button" class="btn btn-outline-light">ADMIN</button>
+        </div>
+        <form id="deleteUser" action="accueil.php" method="POST">
+            <button id="delete" type="submit" class="btn btn-light">DECONNEXION</button>
+        </form>
+    </section>
+
+    <article id="LastArticle">
+        <h3 id="title_lastArticle">Derniers articles...</h3>
+        <p id="text_lastArticle">Les trois derniers articles mis en ligne, vous pouvez retrouvez l'intégralité des articles<a class= "buttonCard" href="articles.php" class="card-link">Here!</a></p>
+    </article>
+
+<div class="card_articles"><?= $show->showArticleAccueil(); ?></div>
+
+</main>
+
+<?php require_once('../config/footer.php'); ?>
+<?php $pageContent = ob_get_clean(); ?>
+
+<?php require_once('template.php'); ?>
 

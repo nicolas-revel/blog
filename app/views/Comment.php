@@ -6,13 +6,16 @@ namespace blog\app\views;
 
 class Comment extends \blog\app\controllers\Comment
 {
-    public function showCommentWithArticle()
-    {
+    /**
+     * Méthode qui permet d'afficher les commentaires d'un article par rapport à son id
+     * @param $currentPage
+     * @return false|float
+     */
+    public function showCommentWithArticle($currentPage) {
 
         if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
 
             $article_id = $_GET['id'];
-            $currentPage = $this->getStart();
 
             $nbComment = $this->nbrCommentId();
 
@@ -29,10 +32,8 @@ class Comment extends \blog\app\controllers\Comment
                 echo '<br>' . 'Commentaire :' . $value['commentaire'] . '<br>' . 'écrit le :' . $value['date'] . '<br>';
 
             }
-
-            $this->showPaginationComment($article_id, $currentPage, $pages);
-
         }
+        return $pages;
     }
 
     public function getStart()

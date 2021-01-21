@@ -1,15 +1,16 @@
 <?php
 
+namespace blog\app;
+
 class Renderer {
 
-    public static function render (string $path, array $variables = [])
+    public static function render (string $path)
     {
-        extract($variables);
         ob_start();
-        require('config/'. $path . '.php');
+        require('pages/'. $path . '.php');
         $pageContent = ob_get_clean();
 
-        require('config/header.php');
+        require('pages/template.php');
     }
 
 }

@@ -10,8 +10,8 @@ class categorie extends \blog\app\controllers\categorie
         $controlCat = new \blog\app\controllers\categorie();
         $table = $controlCat->showAllNavBar();
 
-        foreach ($table as $key => $value) {
-            echo "<li><a class='dropdown-item' href=''>$value</a></li>";
+        foreach($table as $key => $value) {
+            echo "<li><a id='drop' class='dropdown-item' href='articles.php?categorie=$key'>$value</a></li>";
         }
     }
 
