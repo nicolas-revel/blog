@@ -515,7 +515,7 @@ footer {
     margin: 5em 0 0 7em;
 }
 
-#inscription {
+#blogForm {
     margin: 1em 0 0 6em;
     font-size: 13px;
     font-family: Calibri, sans-serif;
@@ -523,7 +523,7 @@ footer {
 
 #formIns {
     background-color: #34374c;
-    width: 80%;
+    width: 90%;
     min-height: 100vh;
 }
 
@@ -542,19 +542,24 @@ footer {
     line-height: 20px;
 }
 
-#inscription label {
+#blogForm label {
     color: white;
     font-size: 15px;
     font-family: 'Quicksand', sans-serif;
 }
 
-#inscription input {
+#blogForm input {
     width: 50%;
     border-radius: 3px;
     height: 2.5em;
     padding: 0.5em;
 }
 
+/* CSS PAGE CONNEXION */
+
+#vapo {
+    width: 100%;
+}
 
 
 
