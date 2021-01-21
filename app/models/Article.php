@@ -71,12 +71,6 @@ class Article extends model
         $req->execute(['id' => $id_utilisateur]);
         $result = $req->fetch(\PDO::FETCH_OBJ);
 
-        $this->id = $result->id;
-        $this->article = $result->article;
-        $this->id_utilisateur = $result->id_utilisateur;
-        $this->id_categorie = $result->id_categorie;
-        $this->date = $result->date;
-
     }
 
     /**
@@ -87,11 +81,15 @@ class Article extends model
     public function findBd(int $id_article): array
     {
         $bdd = $this->getBdd();
-
         $req = $bdd->prepare("SELECT id, titre, article, id_utilisateur, id_categorie, date FROM articles WHERE id = :id");
         $req->execute(['id' => $id_article]);
-
         $result = $req->fetch(\PDO::FETCH_ASSOC);
+
+        $this->id = $result['id'];
+        $this->article = $result['article'];
+        $this->id_utilisateur = $result['id_utilisateur'];
+        $this->id_categorie = $result['id_categorie'];
+        $this->date = $result['date'];
 
         return $result;
     }
