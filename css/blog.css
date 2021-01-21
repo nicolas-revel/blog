@@ -499,6 +499,64 @@ footer {
     margin-top: 1em;
 }
 
+/* CSS PAGE INSCRIPTION */
+
+#pageInscription{
+    display: flex;
+    flex-direction: row;
+    justify-content: normal;
+}
+
+#pcguy {
+    width: 60%;
+}
+
+#illusPCguy{
+    margin: 5em 0 0 7em;
+}
+
+#inscription {
+    margin: 1em 0 0 6em;
+    font-size: 13px;
+    font-family: Calibri, sans-serif;
+}
+
+#formIns {
+    background-color: #34374c;
+    width: 80%;
+    min-height: 100vh;
+}
+
+#title_ins{
+    font-family: yummy, sans-serif;
+    font-size: 3em;
+    margin: 2em 0 0 1.5em;
+    color: #34374c;
+}
+
+#slogan1 {
+    color: white;
+    font-size: 15px;
+    font-family: 'Quicksand', sans-serif;
+    margin-left: 4.8em;
+    line-height: 20px;
+}
+
+#inscription label {
+    color: white;
+    font-size: 15px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+#inscription input {
+    width: 50%;
+    border-radius: 3px;
+    height: 2.5em;
+    padding: 0.5em;
+}
+
+
+
 
 
 
