@@ -18,7 +18,7 @@ $user = new blog\app\models\User();
         <h3 id="title_ins"><span class="bw">I</span><span class="bw">n</span><span class="bw">s</span><span class="bw">c</span><span class="bw">r</span><span class="bw">i</span><span class="bw">p</span><span class="bw">t</span><span class="bw">i</span><span class="bw">o</span><span class="bw">n</span></h3>
         <p id="slogan1">Saute le pas et rejoins-nous!</p>
         <br>
-    <form id="inscription" action="inscription.php" method="POST">
+    <form id="blogForm" action="inscription.php" method="POST">
         <div>
             <label for="login">Login *</label><br>
             <input type="text" name="login" required placeholder="Nom d'utilisateur">
@@ -39,7 +39,7 @@ $user = new blog\app\models\User();
             <input type="password" name="confirm_password" required placeholder="Mot de passe">
         </div>
         <br>
-        <div class="col-12">
+        <div>
             <button type="button" class="btn btn-outline-light" name="envoyer">Envoyer</button>
         </div>
     </form>

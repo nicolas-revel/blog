@@ -1,32 +1,42 @@
 <?php
 session_start();
 ?>
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-<h1>FORMULAIRE DE CONNEXION</h1>
-<form id="connexion" action="connexion.php" method="POST">
+<?php $pageTitle = 'CONNEXION'; ?>
+<?php ob_start(); ?>
+<?php require_once('../config/header.php'); ?>
+
+<main>
+
+    <section id="pageInscription"><!-- row -->
+        <div id="illusVapo">
+            <img id="vapo" src="../images/vapowarve.png" alt="illustration retro">
+        </div>
+
+    <div id="formIns">
+        <h3 id="title_ins"><span class="bw">C</span><span class="bw">o</span><span class="bw">n</span><span class="bw">n</span><span class="bw">e</span><span class="bw">x</span><span class="bw">i</span><span class="bw">o</span><span class="bw">n</span></h3>
+        <p id="slogan1">connecte-toi et donne tons avis!</p>
+        <br>
+<form id="blogForm" action="connexion.php" method="POST">
     <br>
     <div>
-        <label for="login" class="form-label">Login *</label>
-        <input type="text" class="form-control" name="login" required placeholder="Nom d'utilisateur">
+        <label for="login">Login *</label><br>
+        <input type="text" name="login" required placeholder="Nom d'utilisateur">
     </div>
     <br>
     <div>
-        <label for="password">password *</label>
+        <label for="password">password *</label><br>
         <input type="password" name="password" required placeholder="Mot de passe">
     </div>
     <br>
-    <div class="col-12">
-        <button id="buttonSub" type="submit" name="envoyer">Envoyer</button>
+    <div>
+        <button type="button" class="btn btn-outline-light" name="envoyer">Envoyer</button>
     </div>
 </form>
-</body>
-</html>
+    </div>
+    </section>
+</main>
+
+<?php require_once('../config/footer.php'); ?>
+<?php $pageContent = ob_get_clean(); ?>
+
+<?php require_once('template.php'); ?>
