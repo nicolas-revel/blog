@@ -88,8 +88,9 @@ class Comment extends \blog\app\controllers\Comment
     <td>{$comment['login']}</td>
     <td>{$comment['id_article']}</td>
     <td>{$comment['date']}</td>
-    <td><a href='{$_SERVER['PHP_SELF']}?delCom={$comment['id']}'>Supprimer 
-    le commentaire</a></td>
+    <td><a href='{$_SERVER['PHP_SELF']}?delCom={$comment['id']}'>Supprimer</a></td>
+    <td><a href="article.php?id={$comment['id_article']}&modifcom={$comment['id']}">Modifier</a></td>
+    
 </tr>
 html;
         }
@@ -110,6 +111,7 @@ html;
             <th>Id de l'article lié</th>
             <th>Date</th>
             <th>Supprimer le commentaire</th>
+            <th>Modifier le commentaire</th>
         </tr>
     </thead>
     <tbody>
