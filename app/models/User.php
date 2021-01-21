@@ -36,7 +36,7 @@ class User
     /**
      * @var int
      */
-    protected int $droit;
+    protected int $id_droits;
 
     //Methods
 
@@ -79,7 +79,7 @@ class User
      */
     public function setDroits($droits): void
     {
-        $this->droit = $droits;
+        $this->id_droits = $droits;
     }
 
     //getters
@@ -121,7 +121,7 @@ class User
      */
     public function getDroits(): int
     {
-        return $this->droit;
+        return $this->id_droits;
     }
 
     // Other Methods
@@ -142,7 +142,7 @@ class User
     protected function getUsersDb(): array
     {
         $pdo = $this->connectDB();
-        $querystring = "SELECT id, login, password, email, droit FROM utilisateurs ORDER BY id ASC";
+        $querystring = "SELECT id, login, password, email, id_droits FROM utilisateurs ORDER BY id ASC";
         $query = $pdo->query($querystring);
         $result = $query->fetchAll(\PDO::FETCH_CLASS,
             '\blog\app\models\User');
@@ -155,7 +155,7 @@ class User
     public function getUserDb(string $login)
     {
         $pdo = $this->connectDB();
-        $querystring = "SELECT id, login, password, email, droit FROM utilisateurs WHERE login = :login";
+        $querystring = "SELECT id, login, password, email, id_droits FROM utilisateurs WHERE login = :login";
         $query = $pdo->prepare($querystring);
         $query->bindValue(':login', $login);
         $query->execute() or die(print_r($query->errorInfo()));
@@ -189,12 +189,12 @@ class User
     public function insertUserDb(string $login, string $password, string $email, int $droit): bool
     {
         $pdo = $this->connectDB();
-        $querystring = "INSERT INTO utilisateurs(login, password, email, droit) VALUES (:login, :password, :email, :droit)";
+        $querystring = "INSERT INTO utilisateurs(login, password, email, id_droits) VALUES (:login, :password, :email, :id_droits)";
         $query = $pdo->prepare($querystring);
         $query->bindValue(':login', $login);
         $query->bindValue(':password', $password);
         $query->bindValue(':email', $email);
-        $query->bindValue(':droit', $droit);
+        $query->bindValue(':id_droits', $droit);
         if ($query->execute() === true) {
             return true;
         } else {
@@ -236,7 +236,7 @@ class User
     public function updateUserDroitDb(int $droit, int $id_utilisateur): bool
     {
         $pdo = $this->connectDB();
-        $string = "UPDATE utilisateurs SET droit = :droit WHERE id = :id";
+        $string = "UPDATE utilisateurs SET id_droits = :droit WHERE id = :id";
         $query = $pdo->prepare($string);
         $query->bindValue(':id', $id_utilisateur);
         $query->bindValue(':droit', $droit);

@@ -184,12 +184,13 @@ class User extends \blog\app\models\User
         $login = htmlspecialchars(trim($login));
         $password = htmlspecialchars(trim($password));
         $userDb = $this->getUserDb($login);
-        if (password_verify($password, $userDb[0]->getPassword())) {
-            $this->setId($userDb[0]->getId());
-            $this->setLogin($userDb[0]->getLogin());
-            $this->setPassword($userDb[0]->getPassword());
-            $this->setEmail($userDb[0]->getEmail());
-            $this->setDroits($userDb[0]->getDroits());
+        if (!empty($userDb) && password_verify($password, $userDb->getPassword()
+        )) {
+            $this->setId($userDb->getId());
+            $this->setLogin($userDb->getLogin());
+            $this->setPassword($userDb->getPassword());
+            $this->setEmail($userDb->getEmail());
+            $this->setDroits($userDb->getDroits());
             $this->setIsconnected(true);
             return $this;
         } else {
@@ -267,7 +268,16 @@ class User extends \blog\app\models\User
             $tabvue->tableUser();
         }
         if ($criteria === "art") {
-            \blog\app\views\Article::tableArticle();
+            $articles = new \blog\app\views\Article();
+            $articles->tableArticle();
+        }
+        if ($criteria === "com") {
+            $commentaires = new \blog\app\views\Comment();
+            $commentaires->tableComment();
+        }
+        if ($criteria === "cat") {
+            $cat = new \blog\app\views\categorie();
+            $cat->tableCategorie();
         }
     }
 

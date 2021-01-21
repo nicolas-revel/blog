@@ -2,7 +2,6 @@
 
 namespace blog\app\controllers;
 
-
 class categorie extends \blog\app\models\categorie {
 
     /**
@@ -58,7 +57,6 @@ class categorie extends \blog\app\models\categorie {
      */
     public function deleteCategorie ($id) {
 
-        $id = $this->getAllCategorie();
         $this->deleteBd ($id);
     }
 
@@ -76,5 +74,9 @@ class categorie extends \blog\app\models\categorie {
         }
     }
 
+    public function getAllCat()
+    {
+        return $this->getAllCategorie();
+    }
 
 }

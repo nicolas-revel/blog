@@ -2,7 +2,10 @@
 
 require_once('../app/Autoload.php');
 $nameCat = new \blog\app\views\categorie;
-$user =new blog\app\controllers\User();
+$user = new blog\app\controllers\User();
+$article = new \blog\app\controllers\Article();
+$comment = new \blog\app\controllers\Comment();
+$category = new \blog\app\controllers\categorie();
 if (empty($_GET['table'])) {
     $_GET['table'] = "users";
 }
@@ -10,8 +13,17 @@ if (empty($_GET['table'])) {
 if (isset($_POST['submit'])) {
     $user->updateUserDroit($_POST['droituser'], $_POST['userid']);
 }
-if (isset($_GET['del'])) {
-    $user->deleteUser($_GET['del']);
+if (isset($_GET['delUser'])) {
+    $user->deleteUser($_GET['delUser']);
+}
+if (isset($_GET['delArti'])) {
+    $article->deletArticle($_GET['delArti']);
+}
+if (isset($_GET['delCom'])) {
+    $comment->deleteComments($_GET['delCom']);
+}
+if (isset($_GET['delCat'])) {
+    $category->deleteCategorie($_GET['delCat']);
 }
 ?>
 <!DOCTYPE HTML>
@@ -35,6 +47,8 @@ if (isset($_GET['del'])) {
         <option value=""></option>
         <option value="users">Utilisateurs</option>
         <option value="art">Articles</option>
+        <option value="com">Commentaires</option>
+        <option value="cat">Catégories</option>
     </select>
     <input type="submit" value="Filtrer" name="filter" id="filter">
 </form>

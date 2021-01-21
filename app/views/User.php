@@ -45,7 +45,8 @@ class User extends \blog\app\controllers\User
         </form>
     </td>
     <td>
-        <a href='{$_SERVER['PHP_SELF']}?del={$user->getId()}'>Supprimer l'utilisateur</a>
+        <a href='{$_SERVER['PHP_SELF']}?delUser={$user->getId()}'>Supprimer 
+        l'utilisateur</a>
     </td>
 </tr>
 HTML;
@@ -82,6 +83,8 @@ HTML;
      */
     public function displayProfil(object $object)
     {
+        $droits = \blog\app\controllers\User::convertDroits
+        ($object->getDroits());
         echo <<<HTML
 <h2>Information utilisateur</h2>
 <form action="profil.php" method="post">
@@ -97,6 +100,7 @@ HTML;
     <input type="text" name="email" id="email" placeholder="Votre nouveau Email 
     ici">
 </div>
+<p>Vos droits : {$droits}</p>
 <div>
     <label for="password">Modifier votre mot de passe :</label>
     <input type="password" name="password" placeholder="Mot de passe">
