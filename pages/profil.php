@@ -9,7 +9,7 @@ session_start();
 
     <section id="pageInscription"><!-- row -->
         <div id="illuscode">
-            <img id="codeRetro" src="../images/code.jpg" alt="illustration coding">
+            <img id="codeRetro" src="../images/profil.png" alt="illustration">
         </div>
 
         <div id="formIns">
