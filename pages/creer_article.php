@@ -13,72 +13,62 @@ if (isset($_GET['modifart'])) {
 <?php require_once('../config/header.php'); ?>
 
 <main>
-<h1>FORMULAIRE ARTICLE</h1>
-<form id="insertArticle" action="creer_article.php<?php if (isset($modifart)) :
-echo "?modifart={$_GET['modifart']}"; endif;?>" method="POST">
-    <br>
-    <div>
-        <label for="article" class="form-label">Article :</label>
-        <input type="text" class="form-control" name="article" value="<?php
-        if (isset($modifart)) : echo "{$modifart['article']}"; endif; ?>"
-               required>
-    </div>
-    <br>
-    <div>
-        <label for="categorie">Categories :</label>
-        <select name="categorie" required>
-            <?= $nameCat->showNameCategorieForm(); ?>
-        </select>
-    </div>
-    <br>
-    <div class="col-12">
-        <?php if (isset($modifart)) : ?>
-            <button id="buttonSub" type="submit" name="majart">Envoyer</button>
-        <?php else: ?>
-            <button id="buttonSub" type="submit" name="envoyer">Envoyer</button>
-        <?php endif; ?>
-    </div>
-    <?php
-    if (isset($_POST['envoyer'])) {
-        $post = new blog\app\controllers\Article();
-        $post->insertArticle(2);
-    }
-    if (isset($_POST['majart'])) {
-        $art->updateArticle($modifart['id'], $modifart['id_utilisateur']);
-    }
-    ?>
-</form>
-
     <section id="pageInscription"><!-- row -->
         <div id="illusRedac">
-            <img id="redac" src="../images/redaction.png" alt="illustration redactrice">
+            <img id="redac" src="../images/redaction.png"
+                 alt="illustration redactrice">
         </div>
 
         <div id="formIns">
-            <h3 id="title_ins"><span class="bw">R</span><span class="bw">e</span><span class="bw">d</span><span class="bw">a</span><span class="bw">c</span><span class="bw">t</span><span class="bw">i</span><span class="bw">o</span><span class="bw">n</span></h3>
+            <h3 id="title_ins"><span class="bw">R</span><span
+                        class="bw">e</span><span class="bw">d</span><span
+                        class="bw">a</span><span class="bw">c</span><span
+                        class="bw">t</span><span class="bw">i</span><span
+                        class="bw">o</span><span class="bw">n</span></h3>
             <p id="slogan1">Balance les news!</p>
             <br>
-            <form id="blogForm" action="creer_article.php" method="POST">
+            <form id="blogForm"
+                  action="creer_article.php<?php if (isset($modifart)) :
+                      echo "?modifart={$_GET['modifart']}"; endif; ?>"
+                  method="POST">
                 <br>
                 <div>
-                    <label for="article" class="form-label">Article :<br>
-                        <textarea name="article"
-                                  rows="5" cols="30"
-                                  minlength="10" maxlength="30">Vous pouvez écrire ici.</textarea>
-                    </label>
+                    <label for="titre" class="form-label">Titre de
+                        l'article :</label><br>
+                    <input type="text" id="titre" name="titre" value="<?php
+                    if (isset($modifart)) : echo "{$modifart['titre']}"; endif;
+                    ?>">
+                </div>
+                <br>
+                <div>
+                    <label for="article" class="form-label">Article
+                        :</label><br>
+                    <textarea name="article"
+                              rows="5" cols="30"
+                              minlength="10" maxlength="30"
+                              placeholder="Votre texte ici ..."><?php
+                        if (isset($modifart)) : echo "{$modifart['article']}"; endif; ?></textarea>
                 </div>
                 <br>
                 <div>
                     <label for="categorie">Categories :</label><br>
-                    <select  name="categorie" required>
+                    <select name="categorie" required>
                         <?= $nameCat->showNameCategorieForm(); ?>
                     </select>
                 </div>
                 <div id="buttonCreer">
-                    <button type="button" class="btn btn-outline-light" name="envoyer">Envoyer</button>
+                    <?php if (isset($modifart)) : ?>
+                        <button id="buttonSub" type="submit" class="btn
+                        btn-outline-light" name="majart">Envoyer
+                        </button>
+                    <?php else: ?>
+                        <button id="buttonSub" type="submit" class="btn
+                        btn-outline-light" name="envoyer">Envoyer
+                        </button>
+                    <?php endif; ?>
                 </div>
                 <?php
-                if(isset($_POST['envoyer'])) {
+                if (isset($_POST['envoyer'])) {
                     $post = new blog\app\controllers\Article();
                     $post->insertArticle(2);
                 }
