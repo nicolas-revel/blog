@@ -1,5 +1,7 @@
 <?php
 require_once('../app/Autoload.php');
+session_start();
+$currentUser = $_SESSION['user'];
 $nameCat = new \blog\app\views\categorie;
 ?>
     <header>
@@ -14,21 +16,30 @@ $nameCat = new \blog\app\views\categorie;
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="../pages/accueil.php"><span class="line">|</span> Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../pages/inscription.php"><span class="line">|</span> Inscription</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../pages/connexion.php"><span class="line">|</span> Connexion</a>
-                        </li>
+                        <?php if(!empty($_SESSION['user'])): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="../pages/profil.php"><span class="line">|</span> Profil</a>
                         </li>
+                        <?php elseif($_SESSION['user']->getDroits() == 1337): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="../pages/creer_article.php"><span class="line">|</span> Article</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../pages/admin.php"><span class="line">|</span> Admin</a>
                         </li>
+                        <?php elseif($_SESSION['user']->getDroits() == 42): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/creer_article.php"><span class="line">|</span> Article</a>
+                        </li>
+                        <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/inscription.php"><span class="line">|</span> Inscription</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/connexion.php"><span class="line">|</span> Connexion</a>
+                        </li>
+                        <?php endif; ?>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Categories

@@ -1,6 +1,11 @@
 <?php
 require_once('../app/Autoload.php');
+session_start();
+$currentUser = $_SESSION['user'];
+
+$user = new \blog\app\controllers\User();
 $show = new blog\app\views\Article();
+
 ?>
 
 <?php $pageTitle = 'ACCUEIL'; ?>
@@ -26,7 +31,7 @@ $show = new blog\app\views\Article();
 
     <section id="info_user">
         <i class="fas fa-user-astronaut"></i>
-        <h6 id="login_user">BIENVENUE USER !</h6>
+        <h6 id="login_user">BIENVENUE <?php if(!empty($_SESSION['user'])): ?><?= $currentUser->getLogin(); ?><?php endif; ?>!</h6>
         <div id="link_user">
         <button id="button_user" type="button" class="btn btn-outline-light">PROFIL</button>
         <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button>
