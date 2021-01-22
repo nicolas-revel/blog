@@ -542,7 +542,7 @@ footer {
     line-height: 20px;
 }
 
-#blogForm label {
+#blogForm label, #blogForm p {
     color: white;
     font-size: 15px;
     font-family: 'Quicksand', sans-serif;
