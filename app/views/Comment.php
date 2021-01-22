@@ -59,7 +59,6 @@ class Comment extends \blog\app\controllers\Comment
         } else {
             $currentPage = 1;
         }
-
         return $currentPage;
     }
 
@@ -118,8 +117,10 @@ html;
     {
         $tbody = $this->listEachComment();
         $vue = <<<HTML
-<h2>Liste des commentaires</h2>
-<table>
+<div class="tableAdmin">
+<h2 id="title_table">Liste des commentaires</h2>
+<br>
+<table id="table_ad">
     <thead>
         <tr>
             <th>ID</th>
@@ -131,7 +132,7 @@ html;
             <th>Modifier le commentaire</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="table_body">
         {$tbody}
     </tbody>
 </table>

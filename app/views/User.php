@@ -58,8 +58,10 @@ HTML;
     {
         $tbody = $this->listEachUsers();
         $vue = <<<HTML
-<h2>Liste des utilisateurs</h2>
-<table>
+<div class="tableAdmin">
+<h2 id="title_table">Liste des utilisateurs</h2>
+<br>
+<table id="table_ad">
     <thead>
         <tr>
             <th>ID</th>
@@ -70,10 +72,11 @@ HTML;
             <th>Supprimer l'utilisateur</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="table_body">
         {$tbody}
     </tbody>
 </table>
+</div>
 HTML;
         echo $vue;
     }
