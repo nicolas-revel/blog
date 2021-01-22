@@ -7,6 +7,7 @@ $user = new \blog\app\controllers\User();
 $nameCat = new \blog\app\views\categorie();
 if (isset($_POST['envoyer'])) {
     $_SESSION['user'] = $user->connectUser($_POST['login'], $_POST['password']);
+    \blog\app\Http::redirect('../index.php');
 }
 ?>
 <?php $pageTitle = 'CONNEXION'; ?>

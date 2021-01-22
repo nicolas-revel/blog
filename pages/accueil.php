@@ -1,6 +1,10 @@
 <?php
 require_once('../app/Autoload.php');
+session_start();
 $show = new blog\app\views\Article();
+if (isset($_POST['deco'])) {
+    $_SESSION['user']->disconnectUser();
+}
 ?>
 
 <?php $pageTitle = 'ACCUEIL'; ?>
@@ -26,14 +30,17 @@ $show = new blog\app\views\Article();
 
     <section id="info_user">
         <i class="fas fa-user-astronaut"></i>
-        <h6 id="login_user">BIENVENUE USER !</h6>
+        <h6 id="login_user">BIENVENUE <?php if (!empty
+            ($_SESSION['user']->getLogin())) : echo "{$_SESSION['user']->getLogin()}";
+        endif;?> !</h6>
         <div id="link_user">
         <button id="button_user" type="button" class="btn btn-outline-light">PROFIL</button>
         <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button>
         <button id="button_user" type="button" class="btn btn-outline-light">ADMIN</button>
         </div>
         <form id="deleteUser" action="accueil.php" method="POST">
-            <button id="delete" type="submit" class="btn btn-light">DECONNEXION</button>
+            <button id="deco" name="deco" type="submit" class="btn
+            btn-light">DECONNEXION</button>
         </form>
     </section>
 

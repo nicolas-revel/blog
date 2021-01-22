@@ -16,27 +16,27 @@ class User
     /**
      * @var int
      */
-    protected int $id;
+    protected $id;
 
     /**
      * @var string
      */
-    protected string $login;
+    protected $login;
 
     /**
      * @var string
      */
-    protected string $password;
+    protected $password;
 
     /**
      * @var string
      */
-    protected string $email;
+    protected $email;
 
     /**
      * @var int
      */
-    protected int $id_droits;
+    protected $id_droits;
 
     //Methods
 
@@ -87,7 +87,7 @@ class User
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -95,7 +95,7 @@ class User
     /**
      * @return string
      */
-    public function getLogin(): string
+    public function getLogin()
     {
         return $this->login;
     }
@@ -103,7 +103,7 @@ class User
     /**
      * @return string
      */
-    public function getPassword(): string
+    public function getPassword()
     {
         return $this->password;
     }
@@ -111,7 +111,7 @@ class User
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail()
     {
         return $this->email;
     }
@@ -119,7 +119,7 @@ class User
     /**
      * @return int
      */
-    public function getDroits(): int
+    public function getDroits()
     {
         return $this->id_droits;
     }
