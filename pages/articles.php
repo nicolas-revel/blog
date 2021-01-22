@@ -1,5 +1,6 @@
 <?php
 require_once('../app/Autoload.php');
+session_start();
 $nameCat = new blog\app\views\Categorie();
 $articlesTable = new blog\app\views\Article();
 

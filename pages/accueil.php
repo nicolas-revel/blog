@@ -35,13 +35,16 @@ if (isset($_POST['deco'])) {
         <i class="fas fa-user-astronaut"></i>
         <h6 id="login_user">BIENVENUE <?php if(!empty($_SESSION['user'])): ?><?= $currentUser->getLogin(); ?><?php endif; ?>!</h6>
         <div id="link_user">
-            <?php if(!empty($_SESSION['user'])): ?>
-        <button id="button_user" type="button" class="btn btn-outline-light">PROFIL</button>
+            <?php if(!empty($_SESSION['user']->getLogin())): ?>
+                <a href="../pages/profil.php"><button id="button_user" type="button" class="btn btn-outline-light">PROFIL</button></a>
             <?php elseif($_SESSION['user']->getDroits() == 1337 ): ?>
-        <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button>
-        <button id="button_user" type="button" class="btn btn-outline-light">ADMIN</button>
+                <a href="../pages/creer_article.php"><button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button></a>
+                <a href="../pages/admin.php"><button id="button_user" type="button" class="btn btn-outline-light">ADMIN</button></a>
             <?php elseif($_SESSION['user']->getDroits() == 42): ?>
-            <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button>
+                <a href="../pages/creer_article.php"><button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button></a>
+            <?php else: ?>
+                <a href="../pages/inscription.php"><button id="button_user" type="button" class="btn btn-outline-light">INSCRIPTION</button></a>
+                <a href="../pages/connexion.php"><button id="button_user" type="button" class="btn btn-outline-light">CONNEXION</button></a>
             <?php endif; ?>
         </div>
         <form id="deleteUser" action="accueil.php" method="POST">

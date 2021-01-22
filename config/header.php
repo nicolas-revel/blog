@@ -15,7 +15,7 @@ $nameCat = new \blog\app\views\categorie;
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="../pages/accueil.php"><span class="line">|</span> Home</a>
                         </li>
-                        <?php if(!empty($_SESSION['user'])): ?>
+                        <?php if(!empty($_SESSION['user']->getLogin())): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="../pages/profil.php"><span class="line">|</span> Profil</a>
                         </li>
