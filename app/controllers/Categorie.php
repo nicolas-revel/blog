@@ -2,6 +2,7 @@
 
 namespace blog\app\controllers;
 
+
 class categorie extends \blog\app\models\categorie {
 
     /**
@@ -9,21 +10,25 @@ class categorie extends \blog\app\models\categorie {
      */
     public function insertCat() {
 
+        $msg_error = "";
+
         if(!empty($_POST['newcat'])) {
 
             $nom = htmlspecialchars($_POST['newcat']);
 
         }else {
-            die("Votre formulaire à été mal rempli");
+            $msg_error = "Votre formulaire à été mal rempli";
         }
 
-        //Expression régulière afin de limiter le nombre de caractères, max 1024
-        if(!preg_match("/^[a-zA-Z0-9_:-]{1,80}$/", $nom)) {
+        //Expression régulière afin de limiter le nombre de caractères, max 80
+        if(!preg_match("/^(?!\s*$)[-a-zA-Z0-9_:,.\s]{1,80}$/", $nom)) {
 
-            die("Le commentaire doit contenir 1024 caractères maximum");
+            $msg_error = "Le commentaire doit contenir 1024 caractères maximum";
         }
 
         $this->insertCategorie($nom);
+
+        return $msg_error;
     }
 
     /**
@@ -31,22 +36,10 @@ class categorie extends \blog\app\models\categorie {
      */
     public function showAllNavBar() {
 
-        $modelCategorie = new \blog\app\models\categorie();
-        $all = $modelCategorie->getAllCategorie();
+        $all= $this->getAllCategorie();
 
         foreach($all as $key => $value){
             $tab[$value['id']] = $value['nom'];
-        }
-        return $tab;
-    }
-
-    public function showAllId() {
-
-        $modelCategorie = new \blog\app\models\categorie();
-        $all = $modelCategorie->getAllCategorie();
-
-        foreach($all as $key => $value){
-            $tab[$key] = $value['id'];
         }
         return $tab;
     }

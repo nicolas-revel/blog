@@ -169,9 +169,11 @@ class User extends \blog\app\models\User
             $this->insertUserDb($this->getLogin(), $this->getPassword(),
                 $this->getEmail(), $this->getDroits());
             return true;
+
         } else {
             return false;
         }
+
     }
 
     /**

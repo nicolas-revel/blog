@@ -1,6 +1,16 @@
 <?php
 require_once('../app/Autoload.php');
 $user = new blog\app\models\User();
+
+if(isset($_POST['envoyer'])){
+    $user = new blog\app\controllers\user();
+    $checkLogin = $user->checkLoginValidity($_POST['login']);
+    $checkPass = $user->checkPassword($_POST['password'], $_POST['confirm_password']);
+
+    if($checkLogin && $checkPass){
+        $user->insertUser($_POST['login'], $_POST['password'], $_POST['mail']);;
+    }
+}
 ?>
 
 <?php $pageTitle = 'INSCRIPTION'; ?>
@@ -8,7 +18,6 @@ $user = new blog\app\models\User();
 <?php require_once('../config/header.php'); ?>
 
 <main>
-
     <section id="pageInscription"><!-- row -->
         <div id="illusPCguy">
             <img id="pcguy" src="../images/pcguy.png" alt="illustration pc guy">

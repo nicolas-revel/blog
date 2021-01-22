@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/8a84714c65.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">c
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?= $pageTitle ?></title>
 </head>
 <body>

@@ -1,5 +1,7 @@
 <?php
 
+namespace blog\app;
+
 class Http
 {
 
