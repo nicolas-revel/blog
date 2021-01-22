@@ -184,25 +184,6 @@ class Article extends \blog\app\controllers\Article
         <?php
     }
 
-    public function cardOneArticle($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
-
-        ?>
-        <div id="card_accueil">
-            <div id="card_title">
-                <h5><i id="i_title" class="fas fa-project-diagram"></i><?= $title; ?></h5>
-                <span id="title_h6">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></span>
-            </div>
-            <div id="card_articleText">
-                <p><?= $valuesArticle; ?></p>
-            </div>
-            <div id="card_button">
-                <a class="buttonCard" href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
-            </div>
-        </div>
-        <?php
-
-    }
-
     /**
      * Card affichage article sur la page article + les commentaitres
      * @param $title
