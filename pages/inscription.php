@@ -49,7 +49,8 @@ if(isset($_POST['envoyer'])){
         </div>
         <br>
         <div>
-            <button type="button" class="btn btn-outline-light" name="envoyer">Envoyer</button>
+            <button type="submit" class="btn btn-outline-light"
+                    name="envoyer">Envoyer</button>
         </div>
     </form>
     </div>

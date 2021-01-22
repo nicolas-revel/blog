@@ -18,7 +18,6 @@ if (isset($_POST['sendcat'])) {
 }
 if (isset($_GET['modifcat'])) {
     $cat = $category->getCategory($_GET['modifcat']);
-    var_dump($cat);
 }
 if (isset($_POST['majcat'])) {
     $category->updateCategorie($cat['id']);

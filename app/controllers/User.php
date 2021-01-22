@@ -168,8 +168,8 @@ class User extends \blog\app\models\User
             $this->setDroits($droit);
             $this->insertUserDb($this->getLogin(), $this->getPassword(),
                 $this->getEmail(), $this->getDroits());
+            \blog\app\Http::redirect('connexion.php');
             return true;
-
         } else {
             return false;
         }
@@ -194,6 +194,7 @@ class User extends \blog\app\models\User
             $this->setEmail($userDb->getEmail());
             $this->setDroits($userDb->getDroits());
             $this->setIsconnected(true);
+            \blog\app\Http::redirect('../index.php');
             return $this;
         } else {
             return false;
