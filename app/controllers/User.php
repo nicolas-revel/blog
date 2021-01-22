@@ -208,7 +208,7 @@ class User extends \blog\app\models\User
         $this->setId(null);
         $this->setLogin(null);
         $this->setPassword(null);
-        $this->setMail(null);
+        $this->setEmail(null);
         $this->setDroits(null);
         return true;
     }

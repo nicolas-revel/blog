@@ -5,7 +5,9 @@ $currentUser = $_SESSION['user'];
 
 $user = new \blog\app\controllers\User();
 $show = new blog\app\views\Article();
-
+if (isset($_POST['deco'])) {
+    $_SESSION['user']->disconnectUser();
+}
 ?>
 
 <?php $pageTitle = 'ACCUEIL'; ?>
@@ -43,7 +45,8 @@ $show = new blog\app\views\Article();
             <?php endif; ?>
         </div>
         <form id="deleteUser" action="accueil.php" method="POST">
-            <button id="delete" type="submit" class="btn btn-light">DECONNEXION</button>
+            <button id="deco" name="deco" type="submit" class="btn
+            btn-light">DECONNEXION</button>
         </form>
     </section>
 
