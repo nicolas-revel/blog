@@ -10,7 +10,7 @@ class categorie extends \blog\app\controllers\categorie
         $controlCat = new \blog\app\controllers\categorie();
         $table = $controlCat->showAllNavBar();
 
-        foreach($table as $key => $value) {
+        foreach ($table as $key => $value) {
             echo "<li><a id='drop' class='dropdown-item' href='articles.php?categorie=$key'>$value</a></li>";
         }
     }
@@ -44,8 +44,8 @@ class categorie extends \blog\app\controllers\categorie
 <tr>
     <td>{$categorie['id']}</td>
     <td>{$categorie['nom']}</td>
-    <td><a href="{$_SERVER['PHP_SELF']}?delCat={$categorie['id']}">Supprimer 
-    la categorie</a></td>
+    <td><a href="{$_SERVER['PHP_SELF']}?delCat={$categorie['id']}">Supprimer</a></td>
+    <td><a href="{$_SERVER['PHP_SELF']}?table=cat&filter=Filtrer&modifcat={$categorie['id']}">Modifier</a></td>
 </tr>
 HTML;
         }
@@ -63,6 +63,7 @@ HTML;
             <th>ID</th>
             <th>Nom</th>
             <th>Supprimer la categorie</th>
+            <th>Modifier la categorie</th>
         </tr>
     </thead>
     <tbody>

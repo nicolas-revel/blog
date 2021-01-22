@@ -77,6 +77,16 @@ class Comment extends model
 
     }
 
+    public function getCommentBd($id)
+    {
+        $bdd = $this->getBdd();
+        $sql = "SELECT id, commentaire, id_article, id_utilisateur, date FROM commentaires WHERE id = {$id}";
+        $req = $bdd->prepare($sql);
+        $req->execute();
+        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
+        return $result[0];
+    }
+
     public function deleteCommentDb($id) {
         $this->deleteBd($id);
     }

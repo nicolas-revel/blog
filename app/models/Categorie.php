@@ -57,5 +57,13 @@ class categorie extends model {
         $req->execute()or die(print_r($req->errorInfo()));
     }
 
+    public function getCategoryBd($id)
+    {
+        $bdd = $this->getBdd();
+        $req = $bdd->prepare("SELECT id, nom FROM categories WHERE id = {$id}");
+        $req->execute();
+        $result = $req->fetch(\PDO::FETCH_ASSOC);
+        return $result;
+    }
 
 }

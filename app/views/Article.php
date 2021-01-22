@@ -295,6 +295,7 @@ class Article extends \blog\app\controllers\Article
     <td>{$article['date']}</td>
     <td><a href="{$_SERVER['PHP_SELF']}?delArti={$article['id']}">Supprimer 
     l'article</a></td>
+    <td><a href="creer_article.php?modifart={$article['id']}">Modifier</a></td>
 </tr>
 HTML;
         }
@@ -315,6 +316,7 @@ HTML;
             <th>Auteur</th>
             <th>Date</th>
             <th>Supprimer l'article</th>
+            <th>Modifier l'article</th>
         </tr>
     </thead>
     <tbody>
