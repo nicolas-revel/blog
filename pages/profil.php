@@ -1,12 +1,11 @@
 <?php
-require_once ('../app/Autoload.php');
+require_once('../app/Autoload.php');
 session_start();
 
 
 $currentUser = $_SESSION['user'];
 $nameCat = new \blog\app\views\categorie();
-if (isset($_POST['submit'])) {
-
+if (isset($_POST['envoyer'])) {
     $currentUser->updateUser($_POST['login'], $_POST['password'], $_POST['c_password'], $_POST['email']);
 }
 ?>
@@ -22,27 +21,45 @@ if (isset($_POST['submit'])) {
         </div>
 
         <div id="formIns">
-            <h3 id="title_ins"><span class="bw">M</span><span class="bw">o</span><span class="bw">m</span> <span class="bw">c</span><span class="bw">o</span><span class="bw">m</span><span class="bw">p</span><span class="bw">t</span><span class="bw">e</span></h3>
+            <h3 id="title_ins"><span class="bw">M</span><span
+                        class="bw">o</span><span class="bw">m</span> <span
+                        class="bw">c</span><span class="bw">o</span><span
+                        class="bw">m</span><span class="bw">p</span><span
+                        class="bw">t</span><span class="bw">e</span></h3>
             <p id="slogan1">Modifie ton profil.</p>
             <br>
             <form id="blogForm" action="profil.php" method="POST">
+                <p>Votre login actuel : <?= $currentUser->getLogin() ?></p>
                 <div>
-                    <label for="login">Login *</label><br>
-                    <input type="text" name="login" required placeholder="Nom d'utilisateur">
+                    <label for="login">Nouveau login *</label><br>
+                    <input type="text" name="login" required
+                           placeholder="Nom d'utilisateur">
+                </div>
+                <br>
+                <p>Votre email actuel : <?= $currentUser->getEmail() ?></p>
+                <div>
+                    <label for="email">Nouvel e-mail *</label><br>
+                    <input type="mail" name="email" required
+                           placeholder="E-mail">
                 </div>
                 <br>
                 <div>
-                    <label for="mail">E-mail *</label><br>
-                    <input type="mail" name="mail" required placeholder="E-mail">
+                    <label for="password">Nouveau password *</label><br>
+                    <input type="password" name="password" required
+                           placeholder="Mot de passe">
                 </div>
                 <br>
                 <div>
-                    <label for="password">password *</label><br>
-                    <input type="password" name="password" required placeholder="Mot de passe">
+                    <label for="password">Confirmation nouveau password
+                        *</label><br>
+                    <input type="password" name="c_password" required
+                           placeholder="Confirmation du nouveau mot de passe">
                 </div>
                 <br>
                 <div>
-                    <button type="button" class="btn btn-outline-light" name="envoyer">Envoyer</button>
+                    <button type="submit" class="btn btn-outline-light"
+                            name="envoyer">Envoyer
+                    </button>
                 </div>
             </form>
         </div>
