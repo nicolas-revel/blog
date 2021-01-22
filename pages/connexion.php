@@ -46,5 +46,4 @@ if (isset($_POST['envoyer'])) {
 
 <?php require_once('../config/footer.php'); ?>
 <?php $pageContent = ob_get_clean(); ?>
-
 <?php require_once('template.php'); ?>

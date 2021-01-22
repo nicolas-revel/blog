@@ -306,8 +306,10 @@ HTML;
     {
         $tbody = $this->listArticleAdmin();
         $vue = <<<HTML
-<h2>Liste des articles</h2>
-<table>
+<div class="tableAdmin">
+<h2 id="title_table">Liste des articles</h2>
+<br>
+<table id="table_ad">
     <thead>
         <tr>
             <th>ID</th>
@@ -319,10 +321,11 @@ HTML;
             <th>Modifier l'article</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="table_body">
         {$tbody}
     </tbody>
 </table>
+</div>
 HTML;
         echo $vue;
     }

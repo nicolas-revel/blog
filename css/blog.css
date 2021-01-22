@@ -587,6 +587,87 @@ footer {
     margin-top: 7em;
 }
 
+/* CSS PAGE ADMIN */
+
+.formAdmin {
+    margin: 1em 0 0 4em;
+    font-size: 13px;
+    font-family: Calibri, sans-serif;
+}
+
+.formAdmin label {
+    color: white;
+    font-size: 15px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.formAdmin input {
+    width: 50%;
+    border-radius: 3px;
+    height: 2.5em;
+    padding: 0.5em;
+}
+
+.formAdmin select {
+    padding: 0.6em;
+    font-size: 15px;
+}
+
+#formAd {
+    background-color: #34374c;
+    width: 60%;
+    min-height: 100vh;
+}
+
+#title_blogout3 {
+    font-family: yummy, sans-serif;
+    color: #34374c;
+    font-size: 2.7em;
+    margin: 1.5em 0 1em 1em;
+}
+
+.tableAdmin {
+    display: flex;
+    flex-direction: column;
+}
+
+#showTable {
+    width: 80%;
+}
+
+#title_table {
+    font-family: slice;
+    margin: 1em 0 0 1em;
+}
+
+#table_ad {
+    width: 94%;
+    margin-left: 1em;
+    border-radius: 5px;
+    margin-bottom: 3em;
+}
+
+#table_ad th {
+    border: solid black 1px;
+    padding: 0.3em;
+    font-size: 15px;
+    font-family: 'Quicksand', sans-serif;
+    background-color: #eac09a;
+}
+
+#table_body td {
+    padding: 0.5em;
+    border: solid 1px black;
+}
+
+#table_body input {
+    background-color: darkslategrey;
+    color: white;
+    font-size: 14px;
+    font-family: Calibri, sans-serif;
+    margin: 0 0 0 0.3em;
+}
+
 
 
 
