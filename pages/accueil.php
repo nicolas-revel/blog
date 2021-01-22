@@ -33,9 +33,14 @@ $show = new blog\app\views\Article();
         <i class="fas fa-user-astronaut"></i>
         <h6 id="login_user">BIENVENUE <?php if(!empty($_SESSION['user'])): ?><?= $currentUser->getLogin(); ?><?php endif; ?>!</h6>
         <div id="link_user">
+            <?php if(!empty($_SESSION['user'])): ?>
         <button id="button_user" type="button" class="btn btn-outline-light">PROFIL</button>
+            <?php elseif($_SESSION['user']->getDroits() == 1337 ): ?>
         <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button>
         <button id="button_user" type="button" class="btn btn-outline-light">ADMIN</button>
+            <?php elseif($_SESSION['user']->getDroits() == 42): ?>
+            <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button>
+            <?php endif; ?>
         </div>
         <form id="deleteUser" action="accueil.php" method="POST">
             <button id="delete" type="submit" class="btn btn-light">DECONNEXION</button>

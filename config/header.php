@@ -1,6 +1,5 @@
 <?php
 require_once('../app/Autoload.php');
-session_start();
 $currentUser = $_SESSION['user'];
 $nameCat = new \blog\app\views\categorie;
 ?>
