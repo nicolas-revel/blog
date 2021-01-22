@@ -1,11 +1,40 @@
 <?php
 
 require_once('../app/Autoload.php');
-$user =new blog\app\controllers\User();
+$nameCat = new \blog\app\views\categorie;
+$user = new blog\app\controllers\User();
+$article = new \blog\app\controllers\Article();
+$comment = new \blog\app\controllers\Comment();
+$category = new \blog\app\controllers\categorie();
 if (empty($_GET['table'])) {
     $_GET['table'] = "users";
 }
 
+if (isset($_POST['submit'])) {
+    $user->updateUserDroit($_POST['droituser'], $_POST['userid']);
+}
+if (isset($_POST['sendcat'])) {
+    $category->insertCat();
+}
+if (isset($_GET['modifcat'])) {
+    $cat = $category->getCategory($_GET['modifcat']);
+    var_dump($cat);
+}
+if (isset($_POST['majcat'])) {
+    $category->updateCategorie($cat['id']);
+}
+if (isset($_GET['delUser'])) {
+    $user->deleteUser($_GET['delUser']);
+}
+if (isset($_GET['delArti'])) {
+    $article->deletArticle($_GET['delArti']);
+}
+if (isset($_GET['delCom'])) {
+    $comment->deleteComments($_GET['delCom']);
+}
+if (isset($_GET['delCat'])) {
+    $category->deleteCategorie($_GET['delCat']);
+}
 ?>
 <!DOCTYPE HTML>
 <html lang="fr">
@@ -14,19 +43,46 @@ if (empty($_GET['table'])) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+          crossorigin="anonymous">
     <title>Document</title>
 </head>
 <body>
+<?php require_once('../config/header.php') ?>
 <h1>Page d'administration</h1>
+<form action="admin.php<?php if (isset($cat)) : echo "?modifcat={$cat['id']}";
+endif;
+?>"
+      method="post">
+    <div>
+        <label for="newcat">Ajouter une catégorie :</label>
+        <input type="text" name="newcat" id="newcat" value="<?php if (isset
+        ($_GET['modifcat'])) : echo "{$cat['nom']}"; endif; ?>">
+    </div>
+    <?php if (isset($cat)) : ?>
+        <button type="submit" name="majcat" id="majcat">Mettre à jour</button>
+    <?php else: ?>
+        <button type="submit" name="sendcat" id="sendcat">Ajouter</button>
+    <?php endif; ?>
+</form>
 <form action="admin.php" method="get">
     <select id="table" name="table">
         <option value=""></option>
         <option value="users">Utilisateurs</option>
         <option value="art">Articles</option>
+        <option value="com">Commentaires</option>
+        <option value="cat">Catégories</option>
     </select>
     <input type="submit" value="Filtrer" name="filter" id="filter">
 </form>
 <?= $user->chooseAdminTab($_GET['table']) ?>
-
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+        integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"
+        integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
+        crossorigin="anonymous"></script>
 </body>
 </html>

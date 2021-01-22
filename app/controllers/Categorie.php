@@ -2,7 +2,6 @@
 
 namespace blog\app\controllers;
 
-
 class categorie extends \blog\app\models\categorie {
 
     /**
@@ -10,9 +9,9 @@ class categorie extends \blog\app\models\categorie {
      */
     public function insertCat() {
 
-        if(!empty($_POST['name'])) {
+        if(!empty($_POST['newcat'])) {
 
-            $nom = htmlspecialchars($_POST['name']);
+            $nom = htmlspecialchars($_POST['newcat']);
 
         }else {
             die("Votre formulaire à été mal rempli");
@@ -58,7 +57,6 @@ class categorie extends \blog\app\models\categorie {
      */
     public function deleteCategorie ($id) {
 
-        $id = $this->getAllCategorie();
         $this->deleteBd ($id);
     }
 
@@ -68,13 +66,22 @@ class categorie extends \blog\app\models\categorie {
      */
     public function updateCategorie(int $id) {
 
-        if(!empty($_POST['name'])) {
+        if(!empty($_POST['newcat'])) {
 
-            $nom = htmlspecialchars($_POST['name']);
+            $nom = htmlspecialchars($_POST['newcat']);
             $this->updateCategorieBd($nom, $id);
 
         }
     }
 
+    public function getAllCat()
+    {
+        return $this->getAllCategorie();
+    }
+
+    public function getCategory($id)
+    {
+        return $this->getCategoryBd($id);
+    }
 
 }

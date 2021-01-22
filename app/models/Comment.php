@@ -3,7 +3,6 @@
 
 namespace blog\app\models;
 
-
 class Comment extends model
 {
     protected $table = "commentaires";
@@ -67,5 +66,29 @@ class Comment extends model
 
     }
 
+    public function getAllCommentDb()
+    {
+        $bdd = $this->getBdd();
+        $sql = 'SELECT commentaires.id, commentaire, id_article, commentaires.id_utilisateur, commentaires.date, utilisateurs.login FROM commentaires INNER JOIN utilisateurs ON utilisateurs.id = id_utilisateur INNER JOIN articles ON articles.id = id_article ORDER BY commentaires.id ASC';
+        $req = $bdd->prepare($sql);
+        $req->execute();
+        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+
+    }
+
+    public function getCommentBd($id)
+    {
+        $bdd = $this->getBdd();
+        $sql = "SELECT id, commentaire, id_article, id_utilisateur, date FROM commentaires WHERE id = {$id}";
+        $req = $bdd->prepare($sql);
+        $req->execute();
+        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
+        return $result[0];
+    }
+
+    public function deleteCommentDb($id) {
+        $this->deleteBd($id);
+    }
 
 }

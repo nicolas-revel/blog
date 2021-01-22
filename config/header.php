@@ -39,9 +39,9 @@ $nameCat = new \blog\app\views\categorie;
                         </li>
                 </div>
             </div>
-        </nav>
-    </header>
-
+        </div>
+    </nav>
+</header>
 
 
 

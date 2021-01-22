@@ -1,31 +1,29 @@
 <?php
 
-
 namespace blog\app\views;
 
 /**
  * Class User
  * @package blog\app\views
  */
-
 class User extends \blog\app\controllers\User
 {
     /**
      * @return string
      */
-    static private function listDroits(): string
+    private function listDroits(): string
     {
-        $droits = (new \blog\app\models\User)->getDroitsDb();
+        $droits = $this->getAllDroits();
         return "<option value=''></option>
                 <option value='{$droits[0]['id']}'>{$droits[0]['nom']}</option>
                 <option value='{$droits[1]['id']}'>{$droits[1]['nom']}</option>
                 <option value='{$droits[2]['id']}'>{$droits[2]['nom']}</option>";
     }
 
-    static private function listEachUsers()
+    private function listEachUsers()
     {
-        $users = (new \blog\app\models\User)->getUsersDb();
-        $droits = User::listDroits();
+        $users = $this->getUsers();
+        $droits = $this->listDroits();
         $tbody = "";
         foreach ($users as $user) {
             $userDroits = \blog\app\controllers\User::convertDroits
@@ -37,16 +35,18 @@ class User extends \blog\app\controllers\User
     <td>{$user->getEmail()}</td>
     <td>{$userDroits}</td>
     <td>
-        <form method='post'>
+        <form method='post' action="">
             <select name='droituser' id='droituser'>
                 {$droits}
             </select>
             <input type='text' id='userid' name='userid' value='{$user->getId()}' style='display: none'>                            
-            <input type='submit' value='Maj Droits' id='submit' name='submit'> 
+            <input type='submit' value='Maj Droits' id='submit' 
+            name='submit'> 
         </form>
     </td>
     <td>
-        <a href='{$_SERVER['PHP_SELF']}?del={$user->getId()}'>Supprimer l'utilisateur</a>
+        <a href='{$_SERVER['PHP_SELF']}?delUser={$user->getId()}'>Supprimer 
+        l'utilisateur</a>
     </td>
 </tr>
 HTML;
@@ -56,7 +56,7 @@ HTML;
 
     public function tableUser()
     {
-        $tbody = User::listEachUsers();
+        $tbody = $this->listEachUsers();
         $vue = <<<HTML
 <h2>Liste des utilisateurs</h2>
 <table>
@@ -75,7 +75,42 @@ HTML;
     </tbody>
 </table>
 HTML;
-        return $vue;
+        echo $vue;
+    }
 
+    /**
+     * @param object $object
+     */
+    public function displayProfil(object $object)
+    {
+        $droits = \blog\app\controllers\User::convertDroits
+        ($object->getDroits());
+        echo <<<HTML
+<h2>Information utilisateur</h2>
+<form action="profil.php" method="post">
+<p>Login utilisateur : {$object->getLogin()}</p>
+<div>
+    <label for="login">Modifier votre login :</label>
+    <input type="text" name="login" id="login" placeholder="Votre nouveau Login 
+    ici">
+</div>
+<p>Email utilisateur : {$object->getEmail()}</p>
+<div>
+    <label for="email">Modifier votre Email :</label>
+    <input type="text" name="email" id="email" placeholder="Votre nouveau Email 
+    ici">
+</div>
+<p>Vos droits : {$droits}</p>
+<div>
+    <label for="password">Modifier votre mot de passe :</label>
+    <input type="password" name="password" placeholder="Mot de passe">
+</div>
+<div>
+    <label for="c_password">Confirmez votre nouveau mot de passe :</label>
+    <input type="password" name="c_password" placeholder="Mot de passe">
+</div>
+<input type="submit" name="submit" id="submit">
+</form>
+HTML;
     }
 }

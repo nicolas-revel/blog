@@ -1,5 +1,14 @@
 <?php
+require_once ('../app/Autoload.php');
 session_start();
+
+
+$currentUser = $_SESSION['user'];
+$nameCat = new \blog\app\views\categorie();
+if (isset($_POST['submit'])) {
+
+    $currentUser->updateUser($_POST['login'], $_POST['password'], $_POST['c_password'], $_POST['email']);
+}
 ?>
 <?php $pageTitle = 'MON COMPTE'; ?>
 <?php ob_start(); ?>

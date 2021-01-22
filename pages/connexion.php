@@ -1,5 +1,13 @@
 <?php
 session_start();
+
+require_once('../app/Autoload.php');
+
+$user = new \blog\app\controllers\User();
+$nameCat = new \blog\app\views\categorie();
+if (isset($_POST['envoyer'])) {
+    $_SESSION['user'] = $user->connectUser($_POST['login'], $_POST['password']);
+}
 ?>
 <?php $pageTitle = 'CONNEXION'; ?>
 <?php ob_start(); ?>

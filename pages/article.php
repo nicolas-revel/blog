@@ -2,14 +2,18 @@
 require_once('../app/Autoload.php');
 $articlesTable = new blog\app\views\Article();
 $showComment = new blog\app\views\Comment();
+$com = new \blog\app\controllers\Comment();
 
-if(isset($_GET['start']) && !empty($_GET['start'])){
-    $currentPage = (int) strip_tags($_GET['start']);
-}else{
+if (isset($_GET['start']) && !empty($_GET['start'])) {
+    $currentPage = (int)strip_tags($_GET['start']);
+} else {
     $currentPage = 1;
 }
-?>
-<?php $pageTitle = 'ARTICLE'; ?>
+if (isset($_GET['modifcom'])) {
+    $modifcom = $com->getCommentBd($_GET['modifcom']);
+}
+ ?>
+<?php $pageTitle = 'ARTICLES'; ?>
 <?php ob_start(); ?>
 <?php require_once('../config/header.php'); ?>
 
@@ -30,15 +34,29 @@ if(isset($_GET['start']) && !empty($_GET['start'])){
         <div id="formCommentColumn">
             <h6 id="titleCommentForm">BALANCE<br><span id="letterCom">TON COMM'</span></h6>
 
-<form id="article" action="article.php?id=<?= $_GET['id']; ?>" method="POST">
+<form id="article" action="article.php?id=<?= $_GET['id']; ?><?php if (isset
+($_GET['modifcom'])) : echo "&modifcom={$_GET['modifcom']}"; endif; ?>"
+method="POST">
     <div>
-        <input type="text" name="commentaire" required placeholder="Balance ton comm'">
+        <label for="commentaire">Commentaire</label>
+        <input type="text" name="commentaire" required
+               placeholder="Commentaire" value="<?php if (!empty($modifcom))
+            : echo $modifcom['commentaire']; endif; ?>">
     </div>
-    <div id="buttonSubmit">
-        <button class="buttonCard" type="submit" name="envoyer">Envoyer</button>
+    <br>
+    <div>
+        <?php if (empty($modifcom)) : ?>
+            <button id="buttonSub" type="submit" name="envoyer">Envoyer</button>
+        <?php else : ?>
+            <button id="buttonSub" type="submit" name="majcom">Envoyer</button>
+        <?php endif; ?>
     </div>
-    <?php if(isset($_POST['envoyer'])){
+    <?php if (isset($_POST['envoyer'])) {
         $showComment->insertComments($_GET['id'], 1);
+    }
+    if (isset($_POST['majcom']) && isset($modifcom)) {
+        $com->updateComments($modifcom['id'], $modifcom['id_article'],
+            $modifcom['id_utilisateur']);
     }
     ?>
 </form>
