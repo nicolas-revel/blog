@@ -7,6 +7,7 @@ $user = new blog\app\controllers\User();
 $article = new \blog\app\controllers\Article();
 $comment = new \blog\app\controllers\Comment();
 $category = new \blog\app\controllers\categorie();
+
 if (empty($_GET['table'])) {
     $_GET['table'] = "users";
 }

@@ -19,7 +19,7 @@ if (isset($_POST['envoyer'])) {
             <img id="codeRetro" src="../images/profil.png" alt="illustration">
         </div>
 
-        <div id="formIns">
+        <div id="formProfil">
             <h3 id="title_ins"><span class="bw">M</span><span
                         class="bw">o</span><span class="bw">m</span> <span
                         class="bw">c</span><span class="bw">o</span><span

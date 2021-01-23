@@ -1,6 +1,8 @@
 <?php
 require_once('../app/Autoload.php');
-$currentUser = $_SESSION['user'];
+if(isset($_SESSION['user'])) {
+    $currentUser = $_SESSION['user'];
+}
 $nameCat = new \blog\app\views\categorie;
 ?>
     <header>
@@ -15,18 +17,18 @@ $nameCat = new \blog\app\views\categorie;
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="../pages/accueil.php"><span class="line">|</span> Home</a>
                         </li>
-                        <?php if(!empty($_SESSION['user']->getLogin())): ?>
+                        <?php if(isset($_SESSION['user'])): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="../pages/profil.php"><span class="line">|</span> Profil</a>
                         </li>
-                        <?php elseif($_SESSION['user']->getDroits() == 1337): ?>
+                        <?php elseif(isset($_SESSION['user']) && $_SESSION['user']->getDroits() == 1337): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="../pages/creer_article.php"><span class="line">|</span> Article</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../pages/admin.php"><span class="line">|</span> Admin</a>
                         </li>
-                        <?php elseif($_SESSION['user']->getDroits() == 42): ?>
+                        <?php elseif(isset($_SESSION['user']) && $_SESSION['user']->getDroits() == 42): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="../pages/creer_article.php"><span class="line">|</span> Article</a>
                         </li>

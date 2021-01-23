@@ -288,4 +288,8 @@ class User extends \blog\app\models\User
         $this->deleteUserDb($id);
     }
 
+    public function getIdUser () {
+        return $this->getId();
+    }
+
 }

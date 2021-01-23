@@ -32,7 +32,7 @@ class Comment extends \blog\app\models\Comment
 
         $this->insertCommentBd($commentaire, $id_article, $id_utilisateur);
 
-        \Http::redirect("article.php?id=$id_article");
+        \blog\app\Http::redirect("article.php?id=$id_article");
 
     }
 

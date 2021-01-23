@@ -43,13 +43,26 @@ class Comment extends \blog\app\controllers\Comment
                     <div id="card_articleText">
                         <p><?= $value['commentaire']; ?></p>
                     </div>
+                    <?php if(isset($_SESSION['user']) && $_SESSION['user']->getDroits() == 42): ?>
+                    <div id="card_button">
+                        <form action="article.php?id=<?= $_GET['id']?>" method="POST">
+                            <button class="buttonCard" name="deleteCom" type="submit">SUPPRIMER LE COMMENTAIRE</button>
+                        </form>
+                        <?php if(isset($_POST['deleteCom'])): ?>
+                            <?php $this->deleteComments($value['id']);
+                            \blog\app\Http::redirect("article.php?id=$article_id");?>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
                 <?php
             }
+
+            $pagination = new \blog\app\views\Article();
+            $pagination->showPagination($url = "?id=", $get = $_GET['id'], $start = "&start=", $currentPage, $pages);
         }
 
-        $pagination = new \blog\app\views\Article();
-        $pagination->showPagination($url = "?id=", $get = $_GET['id'], $start = "&start=", $currentPage, $pages);
+
     }
 
     public function listEachComment()
@@ -78,6 +91,7 @@ html;
         $tbody = $this->listEachComment();
         $vue = <<<HTML
 <div class="tableAdmin">
+<br>
 <h2 id="title_table">Liste des commentaires</h2>
 <br>
 <table id="table_ad">

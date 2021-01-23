@@ -22,13 +22,15 @@ class Article extends Model
      * @param string $article
      * @param int $id_utilisateur
      * @param int $id_categorie
+     * @param string $titre
      */
-    public function insertArticleDb(string $article, int $id_utilisateur, int $id_categorie)
+    public function insertArticleDb(string $titre, string $article, int $id_utilisateur, int $id_categorie)
     {
 
         $bdd = $this->getBdd();
 
-        $req = $bdd->prepare("INSERT INTO articles (article, id_utilisateur, id_categorie, date) VALUES (:article, :id_utilisateur, :id_categorie, NOW())");
+        $req = $bdd->prepare("INSERT INTO articles (titre, article, id_utilisateur, id_categorie, date) VALUES (:titre, :article, :id_utilisateur, :id_categorie, NOW())");
+        $req->bindValue(':titre', $titre);
         $req->bindValue(':article', $article);
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
         $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
@@ -42,13 +44,15 @@ class Article extends Model
      * @param string $article
      * @param int $id_utilisateur
      * @param int $id_categorie
+     *  * @param string $titre
      */
-    public function updateArticleBd(int $id, string $article, int $id_utilisateur, int $id_categorie)
+    public function updateArticleBd(int $id, string $titre, string $article, int $id_utilisateur, int $id_categorie)
     {
 
         $bdd = $this->getBdd();
 
-        $req = $bdd->prepare('UPDATE articles SET article = :article, id_utilisateur = :id_utilisateur, id_categorie = :id_categorie, date = NOW() WHERE id = :id');
+        $req = $bdd->prepare('UPDATE articles SET titre = :titre, article = :article, id_utilisateur = :id_utilisateur, id_categorie = :id_categorie, date = NOW() WHERE id = :id');
+        $req->bindValue(':titre', $titre);
         $req->bindValue(':article', $article);
         $req->bindValue(':id_utilisateur', $id_utilisateur, \PDO::PARAM_INT);
         $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
@@ -147,7 +151,7 @@ class Article extends Model
     public function getArticlesAuthors()
     {
         $bdd = $this->getBdd();
-        $sql = "SELECT articles.id, article, id_utilisateur, id_categorie, date, utilisateurs.login, categories.nom FROM articles INNER JOIN utilisateurs ON utilisateurs.id = id_utilisateur INNER JOIN categories ON categories.id = id_categorie ORDER BY id ASC";
+        $sql = "SELECT articles.id, titre, article, id_utilisateur, id_categorie, date, utilisateurs.login, categories.nom FROM articles INNER JOIN utilisateurs ON utilisateurs.id = id_utilisateur INNER JOIN categories ON categories.id = id_categorie ORDER BY id ASC";
         $req = $bdd->prepare($sql);
         $req->execute();
         $result = $req->fetchAll(\PDO::FETCH_ASSOC);

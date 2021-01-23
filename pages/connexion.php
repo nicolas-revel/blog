@@ -16,7 +16,7 @@ if (isset($_POST['envoyer'])) {
 
 <main>
 
-    <section id="pageInscription"><!-- row -->
+    <section id="pageInscription">
         <div id="illusVapo">
             <img id="vapo" src="../images/vapowarve.png" alt="illustration retro">
         </div>

@@ -1,12 +1,18 @@
 <?php
 require_once('../app/Autoload.php');
 session_start();
-$currentUser = $_SESSION['user'];
+if(isset($_SESSION['user'])) {
+    $currentUser = $_SESSION['user'];
+}
 
 $user = new \blog\app\controllers\User();
 $show = new blog\app\views\Article();
 if (isset($_POST['deco'])) {
     $_SESSION['user']->disconnectUser();
+    if($_SESSION['user']->disconnectUser() == true){
+        session_destroy();
+    }
+    \blog\app\Http::redirect('../index.php');
 }
 ?>
 
@@ -33,15 +39,18 @@ if (isset($_POST['deco'])) {
 
     <section id="info_user">
         <i class="fas fa-user-astronaut"></i>
-        <h6 id="login_user">BIENVENUE <?php if(!empty($_SESSION['user'])): ?><?= $currentUser->getLogin(); ?><?php endif; ?>!</h6>
+        <h6 id="login_user">BIENVENUE <?php if(isset($_SESSION['user'])): ?><?= $currentUser->getLogin(); ?><?php endif; ?>!</h6>
         <div id="link_user">
-            <?php if(!empty($_SESSION['user']->getLogin())): ?>
+            <?php if(isset($_SESSION['user']) && $_SESSION['user']->getDroits() == 1): ?>
                 <a href="../pages/profil.php"><button id="button_user" type="button" class="btn btn-outline-light">PROFIL</button></a>
-            <?php elseif($_SESSION['user']->getDroits() == 1337 ): ?>
+                <a href="../pages/articles.php"><button id="button_user" type="button" class="btn btn-outline-light">VOIR ARTICLES</button></a>
+            <?php elseif(isset($_SESSION['user']) && $_SESSION['user']->getDroits() == 1337 ): ?>
                 <a href="../pages/creer_article.php"><button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button></a>
+                <a href="../pages/articles.php"><button id="button_user" type="button" class="btn btn-outline-light">VOIR ARTICLES</button></a>
                 <a href="../pages/admin.php"><button id="button_user" type="button" class="btn btn-outline-light">ADMIN</button></a>
-            <?php elseif($_SESSION['user']->getDroits() == 42): ?>
+            <?php elseif(isset($_SESSION['user']) && $_SESSION['user']->getDroits() == 42): ?>
                 <a href="../pages/creer_article.php"><button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE</button></a>
+                <a href="../pages/articles.php"><button id="button_user" type="button" class="btn btn-outline-light">VOIR ARTICLES</button></a>
             <?php else: ?>
                 <a href="../pages/inscription.php"><button id="button_user" type="button" class="btn btn-outline-light">INSCRIPTION</button></a>
                 <a href="../pages/connexion.php"><button id="button_user" type="button" class="btn btn-outline-light">CONNEXION</button></a>

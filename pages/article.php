@@ -13,6 +13,7 @@ if (isset($_GET['start']) && !empty($_GET['start'])) {
 if (isset($_GET['modifcom'])) {
     $modifcom = $com->getCommentBd($_GET['modifcom']);
 }
+
  ?>
 <?php $pageTitle = 'ARTICLES'; ?>
 <?php ob_start(); ?>
@@ -53,7 +54,7 @@ method="POST">
         <?php endif; ?>
     </div>
     <?php if (isset($_POST['envoyer'])) {
-        $showComment->insertComments($_GET['id'], 1);
+        $showComment->insertComments($_GET['id'], $_SESSION['user']->getIdUser());
     }
     if (isset($_POST['majcom']) && isset($modifcom)) {
         $com->updateComments($modifcom['id'], $modifcom['id_article'],
@@ -61,6 +62,7 @@ method="POST">
     }
     ?>
 </form>
+            <br>
             <a href="articles.php" class="card-link"><button id="button_back2" type="button" class="btn btn-light">RETOUR ARTICLES</button></a>
         </div>
     </section>

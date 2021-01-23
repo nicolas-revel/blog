@@ -3,12 +3,19 @@ require_once('../app/Autoload.php');
 session_start();
 $nameCat = new blog\app\views\Categorie();
 $articlesTable = new blog\app\views\Article();
+$art = new \blog\app\controllers\Article();
 
 if(isset($_GET['start']) && !empty($_GET['start'])){
     $currentPage = (int) strip_tags($_GET['start']);
 }else{
     $currentPage = 1;
 }
+
+if (isset($_GET['deleart'])) {
+    $deleteArt = $art->deletArticle($_GET['deleart']);
+    \blog\app\Http::redirect('articles.php');
+}
+
 ?>
 <?php $pageTitle = 'ARTICLES'; ?>
 <?php ob_start(); ?>

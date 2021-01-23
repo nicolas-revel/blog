@@ -179,6 +179,10 @@ class Article extends \blog\app\controllers\Article
             <div id="card_button">
                 <a class="buttonCard" href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
                 <a class="buttonCard" href="article.php?id=<?= $valuesId ?>" class="card-link">VOIR L'ARTICLE</a>
+        <?php if(isset($_SESSION['user']) && $_SESSION['user']->getDroits() == 42): ?>
+                <a class="buttonCard" href="creer_article.php?modifart=<?= $valuesId ?>" class="card-link">MODIFIER L'ARTICLE</a>
+                <a class="buttonCard" href="articles.php?deleart=<?= $valuesId ?>" class="card-link">SUPPRIMER L'ARTICLE</a>
+        <?php endif; ?>
             </div>
         </div>
         <?php
@@ -289,6 +293,7 @@ class Article extends \blog\app\controllers\Article
             $tbody = $tbody . <<<HTML
 <tr>
     <td>{$article['id']}</td>
+    <td>{$article['titre']}</td>
     <td>{$article['article']}</td>
     <td>{$article['nom']}</td>
     <td>{$article['login']}</td>
@@ -307,12 +312,14 @@ HTML;
         $tbody = $this->listArticleAdmin();
         $vue = <<<HTML
 <div class="tableAdmin">
+<br>
 <h2 id="title_table">Liste des articles</h2>
 <br>
 <table id="table_ad">
     <thead>
         <tr>
             <th>ID</th>
+            <th>Titre</th>
             <th>Article</th>
             <th>Catégorie</th>
             <th>Auteur</th>

@@ -13,8 +13,9 @@ class Article extends \blog\app\models\Article
      */
     public function insertArticle($id_utilisateur): void {
 
-        if(!empty ($_POST['categorie']) && ($_POST['article'])) {
+        if(!empty ($_POST['categorie']) && ($_POST['titre']) && ($_POST['article'])) {
 
+            $titre = htmlspecialchars($_POST['titre']);
             $article = htmlspecialchars($_POST['article']);
             $categorie = htmlspecialchars($_POST['categorie']);
 
@@ -30,7 +31,7 @@ class Article extends \blog\app\models\Article
 
                 $id_categorie = $value;
 
-                $this->insertArticleDb($article, $id_utilisateur, $id_categorie);
+                $this->insertArticleDb($titre, $article, $id_utilisateur, $id_categorie);
             }
         }
 
@@ -61,8 +62,9 @@ class Article extends \blog\app\models\Article
      */
     public function updateArticle (int $id, int $id_utilisateur) {
 
-        if(!empty ($_POST['categorie']) && ($_POST['article'])) {
+        if(!empty ($_POST['categorie']) && ($_POST['titre']) && ($_POST['article'])) {
 
+            $titre = htmlspecialchars($_POST['titre']);
             $article = htmlspecialchars($_POST['article']);
             $categorie = htmlspecialchars($_POST['categorie']);
 
@@ -78,9 +80,10 @@ class Article extends \blog\app\models\Article
 
                 $id_categorie = $value;
 
-                $this->updateArticleBd($id, $article, $id_utilisateur, $id_categorie);
+                $this->updateArticleBd($id, $titre, $article, $id_utilisateur, $id_categorie);
             }
         }
+
     }
 
     /**

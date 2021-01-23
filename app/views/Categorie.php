@@ -57,6 +57,7 @@ HTML;
         $tbody = $this->listCategorieAdmin();
         $vue = <<<HTML
 <div class="tableAdmin">
+<br>
 <h2 id="title_table">Liste des catégories</h2>
 <br>
 <table id="table_ad">

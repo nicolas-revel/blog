@@ -4,6 +4,7 @@ session_start();
 $nameCat = new blog\app\views\Categorie();
 $show = new blog\app\views\Article();
 $art = new \blog\app\controllers\Article();
+
 if (isset($_GET['modifart'])) {
     $modifart = $art->findBd($_GET['modifart']);
 }
@@ -45,7 +46,6 @@ if (isset($_GET['modifart'])) {
                         :</label><br>
                     <textarea name="article"
                               rows="5" cols="30"
-                              minlength="10" maxlength="30"
                               placeholder="Votre texte ici ..."><?php
                         if (isset($modifart)) : echo "{$modifart['article']}"; endif; ?></textarea>
                 </div>
@@ -70,7 +70,11 @@ if (isset($_GET['modifart'])) {
                 <?php
                 if (isset($_POST['envoyer'])) {
                     $post = new blog\app\controllers\Article();
-                    $post->insertArticle(2);
+                    $post->insertArticle($_SESSION['user']->getIdUser());
+                } elseif(isset($_POST['majart'])) {
+                    $post = new blog\app\controllers\Article();
+                    $post->updateArticle($modifart['id'], $_SESSION['user']->getIdUser());
+                    \blog\app\Http::redirect('articles.php');
                 }
                 ?>
             </form>

@@ -59,6 +59,7 @@ HTML;
         $tbody = $this->listEachUsers();
         $vue = <<<HTML
 <div class="tableAdmin">
+<br>
 <h2 id="title_table">Liste des utilisateurs</h2>
 <br>
 <table id="table_ad">
