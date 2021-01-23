@@ -38,7 +38,7 @@ class Comment extends \blog\app\controllers\Comment
                 ?>
                 <div id="card_accueil">
                     <div id="card_titleComment">
-                        <h6 id="title_h6Comment">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></h6>
+                        <h6 id="title_h6Comment">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?> par : <?= $value['login'] ?></h6>
                     </div>
                     <div id="card_articleText">
                         <p><?= $value['commentaire']; ?></p>

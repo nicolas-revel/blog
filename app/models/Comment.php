@@ -91,4 +91,27 @@ class Comment extends model
         $this->deleteBd($id);
     }
 
+    /**
+     * Permet de récupérer tous les articles ou tout les commentaires dans l'ordre décroissant par rapport l'id de la catégorie
+     * @param int $premier
+     * @param int $parPage
+     * @param int $id_categorie
+     * @return array
+     */
+    public function selectCommentWithArticle(int $premier, int $parPage, int $id_categorie)
+    {
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare("SELECT commentaires.id, commentaire, id_article, commentaires.id_utilisateur, commentaires.date, utilisateurs.login FROM commentaires INNER JOIN utilisateurs ON utilisateurs.id = id_utilisateur INNER JOIN articles ON articles.id = id_article WHERE id_article = :id ORDER BY date DESC LIMIT :premier, :parpage ");
+        $req->bindValue( ":id", $id_categorie, \PDO::PARAM_INT);
+        $req->bindValue(':premier', $premier, \PDO::PARAM_INT);
+        $req->bindValue(':parpage', $parPage, \PDO::PARAM_INT);
+        $req->execute();
+
+        $result = $req->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $result;
+    }
+
 }

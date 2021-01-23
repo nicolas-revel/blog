@@ -61,7 +61,7 @@ class Comment extends \blog\app\models\Comment
     public function showComments($id_article, $premier, $parPage)
     {
 
-        $comment = $this->selectArticleWithCategorie($premier, $parPage, $id_article);
+        $comment = $this->selectCommentWithArticle($premier, $parPage, $id_article);
 
         return $comment;
     }
