@@ -51,13 +51,14 @@ if (isset($_POST['envoyer'])) {
                 </div>
                 <br>
                 <div>
-                    <label for="password">password *</label><br>
+                    <label for="password">Password *</label><br>
                     <input type="password" name="password" required
                            placeholder="Mot de passe">
                 </div>
                 <br>
                 <div>
-                    <label for="confirm_password">Confirm password *</label><br>
+                    <label for="confirm_password">Confirmation du password
+                        *</label><br>
                     <input type="password" name="confirm_password" required
                            placeholder="Mot de passe">
                 </div>
