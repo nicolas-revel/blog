@@ -32,8 +32,10 @@ class Article extends \blog\app\models\Article
                 $id_categorie = $value;
 
                 $this->insertArticleDb($titre, $article, $id_utilisateur, $id_categorie);
+                \blog\app\Http::redirect("articles.php");
             }
         }
+
 
     }
 

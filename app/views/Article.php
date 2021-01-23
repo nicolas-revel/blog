@@ -163,7 +163,7 @@ class Article extends \blog\app\controllers\Article
                 <h5 id="card_title3"><i id="i_title" class="fas fa-project-diagram"></i><?= $title; ?></h5>
                 <h6 id="title3_h6">Ecrit le : <?= $valueDate ?></h6>
             </div>
-            <div id="card_articleText">
+            <div id="card_articleTextAccueil">
                 <p><?= $valuesArticle; ?></p>
             </div>
             <div id="card_button3">
