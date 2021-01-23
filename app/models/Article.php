@@ -13,11 +13,6 @@ class Article extends Model
     protected $where = "id_categorie";
     protected $resultWhere = ":id_categorie";
 
-    private $id;
-    public $article;
-    public $id_categorie;
-    public $date;
-
     /**
      * @param string $article
      * @param int $id_utilisateur
@@ -64,21 +59,16 @@ class Article extends Model
 
     /**
      * Méthode qui permet de récupérer un article par rapport à l'id de l'article
-     * @param int $id
+     * @param int $id_article
      * @return array
      */
     public function findBd(int $id_article): array
     {
         $bdd = $this->getBdd();
-        $req = $bdd->prepare("SELECT id, titre, article, id_utilisateur, id_categorie, date FROM articles WHERE id = :id");
-        $req->execute(['id' => $id_article]);
+        $req = $bdd->prepare("SELECT articles.id, titre, article, id_utilisateur, id_categorie, date, utilisateurs.login, utilisateurs.id FROM articles INNER JOIN utilisateurs ON utilisateurs.id = id_utilisateur WHERE articles.id = :id_article ORDER BY date DESC");
+        $req->bindValue(':id_article', $id_article, \PDO::PARAM_INT);
+        $req->execute();
         $result = $req->fetch(\PDO::FETCH_ASSOC);
-
-        $this->id = $result['id'];
-        $this->article = $result['article'];
-        $this->id_utilisateur = $result['id_utilisateur'];
-        $this->id_categorie = $result['id_categorie'];
-        $this->date = $result['date'];
 
         return $result;
     }
@@ -93,7 +83,21 @@ class Article extends Model
     {
         $bdd = $this->getBdd();
 
-        $req = $bdd->prepare('SELECT * FROM articles ORDER BY date DESC LIMIT :premier, :parpage');
+        $req = $bdd->prepare('SELECT articles.id, titre, article, id_utilisateur, id_categorie, date, utilisateurs.login, categories.nom FROM articles INNER JOIN utilisateurs ON utilisateurs.id = id_utilisateur INNER JOIN categories ON categories.id = id_categorie ORDER BY date DESC LIMIT :premier, :parpage');
+        $req->bindValue(':premier', $premier, \PDO::PARAM_INT);
+        $req->bindValue(':parpage', $parPage, \PDO::PARAM_INT);
+        $req->execute();
+        $articles = $req->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $articles;
+    }
+
+    public function selectArticleByCategorie ($id_categorie, $premier, $parPage) {
+
+        $bdd = $this->getBdd();
+
+        $req = $bdd->prepare('SELECT articles.id, titre, article, id_utilisateur, id_categorie, date, utilisateurs.login, categories.nom FROM articles INNER JOIN utilisateurs ON utilisateurs.id = id_utilisateur INNER JOIN categories ON categories.id = id_categorie WHERE id_categorie = :id_categorie ORDER BY date DESC LIMIT :premier, :parpage');
+        $req->bindValue(':id_categorie', $id_categorie, \PDO::PARAM_INT);
         $req->bindValue(':premier', $premier, \PDO::PARAM_INT);
         $req->bindValue(':parpage', $parPage, \PDO::PARAM_INT);
         $req->execute();

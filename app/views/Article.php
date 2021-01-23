@@ -21,13 +21,14 @@ class Article extends \blog\app\controllers\Article
 
                         if ($values['id_categorie'] == $value) {
 
+                            $valuesLogin = $values['login'];
                             $valuesArticle = $values['article'];
                             $valuesId = $values['id'];
                             $title = $values['titre'];
                             $valueDate = $values['date'];
 
                             $dateFormat = $this->getFormatDate($valueDate);
-                            $this->cardArticle($title, $dateFormat, $valuesArticle, $value, $key, $valuesId);
+                            $this->cardArticle($title, $dateFormat, $valuesLogin, $valuesArticle, $value, $key, $valuesId);
                         }
 
                     }
@@ -66,32 +67,27 @@ class Article extends \blog\app\controllers\Article
         // Calcul du 1er article de la page
         $premier = ($currentPage * $parPage) - $parPage;
         $nameCat = $this->tabCategorie();
-        $author = $this->getArticlesAuthors();
         $articles = $this->selectPages($premier, $parPage);
 
         foreach ($articles as $keyA => $values) {
 
-            foreach($author as $keys => $valuesLogin) {
-
                 foreach ($nameCat as $key => $value) {
 
-                    if ($values['id_categorie'] == $value) {
+                        if ($values['id_categorie'] == $value) {
 
-                        if ($values['id_utilisateur'] == $valuesLogin['id_utilisateur']) {
-
-                            $authorName = $valuesLogin['login'];
+                            $valuesLogin = $values['login'];
                             $valuesArticle = $values['article'];
                             $valuesId = $values['id'];
                             $title = $values['titre'];
                             $valueDate = $values['date'];
 
                             $dateFormat = $this->getFormatDate($valueDate);
-                            $this->cardArticleByFive($title, $dateFormat, $authorName, $valuesArticle, $value, $key, $valuesId);
+                            $this->cardArticleByFive($title, $dateFormat, $valuesLogin, $valuesArticle, $value, $key, $valuesId);
+
+
 
                         }
-                    }
                 }
-            }
 
         }
         $this->showPagination(null, null, $start = "?start=", $currentPage, $pages);
@@ -114,32 +110,26 @@ class Article extends \blog\app\controllers\Article
             // Calcul du 1er article de la page
             $premier = ($currentPage * $parPage) - $parPage;
             $nameCat = $this->tabCategorie();
-            $author = $this->getArticlesAuthors();
-            $articles = $this->selectArticleWithCategorie($premier, $parPage, $_GET['categorie']);
+            $articles = $this->selectArticleByCategorie($_GET['categorie'], $premier, $parPage);
 
             foreach($articles as $keyA => $values){
-
-                foreach($author as $keys => $valuesLogin) {
 
                     foreach($nameCat as $key => $value) {
 
                         if ($values['id_categorie'] == $value) {
 
-                            if ($values['id_utilisateur'] == $valuesLogin['id_utilisateur']) {
-
-                                $authorName = $valuesLogin['login'];
+                                $valuesLogin = $values['login'];
                                 $valuesArticle = $values['article'];
                                 $valuesId = $values['id'];
                                 $title = $values['titre'];
                                 $valueDate = $values['date'];
 
                                 $dateFormat = $this->getFormatDate($valueDate);
-                                $this->cardArticleByFive($title, $dateFormat, $authorName, $valuesArticle, $value, $key, $valuesId);
+                                $this->cardArticleByFive($title, $dateFormat, $valuesLogin, $valuesArticle, $value, $key, $valuesId);
 
-                            }
+
                         }
                     }
-                }
             }
                 $this->showPagination($url = "?categorie=", $get = $_GET['categorie'], $start = "&start=", $currentPage, $pages);
             }
@@ -154,14 +144,14 @@ class Article extends \blog\app\controllers\Article
      * @param $key
      * @param $valuesId
      * @param $valueDate
-     * @param $author
+     * @param $nameLogin
      */
-        public function cardArticle ($title, $valueDate,$valuesArticle, $value, $key, $valuesId) {
+        public function cardArticle ($title, $valueDate, $nameLogin, $valuesArticle, $value, $key, $valuesId) {
         ?>
         <div id="card_accueil3">
             <div id="title3">
                 <h5 id="card_title3"><i id="i_title" class="fas fa-project-diagram"></i><?= $title; ?></h5>
-                <h6 id="title3_h6">Ecrit le : <?= $valueDate ?></h6>
+                <h6 id="title3_h6">Ecrit le : <?= $valueDate ?> par : <?= $nameLogin ?></h6>
             </div>
             <div id="card_articleTextAccueil">
                 <p><?= $valuesArticle; ?></p>
@@ -182,15 +172,15 @@ class Article extends \blog\app\controllers\Article
      * @param $key
      * @param $valuesId
      * @param $valueDate
-     * @param $author
+     * @param $nameLogin
      */
-    public function cardArticleByFive($title, $valueDate, $author, $valuesArticle, $value, $key, $valuesId)
+    public function cardArticleByFive($title, $valueDate, $nameLogin, $valuesArticle, $value, $key, $valuesId)
     {
         ?>
         <div id="card_accueil">
             <div id="card_title">
                 <h5><i id="i_title" class="fas fa-project-diagram"></i><?= $title; ?></h5>
-                <span id="title_h6">Ecrit le : <?= $valueDate ?> par : <?= $author ?></span>
+                <span id="title_h6">Ecrit le : <?= $valueDate ?> par : <?= $nameLogin ?></span>
             </div>
             <div id="card_articleText">
                 <p><?= $valuesArticle; ?></p>
@@ -215,15 +205,15 @@ class Article extends \blog\app\controllers\Article
      * @param $value
      * @param $key
      * @param $valueId
-     * @param $author
+     * @param $nameLogin
      */
-    public function cardOneArticle($title, $dateFormat, $author, $valuesArticle, $value, $key, $valueId) {
+    public function cardOneArticle($title, $dateFormat, $nameLogin, $valuesArticle, $value, $key, $valueId) {
 
         ?>
         <div id="card_accueil">
             <div id="card_title">
                 <h5><i id="i_title" class="fas fa-project-diagram"></i><?= $title; ?></h5>
-                <span id="title_h6">Ecrit le : <?= $dateFormat ?> par : <?= $author ?></span>
+                <span id="title_h6">Ecrit le : <?= $dateFormat ?> par : <?= $nameLogin ?></span>
             </div>
             <div id="card_articleText">
                 <p><?= $valuesArticle; ?></p>
@@ -284,30 +274,25 @@ class Article extends \blog\app\controllers\Article
 
             $id_article = $_GET['id'];
             $article = $this->findbd($id_article);
-            $author = $this->getArticlesAuthors();
             $nameCat = $this->tabCategorie();
 
-            foreach ($nameCat as $key => $value) {
-
-                foreach($author as $keys => $values) {
+                foreach ($nameCat as $key => $value) {
 
                     if ($article['id_categorie'] == $value) {
 
-                        if ($article['id_utilisateur'] == $values['id_utilisateur']) {
+                        $valuesLogin = $article['login'];
+                        $valuesArticle = $article['article'];
+                        $valuesId = $article['id'];
+                        $title = $article['titre'];
+                        $valueDate = $article['date'];
 
-                            $authorName = $values['login'];
-                            $valuesArticle = $article['article'];
-                            $valuesId = $article['id'];
-                            $title = $article['titre'];
-                            $valueDate = $article['date'];
+                        $dateFormat = $this->getFormatDate($valueDate);
+                        $this->cardOneArticle($title, $dateFormat, $valuesLogin, $valuesArticle, $value, $key, $valuesId);
 
-                            $dateFormat = $this->getFormatDate($valueDate);
-                            $this->cardOneArticle($title, $dateFormat, $authorName, $valuesArticle, $value, $key, $valuesId);
 
-                        }
                     }
                 }
-            }
+
         }
 
     }
