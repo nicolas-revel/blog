@@ -17,27 +17,38 @@ class Article extends \blog\app\controllers\Article
 
         foreach ($articles as $keyA => $values) {
 
-            $date = explode(' ', $values['date'])[0];
-            $dateFr = strftime('%d-%m-%Y', strtotime($date));
+                foreach ($nameCat as $key => $value) {
 
-            $Hour = explode(' ', $values['date'])[1];
-            $HourForm = date('H:i', strtotime($Hour));
+                        if ($values['id_categorie'] == $value) {
 
-            foreach ($nameCat as $key => $value) {
+                            $valuesArticle = $values['article'];
+                            $valuesId = $values['id'];
+                            $title = $values['titre'];
+                            $valueDate = $values['date'];
 
-                if ($values['id_categorie'] == $value) {
+                            $dateFormat = $this->getFormatDate($valueDate);
+                            $this->cardArticle($title, $dateFormat, $valuesArticle, $value, $key, $valuesId);
+                        }
 
-                    $valuesArticle = $values['article'];
-                    $valuesId = $values['id'];
-                    $title = $values['titre'];
-
-                    $this->cardArticle($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
-
+                    }
                 }
-            }
 
-        }
+    }
 
+    /**
+     * Méthode afin de formater la date et l'heure au format d-m-Y
+     * @param $valueDate
+     * @return string
+     */
+    public function getFormatDate ($valueDate){
+
+        $date = explode(' ', $valueDate)[0];
+        $dateFr = strftime('%d-%m-%Y', strtotime($date));
+
+        $Hour = explode(' ', $valueDate)[1];
+        $HourForm = date('H:i', strtotime($Hour));
+
+        return $dateFr . ' à ' . $HourForm;
     }
 
     /**
@@ -55,26 +66,30 @@ class Article extends \blog\app\controllers\Article
         // Calcul du 1er article de la page
         $premier = ($currentPage * $parPage) - $parPage;
         $nameCat = $this->tabCategorie();
+        $author = $this->getArticlesAuthors();
         $articles = $this->selectPages($premier, $parPage);
 
         foreach ($articles as $keyA => $values) {
 
-            $date = explode(' ', $values['date'])[0];
-            $dateFr = strftime('%d-%m-%Y', strtotime($date));
+            foreach($author as $keys => $valuesLogin) {
 
-            $Hour = explode(' ', $values['date'])[1];
-            $HourForm = date('H:i', strtotime($Hour));
+                foreach ($nameCat as $key => $value) {
 
-            foreach ($nameCat as $key => $value) {
+                    if ($values['id_categorie'] == $value) {
 
-                if ($values['id_categorie'] == $value) {
+                        if ($values['id_utilisateur'] == $valuesLogin['id_utilisateur']) {
 
-                    $valuesArticle = $values['article'];
-                    $valuesId = $values['id'];
-                    $title = $values['titre'];
+                            $authorName = $valuesLogin['login'];
+                            $valuesArticle = $values['article'];
+                            $valuesId = $values['id'];
+                            $title = $values['titre'];
+                            $valueDate = $values['date'];
 
-                    $this->cardArticleByFive($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
+                            $dateFormat = $this->getFormatDate($valueDate);
+                            $this->cardArticleByFive($title, $dateFormat, $authorName, $valuesArticle, $value, $key, $valuesId);
 
+                        }
+                    }
                 }
             }
 
@@ -99,26 +114,30 @@ class Article extends \blog\app\controllers\Article
             // Calcul du 1er article de la page
             $premier = ($currentPage * $parPage) - $parPage;
             $nameCat = $this->tabCategorie();
+            $author = $this->getArticlesAuthors();
             $articles = $this->selectArticleWithCategorie($premier, $parPage, $_GET['categorie']);
 
             foreach($articles as $keyA => $values){
 
-                $date = explode(' ', $values['date'])[0];
-                $dateFr = strftime('%d-%m-%Y',strtotime($date));
+                foreach($author as $keys => $valuesLogin) {
 
-                $Hour = explode(' ', $values['date'])[1];
-                $HourForm = date('H:i', strtotime($Hour));
+                    foreach($nameCat as $key => $value) {
 
-                foreach($nameCat as $key => $value) {
+                        if ($values['id_categorie'] == $value) {
 
-                    if($values['id_categorie'] == $value){
+                            if ($values['id_utilisateur'] == $valuesLogin['id_utilisateur']) {
 
-                        $valuesArticle = $values['article'];
-                        $valuesId = $values['id'];
-                        $title = $values['titre'];
+                                $authorName = $valuesLogin['login'];
+                                $valuesArticle = $values['article'];
+                                $valuesId = $values['id'];
+                                $title = $values['titre'];
+                                $valueDate = $values['date'];
 
-                            $this->cardArticleByFive($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
+                                $dateFormat = $this->getFormatDate($valueDate);
+                                $this->cardArticleByFive($title, $dateFormat, $authorName, $valuesArticle, $value, $key, $valuesId);
 
+                            }
+                        }
                     }
                 }
             }
@@ -130,19 +149,19 @@ class Article extends \blog\app\controllers\Article
     /**
      * Card affichage des articles sur la page Accueil
      * @param $title
-     * @param $dateFr
-     * @param $HourForm
      * @param $valuesArticle
      * @param $value
      * @param $key
      * @param $valuesId
+     * @param $valueDate
+     * @param $author
      */
-        public function cardArticle ($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
+        public function cardArticle ($title, $valueDate,$valuesArticle, $value, $key, $valuesId) {
         ?>
         <div id="card_accueil3">
             <div id="title3">
                 <h5 id="card_title3"><i id="i_title" class="fas fa-project-diagram"></i><?= $title; ?></h5>
-                <h6 id="title3_h6">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></h6>
+                <h6 id="title3_h6">Ecrit le : <?= $valueDate ?></h6>
             </div>
             <div id="card_articleText">
                 <p><?= $valuesArticle; ?></p>
@@ -158,20 +177,20 @@ class Article extends \blog\app\controllers\Article
     /**
      * Card affichage articles sur la page articles
      * @param $title
-     * @param $dateFr
-     * @param $HourForm
      * @param $valuesArticle
      * @param $value
      * @param $key
      * @param $valuesId
+     * @param $valueDate
+     * @param $author
      */
-    public function cardArticleByFive($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId)
+    public function cardArticleByFive($title, $valueDate, $author, $valuesArticle, $value, $key, $valuesId)
     {
         ?>
         <div id="card_accueil">
             <div id="card_title">
                 <h5><i id="i_title" class="fas fa-project-diagram"></i><?= $title; ?></h5>
-                <span id="title_h6">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></span>
+                <span id="title_h6">Ecrit le : <?= $valueDate ?> par : <?= $author ?></span>
             </div>
             <div id="card_articleText">
                 <p><?= $valuesArticle; ?></p>
@@ -191,26 +210,30 @@ class Article extends \blog\app\controllers\Article
     /**
      * Card affichage article sur la page article + les commentaitres
      * @param $title
-     * @param $dateFr
-     * @param $HourForm
+     * @param $dateFormat
      * @param $valuesArticle
      * @param $value
      * @param $key
-     * @param $valuesId
+     * @param $valueId
+     * @param $author
      */
-    public function cardOneArticle($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId) {
+    public function cardOneArticle($title, $dateFormat, $author, $valuesArticle, $value, $key, $valueId) {
 
         ?>
         <div id="card_accueil">
             <div id="card_title">
                 <h5><i id="i_title" class="fas fa-project-diagram"></i><?= $title; ?></h5>
-                <span id="title_h6">Ecrit le : <?= $dateFr ?> à <?= $HourForm ?></span>
+                <span id="title_h6">Ecrit le : <?= $dateFormat ?> par : <?= $author ?></span>
             </div>
             <div id="card_articleText">
                 <p><?= $valuesArticle; ?></p>
             </div>
             <div id="card_button">
                 <a class="buttonCard" href="articles.php?categorie=<?= $value ?>" class="card-link"><?= $key; ?></a>
+                <?php if(isset($_SESSION['user']) && $_SESSION['user']->getDroits() == 42): ?>
+                    <a class="buttonCard" href="creer_article.php?modifart=<?= $valueId ?>" class="card-link">MODIFIER L'ARTICLE</a>
+                    <a class="buttonCard" href="articles.php?deleart=<?= $valueId ?>" class="card-link">SUPPRIMER L'ARTICLE</a>
+                <?php endif; ?>
             </div>
         </div>
         <?php
@@ -258,27 +281,31 @@ class Article extends \blog\app\controllers\Article
     {
 
         if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
+
             $id_article = $_GET['id'];
             $article = $this->findbd($id_article);
-
+            $author = $this->getArticlesAuthors();
             $nameCat = $this->tabCategorie();
 
             foreach ($nameCat as $key => $value) {
 
-                if ($article['id_categorie'] == $value) {
+                foreach($author as $keys => $values) {
 
-                    $date = explode(' ', $article['date'])[0];
-                    $dateFr = strftime('%d-%m-%Y',strtotime($date));
+                    if ($article['id_categorie'] == $value) {
 
-                    $Hour = explode(' ', $article['date'])[1];
-                    $HourForm = date('H:i', strtotime($Hour));
+                        if ($article['id_utilisateur'] == $values['id_utilisateur']) {
 
-                    $valuesArticle = $article['article'];
-                    $valuesId = $article['id'];
-                    $title = $article['titre'];
+                            $authorName = $values['login'];
+                            $valuesArticle = $article['article'];
+                            $valuesId = $article['id'];
+                            $title = $article['titre'];
+                            $valueDate = $article['date'];
 
-                    $this->cardOneArticle($title, $dateFr, $HourForm, $valuesArticle, $value, $key, $valuesId);
+                            $dateFormat = $this->getFormatDate($valueDate);
+                            $this->cardOneArticle($title, $dateFormat, $authorName, $valuesArticle, $value, $key, $valuesId);
 
+                        }
+                    }
                 }
             }
         }

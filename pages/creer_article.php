@@ -20,7 +20,7 @@ if (isset($_GET['modifart'])) {
                  alt="illustration redactrice">
         </div>
 
-        <div id="formIns">
+        <div id="formCreer">
             <h3 id="title_ins"><span class="bw">R</span><span
                         class="bw">e</span><span class="bw">d</span><span
                         class="bw">a</span><span class="bw">c</span><span

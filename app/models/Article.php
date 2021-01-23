@@ -61,21 +61,6 @@ class Article extends Model
 
     }
 
-    /**
-     * Méthode qui permet de récupérer toute les informations et qui seront "stockées" dans les attributs
-     * @param int $id_utilisateur
-     * @return array
-     */
-    public function findArticleBd(int $id_utilisateur): array
-    {
-
-        $bdd = $this->getBdd();
-
-        $req = $bdd->prepare("SELECT id, article, id_utilisateur, id_categorie, date FROM articles WHERE id = :id");
-        $req->execute(['id' => $id_utilisateur]);
-        $result = $req->fetch(\PDO::FETCH_OBJ);
-
-    }
 
     /**
      * Méthode qui permet de récupérer un article par rapport à l'id de l'article
