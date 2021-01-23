@@ -19,7 +19,7 @@ class Comment extends \blog\app\controllers\Comment
 
             $nbComment = $this->nbrCommentId();
 
-            $parPage = 5;
+            $parPage = 3;
 
             $pages = ceil($nbComment / $parPage);
             // Calcul du 1er article de la page

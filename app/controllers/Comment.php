@@ -25,10 +25,10 @@ class Comment extends \blog\app\models\Comment
         }
 
         //Expression régulière afin de limiter le nombre de caractères, max 1024
-        if(!preg_match("/^(?!\s*$)[-a-zA-Z0-9_:,.\s]{1,1024}$/", $commentaire)) {
-
+        /*$checkComm = preg_match("/^(?!\s*$)[-a-zA-Z0-9_:,.\s]{1,1024}$/", $commentaire);
+        if(!$checkComm) {
             die("Le commentaire doit contenir 1024 caractères maximum");
-        }
+        }*/
 
         $this->insertCommentBd($commentaire, $id_article, $id_utilisateur);
 
