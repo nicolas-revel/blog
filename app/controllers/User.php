@@ -3,6 +3,8 @@
 
 namespace blog\app\controllers;
 
+use blog\app\ErrorMessage;
+
 /**
  * Class User
  * @package blog\app\controllers

@@ -704,10 +704,14 @@ footer {
     margin: 0 0 0 0.3em;
 }
 
+.errormessage {
+    width: fit-content;
+    background-color: #d2522b;
+    margin: 2rem;
+    padding: 1em;
+    border-radius: 5px;
+}
 
-
-
-
-
-
-
+.errormessage > p {
+    color : #ff572f;
+}
