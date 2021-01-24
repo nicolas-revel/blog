@@ -3,6 +3,8 @@
 
 namespace blog\app\controllers;
 
+use blog\app\ErrorMessage;
+
 require_once('../app/Http.php');
 
 class Comment extends \blog\app\models\Comment
@@ -21,14 +23,14 @@ class Comment extends \blog\app\models\Comment
             $commentaire = htmlspecialchars($_POST['commentaire']);
 
         } else {
-            die("Votre formulaire à été mal rempli");
+            return new ErrorMessage('Merci de bien remplir le formulaire');
         }
 
         //Expression régulière afin de limiter le nombre de caractères, max 1024
-        /*$checkComm = preg_match("/^(?!\s*$)[-a-zA-Z0-9_:,.\s]{1,1024}$/", $commentaire);
-        if(!$checkComm) {
-            die("Le commentaire doit contenir 1024 caractères maximum");
-        }*/
+        $checkComm = preg_match("/^(?!\s*$)[-a-zA-Z0-9_:,.\s]{1,1024}$/", $commentaire);
+        if (!$checkComm) {
+            return new ErrorMessage('Votre commentaire doit faire moins de 1024 caractères');
+        }
 
         $this->insertCommentBd($commentaire, $id_article, $id_utilisateur);
 

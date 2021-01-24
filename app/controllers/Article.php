@@ -4,6 +4,8 @@
 namespace blog\app\controllers;
 
 
+use blog\app\ErrorMessage;
+
 class Article extends \blog\app\models\Article
 {
 
@@ -11,7 +13,7 @@ class Article extends \blog\app\models\Article
      * Méthode qui traite le formulaire de création d'article puis insère dans la BDD
      * @param $id_utilisateur
      */
-    public function insertArticle($id_utilisateur): void {
+    public function insertArticle($id_utilisateur) {
 
         if(!empty ($_POST['categorie']) && ($_POST['titre']) && ($_POST['article'])) {
 
@@ -20,7 +22,7 @@ class Article extends \blog\app\models\Article
             $categorie = htmlspecialchars($_POST['categorie']);
 
         } else {
-            die("Votre formulaire à été mal rempli");
+            return new ErrorMessage('Merci de bien remplir tous les champs du formulaire');
         }
 
         $findCat = $this->tabCategorie();
