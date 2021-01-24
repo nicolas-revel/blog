@@ -70,13 +70,20 @@ if (isset($_GET['modifart'])) {
                 <?php
                 if (isset($_POST['envoyer'])) {
                     $post = new blog\app\controllers\Article();
-                    $post->insertArticle($_SESSION['user']->getIdUser());
+                    $newpost = $post->insertArticle($_SESSION['user']->getIdUser
+                    ());
                 } elseif(isset($_POST['majart'])) {
                     $post = new blog\app\controllers\Article();
                     $post->updateArticle($modifart['id'], $_SESSION['user']->getIdUser());
                     \blog\app\Http::redirect('articles.php');
                 }
                 ?>
+                <?php if (isset($newpost) && gettype($newpost) === 'object')
+                    : ?>
+                    <div class="errormessage">
+                        <p><?= $newpost->getMessage(); ?></p>
+                    </div>
+                <?php endif; ?>
             </form>
         </div>
     </section>

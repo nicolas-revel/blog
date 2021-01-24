@@ -67,9 +67,6 @@ if (isset($_GET['modifcom'])) {
                     <?php if (isset($_POST['envoyer'])) {
                         $newcomment = $showComment->insertComments($_GET['id'],
                             $_SESSION['user']->getIdUser());
-                        if ($newcomment === false) {
-                            $erromessage = new \blog\app\ErrorMessage('Votre commentaire doit faire moins de 1024 caractères');
-                        }
                     }
                     if (isset($_POST['majcom']) && isset($modifcom)) {
                         $com->updateComments($modifcom['id'], $modifcom['id_article'],
@@ -85,9 +82,10 @@ if (isset($_GET['modifcom'])) {
                     RETOUR ARTICLES
                 </button>
             </a>
-            <?php if (isset($erromessage)) : ?>
+            <?php if (isset($newcomment) && gettype($newcomment) === 'object')
+                : ?>
                 <div class="errormessage">
-                    <p><?= $erromessage->getMessage(); ?></p>
+                    <p><?= $newcomment->getMessage(); ?></p>
                 </div>
             <?php endif; ?>
         </div>
