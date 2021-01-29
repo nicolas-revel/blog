@@ -105,11 +105,13 @@ if (isset($_POST['deco'])) {
                 </a>
             <?php endif; ?>
         </div>
+        <?php if(!empty($_SESSION['user'])): ?>
         <form id="deleteUser" action="accueil.php" method="POST">
             <button id="deco" name="deco" type="submit" class="btn
             btn-light">DECONNEXION
             </button>
         </form>
+        <?php endif; ?>
     </section>
 
     <article id="LastArticle">
