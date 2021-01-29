@@ -1,7 +1,7 @@
 <?php
 require_once('../app/Autoload.php');
 session_start();
-$user = new blog\app\models\User();
+$user = new \blog\app\models\User();
 
 if (isset($_POST['envoyer'])) {
     $user = new blog\app\controllers\user();

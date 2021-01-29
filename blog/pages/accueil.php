@@ -6,7 +6,7 @@ if (isset($_SESSION['user'])) {
 }
 
 $user = new \blog\app\controllers\User();
-$show = new blog\app\views\Article();
+$show = new \blog\app\views\Article();
 if (isset($_POST['deco'])) {
     $_SESSION['user']->disconnectUser();
     if ($_SESSION['user']->disconnectUser() == true) {

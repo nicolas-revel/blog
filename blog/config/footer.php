@@ -1,6 +1,3 @@
-
-
-
 <footer id="stickyFoot">
         <div id="link_footer">
             <a href="../pages/accueil.php"><img id="logoblogfooter" src="../images/logoblogfooter.png" alt="logo bLogOut"></a>
