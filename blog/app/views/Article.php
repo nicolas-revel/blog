@@ -90,7 +90,7 @@ class Article extends \blog\app\controllers\Article
                 }
 
         }
-        $this->showPagination(null, null, $start = "?start=", $currentPage, $pages);
+        return $pages;
     }
 
     /**

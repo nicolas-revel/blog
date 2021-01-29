@@ -35,6 +35,7 @@ if (isset($_GET['modifcom'])) {
 
             <h2 id="title_comment">Commentaires</h2>
             <div class="card_articles"><?php $pages = $showComment->showCommentWithArticle($currentPage); ?></div>
+            <?php $articlesTable->showPagination($url = "?id=", $get = $_GET['id'], $start = "&start=", $currentPage, $pages); ?>
         </article>
 
         <div id="formCommentColumn">

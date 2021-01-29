@@ -58,8 +58,7 @@ class Comment extends \blog\app\controllers\Comment
                 <?php
             }
 
-            $pagination = new \blog\app\views\Article();
-            $pagination->showPagination($url = "?id=", $get = $_GET['id'], $start = "&start=", $currentPage, $pages);
+            return $pages;
         }
 
 

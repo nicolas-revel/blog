@@ -35,6 +35,7 @@ if (isset($_GET['deleart'])) {
     <?php elseif(!isset($_GET['categorie'])): ?>
         <article class="articlePagination">
                 <div class="card_articles"><?php $pages = $articlesTable->showArticleArticles($currentPage); ?></div>
+            <?php $articlesTable->showPagination(null, null, $start = "?start=", $currentPage, $pages); ?>
         </article>
     <?php endif; ?>
 

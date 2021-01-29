@@ -113,12 +113,13 @@ body {
     flex-direction: column;
     width: 80%;
     min-height: 20vh;
+    align-items: center;
 }
 
 .card_articles {
     justify-content: space-around;
     flex-wrap: wrap;
-    padding-bottom: 4em;
+    /*padding-bottom: 4em;*/
 
 }
 #card_accueil {
@@ -223,7 +224,7 @@ body {
 /* CSS PAGINATION */
 
 .pagination {
-    margin: 1em 4em 0 0;
+    /*margin: 1em 4em 0 0;*/
     color: #34374c;
 }
 
