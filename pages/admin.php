@@ -3,7 +3,7 @@ require_once('../app/Autoload.php');
 session_start();
 
 $nameCat = new \blog\app\views\categorie;
-$user = new blog\app\controllers\User();
+$user = new \blog\app\controllers\User();
 $article = new \blog\app\controllers\Article();
 $comment = new \blog\app\controllers\Comment();
 $category = new \blog\app\controllers\categorie();

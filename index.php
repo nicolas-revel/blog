@@ -3,7 +3,7 @@ try
 {
     require_once 'app/Autoload.php';
 
-    $controller = new blog\app\controllers\Controller();
+    $controller = new \blog\app\controllers\Controller();
 
     if (!empty($_GET['action']))
     {
