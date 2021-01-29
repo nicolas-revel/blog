@@ -1,8 +1,8 @@
 <?php
 require_once('../app/Autoload.php');
 session_start();
-$articlesTable = new blog\app\views\Article();
-$showComment = new blog\app\views\Comment();
+$articlesTable = new \blog\app\views\Article();
+$showComment = new \blog\app\views\Comment();
 $com = new \blog\app\controllers\Comment();
 
 if (isset($_GET['start']) && !empty($_GET['start'])) {
