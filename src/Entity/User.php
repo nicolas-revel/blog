@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+/**
+ * Class User
+ * @package App\Entity
+ */
 class User
 {
     /**
@@ -10,7 +14,7 @@ class User
      * @param string|null $password
      * @param string|null $firstname
      * @param string|null $lastname
-     * @param int|null $idDroits
+     * @param int|null $idRight
      */
     public function __construct(
         private ?int $id = null,
@@ -18,7 +22,7 @@ class User
         private ?string $password = null,
         private ?string $firstname = null,
         private ?string $lastname = null,
-        private ?int $idDroits = null
+        private ?int $idRight = null
     ) {
     }
 
@@ -128,6 +132,22 @@ class User
     {
         $this->idDroits = $idDroits;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProperties(): array
+    {
+        return get_object_vars($this);
     }
 
 }

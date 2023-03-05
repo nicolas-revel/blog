@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+/**
+ * Class Category
+ * @package App\Entity
+ */
 class Category
 {
 
@@ -49,6 +53,14 @@ class Category
     {
         $this->name = $name;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProperties(): array
+    {
+        return get_object_vars($this);
     }
 
 }

@@ -4,8 +4,15 @@ namespace App\Entity;
 
 use DateTime;
 
+/**
+ * Class Article
+ * @package App\Entity
+ */
 class Article
 {
+    private ?User $author;
+
+    private ?Category $category;
 
     /**
      * @param int|null $id
@@ -22,9 +29,15 @@ class Article
         private ?string $content = null,
         private ?int $idUser = null,
         private ?int $idCategory = null,
-        private ?DateTime $createdAt = null,
-        private ?DateTime $updatedAt = null
+        private null|DateTime|string $createdAt = null,
+        private null|DateTime|string $updatedAt = null
     ) {
+        if (gettype($this->createdAt) === 'string') {
+            $this->createdAt = new DateTime($this->createdAt);
+        }
+        if (gettype($this->updatedAt) === 'string') {
+            $this->updatedAt = new DateTime($this->updatedAt);
+        }
     }
 
     /**
@@ -150,6 +163,47 @@ class Article
     public function setUpdatedAt(?DateTime $updatedAt): Article
     {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProperties(): array
+    {
+        return get_object_vars($this);
+    }
+
+    public function setAuthor(User $author)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    /**
+     * @return Category|null
+     */
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category|null $category
+     * @return Article
+     */
+    public function setCategory(?Category $category): Article
+    {
+        $this->category = $category;
         return $this;
     }
 

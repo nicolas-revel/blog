@@ -1,17 +1,22 @@
 <?php
 
-use App\Controller\UserController;
-use App\View\Article;
+use App\Controller\HomeController;
+use App\Entity\Article;
 
 require_once('../config/env.php');
 require_once('../config/autoload.php');
 session_start();
+
+$controller = new HomeController();
+
+/** @var Article[] $articles */
+$articles = $controller->getHomepageArticles();
+$articles = array_slice($articles, 0, 5);
+
 if (isset($_SESSION['user'])) {
     $currentUser = $_SESSION['user'];
 }
 
-$user = new UserController();
-$show = new Article();
 if (isset($_POST['deco'])) {
     $_SESSION['user']->disconnectUser();
     if ($_SESSION['user']->disconnectUser() == true) {
@@ -19,14 +24,13 @@ if (isset($_POST['deco'])) {
     }
     app\Http::redirect('../index.php');
 }
-?>
 
-<?php
-$pageTitle = 'ACCUEIL'; ?>
-<?php
-ob_start(); ?>
-<?php
-require_once('../config/header.php'); ?>
+$pageTitle = 'ACCUEIL';
+
+ob_start();
+
+require_once('../config/header.php');
+?>
 
     <main>
         <section id="present_blog">
@@ -130,14 +134,45 @@ require_once('../config/header.php'); ?>
             </p>
         </article>
 
-        <div class="card_articles"><?= $show->showArticleAccueil(); ?></div>
+        <div class="card_articles">
+            <?php
+            foreach ($articles as $article): ?>
+                <div id="card_accueil">
+                    <div id="card_title">
+                        <h5><i id="i_title" class="fas fa-project-diagram"></i><?= $article->getTitle(); ?></h5>
+                        <span id="title_h6">Ecrit le : <?= $article->getCreatedAt()->format(
+                                'd/m/y H:i'
+                            ) ?> par : <?= $article->getAuthor()->getFullName() ?></span>
+                    </div>
+                    <div id="card_articleText">
+                        <p><?= $article->getTitle() ?></p>
+                    </div>
+                    <div id="card_button">
+                        <a class="buttonCard" href="articles.php?categorie=<?= $article->getIdCategory() ?>"
+                           class="card-link"><?= $article->getCategory()->getName() ?></a>
+                        <a class="buttonCard" href="article.php?id=<?= $article->getId() ?>" class="card-link">VOIR
+                            L'ARTICLE</a>
+                        <?php
+                        if (isset($_SESSION['user']) && $_SESSION['user']->getDroits() == 42): ?>
+                            <a class="buttonCard" href="creer_article.php?modifart=<?= $article->getId() ?>"
+                               class="card-link">MODIFIER
+                                L'ARTICLE</a>
+                            <a class="buttonCard" href="articles.php?deleart=<?= $article->getId() ?>"
+                               class="card-link">SUPPRIMER
+                                L'ARTICLE</a>
+                        <?php
+                        endif; ?>
+                    </div>
+                </div>
+            <?php
+            endforeach; ?>
+        </div>
 
     </main>
 
 <?php
-require_once('../config/footer.php'); ?>
-<?php
-$pageContent = ob_get_clean(); ?>
+require_once('../config/footer.php');
 
-<?php
+$pageContent = ob_get_clean();
+
 require_once('template.php'); ?>

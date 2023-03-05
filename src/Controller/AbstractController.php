@@ -2,13 +2,12 @@
 
 namespace App\Controller;
 
-
-class AbstractController
+abstract class AbstractController
 {
 
-    public function index ()
+    protected function redirect(string $url)
     {
-        Header('Location: pages/accueil.php?action=accueil');
+        var_dump('Location: ' . $_ENV['ROOT_PROJECT'] . $url);
+        header('Location: ' . $_ENV['ROOT_PROJECT'] . '/' . $url, true, 302);
     }
-
 }

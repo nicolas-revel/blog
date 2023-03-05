@@ -1,26 +1,19 @@
 <?php
-try
-{
+
+use App\Controller\BaseController;
+
+try {
     require_once './config/env.php';
     require_once './config/autoload.php';
 
-    $controller = new \App\Controller\AbstractController();
+    $controller = new BaseController();
 
-    if (!empty($_GET['page']))
-    {
-        if ($_GET['page'] == 'accueil')
-        {
-            $controller->index();
-        }
+
+    if (isset($_GET['page'])) {
+        $controller->redirect('pages/' . $_GET['page']); // Action par défaut;
+    } else {
+        $controller->redirect('pages/accueil.php');
     }
-
-    else
-    {
-        $controller->index(); // Action par défaut;
-    }
-}
-
-catch (Exception $e)
-{
+} catch (Exception $e) {
     die('Error: ' . $e);
 }

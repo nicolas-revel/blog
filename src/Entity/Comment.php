@@ -19,8 +19,11 @@ class Comment
         private ?string $commentText = null,
         private ?int $idArticle = null,
         private ?int $idUser = null,
-        private ?DateTime $createdAt = null
+        private null|DateTime|string $createdAt = null
     ) {
+        if (gettype($this->createdAt) === 'string') {
+            $this->createdAt = new DateTime($this->createdAt);
+        }
     }
 
     /**
@@ -111,6 +114,11 @@ class Comment
     {
         $this->createdAt = $createdAt;
         return $this;
+    }
+
+    public function getProperties(): array
+    {
+        return get_object_vars($this);
     }
 
 }
