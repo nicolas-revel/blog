@@ -1,26 +1,34 @@
 <?php
-require_once('../src/autoload.php');
+
+use App\Controller\AuthController;
+
+require_once('../config/env.php');
+require_once('../config/autoload.php');
 session_start();
-$user = new \app\models\User();
 
-if (isset($_POST['envoyer'])) {
-    $user = new \app\controllers\user();
-    $checkLogin = $user->checkLoginValidity($_POST['login']);
-    $checkPass = $user->checkPassword($_POST['password'], $_POST['confirm_password']);
+$authController = new AuthController();
 
-    if ($checkLogin && $checkPass) {
-        $user->insertUser($_POST['login'], $_POST['password'], $_POST['mail']);;
-    } elseif (!$checkLogin) {
-        $erromessage = new app\ErrorMessage("Ce nom d'utilisateur est déjà pris, merci d'en choisir un autre");
-    } elseif (!$checkPass) {
-        $erromessage = new app\ErrorMessage("Merci de bien confirmer votre mot de passe");
+if (isset($_POST['submit'])) {
+    try {
+        $authController->register(
+            $_POST['email'],
+            $_POST['password'],
+            $_POST['confirm_password'],
+            $_POST['firstname'],
+            $_POST['lastname']
+        );
+    } catch (Exception $e) {
+        $errormessage = $e->getMessage();
     }
 }
 ?>
 
-<?php $pageTitle = 'INSCRIPTION'; ?>
-<?php ob_start(); ?>
-<?php require_once('../config/header.php'); ?>
+<?php
+$pageTitle = 'INSCRIPTION'; ?>
+<?php
+ob_start(); ?>
+<?php
+require_once('../config/header.php'); ?>
 
 <main>
     <section id="pageInscription"><!-- row -->
@@ -39,15 +47,9 @@ if (isset($_POST['envoyer'])) {
             <br>
             <form id="blogForm" action="inscription.php" method="POST">
                 <div>
-                    <label for="login">Login *</label><br>
-                    <input type="text" name="login" required
+                    <label for="email">Email *</label><br>
+                    <input type="email" name="email" required
                            placeholder="Nom d'utilisateur">
-                </div>
-                <br>
-                <div>
-                    <label for="mail">E-mail *</label><br>
-                    <input type="mail" name="mail" required
-                           placeholder="E-mail">
                 </div>
                 <br>
                 <div>
@@ -64,21 +66,38 @@ if (isset($_POST['envoyer'])) {
                 </div>
                 <br>
                 <div>
+                    <label for="firstname">Prénom *</label><br>
+                    <input type="text" name="firstname" required
+                           placeholder="Votre prénom">
+                </div>
+                <br>
+                <div>
+                    <label for="lastname">Nom *</label><br>
+                    <input type="text" name="lastname" required
+                           placeholder="Votre nom">
+                </div>
+                <br>
+                <div>
                     <button type="submit" class="btn btn-outline-light"
-                            name="envoyer">Envoyer
+                            name="submit">Envoyer
                     </button>
                 </div>
-                <?php if (isset($erromessage)) : ?>
+                <?php
+                if (isset($errormessage)) : ?>
                     <div class="errormessage">
-                        <p><?= $erromessage->getMessage(); ?></p>
+                        <p><?= $errormessage; ?></p>
                     </div>
-                <?php endif; ?>
+                <?php
+                endif; ?>
             </form>
         </div>
     </section>
 </main>
 
-<?php require_once('../config/footer.php'); ?>
-<?php $pageContent = ob_get_clean(); ?>
+<?php
+require_once('../config/footer.php'); ?>
+<?php
+$pageContent = ob_get_clean(); ?>
 
-<?php require_once('template.php'); ?>
+<?php
+require_once('template.php'); ?>

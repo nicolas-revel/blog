@@ -119,18 +119,18 @@ class User
     /**
      * @return int|null
      */
-    public function getIdDroits(): ?int
+    public function getIdRight(): ?int
     {
-        return $this->idDroits;
+        return $this->idRight;
     }
 
     /**
      * @param int|null $idDroits
      * @return User
      */
-    public function setIdDroits(?int $idDroits): User
+    public function setIdRigh(?int $idRight): User
     {
-        $this->idDroits = $idDroits;
+        $this->idRight = $idRight;
         return $this;
     }
 

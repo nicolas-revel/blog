@@ -30,14 +30,14 @@ class CategoryModel extends AbstractModel
         return parent::findOne($id);
     }
 
-    public function save($entity): void
+    public function save($entity): bool
     {
-        parent::save($entity);
+        return parent::save($entity);
     }
 
-    public function delete($id): void
+    public function delete($id): bool
     {
-        parent::delete($id);
+        return parent::delete($id);
     }
 
 

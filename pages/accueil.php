@@ -1,28 +1,27 @@
 <?php
 
+use App\Controller\AuthController;
 use App\Controller\HomeController;
-use App\Entity\Article;
+use App\Entity\User;
 
 require_once('../config/env.php');
 require_once('../config/autoload.php');
 session_start();
 
-$controller = new HomeController();
+$homeController = new HomeController();
 
-/** @var Article[] $articles */
-$articles = $controller->getHomepageArticles();
+/** @var [Article] $articles */
+$articles = $homeController->getHomepageArticles();
 $articles = array_slice($articles, 0, 5);
 
 if (isset($_SESSION['user'])) {
+    /** @var User $currentUser */
     $currentUser = $_SESSION['user'];
 }
 
 if (isset($_POST['deco'])) {
-    $_SESSION['user']->disconnectUser();
-    if ($_SESSION['user']->disconnectUser() == true) {
-        session_destroy();
-    }
-    app\Http::redirect('../index.php');
+    $authController = new AuthController();
+    $authController->logout();
 }
 
 $pageTitle = 'ACCUEIL';
@@ -58,25 +57,25 @@ require_once('../config/header.php');
             <i class="fas fa-user-astronaut"></i>
             <h6 id="login_user">BIENVENUE <?php
                 if (!empty($_SESSION['user'])) :
-                    ?><?= $currentUser->getLogin(); ?><?php
-                endif; ?>!</h6>
+                    ?><?= $_SESSION['user']->getFullName(); ?><?php
+                endif; ?> !</h6>
             <div id="link_user">
                 <?php
                 if (
-                    !empty($_SESSION['user']) && $_SESSION['user']->getDroits()
+                    !empty($_SESSION['user']) && $_SESSION['user']->getIdRight()
                     == 1
                 ) : ?>
-                    <a href="hp">
+                    <a href="profil.php">
                         <button id="button_user" type="button" class="btn btn-outline-light">PROFIL
                         </button>
                     </a>
-                    <a href=".php">
+                    <a href="articles.php">
                         <button id="button_user" type="button" class="btn btn-outline-light">VOIR ARTICLES</button>
                     </a>
                 <?php
                 elseif (
                     !empty($_SESSION['user']) &&
-                    $_SESSION['user']->getDroits() == 1337
+                    $_SESSION['user']->getIdRight() == 1337
                 ) : ?>
                     <a href="ticle.php">
                         <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE
@@ -93,7 +92,7 @@ require_once('../config/header.php');
                 <?php
                 elseif (
                     !empty($_SESSION['user']) &&
-                    $_SESSION['user']->getDroits() == 42
+                    $_SESSION['user']->getIdRight() == 42
                 ) : ?>
                     <a href="ticle.php">
                         <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE
@@ -153,7 +152,7 @@ require_once('../config/header.php');
                         <a class="buttonCard" href="article.php?id=<?= $article->getId() ?>" class="card-link">VOIR
                             L'ARTICLE</a>
                         <?php
-                        if (isset($_SESSION['user']) && $_SESSION['user']->getDroits() == 42): ?>
+                        if (isset($_SESSION['user']) && $_SESSION['user']->getIdRight() == 42): ?>
                             <a class="buttonCard" href="creer_article.php?modifart=<?= $article->getId() ?>"
                                class="card-link">MODIFIER
                                 L'ARTICLE</a>

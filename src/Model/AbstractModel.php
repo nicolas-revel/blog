@@ -75,43 +75,66 @@ abstract class AbstractModel
     {
         $bdd = $this->getBdd();
         $req = $bdd->prepare("SELECT * FROM {$this->tableName} WHERE id = :id");
-        $req->bindValue(':id', $id, PDO::PARAM_INT);
-        $req->execute();
+        $req->execute(['id' => $id]);
         $req->setFetchMode(PDO::FETCH_ASSOC);
         $result = $req->fetch();
 
         return new $this->className(...$result);
     }
 
+    protected function findOneBy(array $criterias): mixed
+    {
+        $bdd = $this->getBdd();
+        $parameters = [];
+        $queryString = "SELECT * FROM {$this->tableName} WHERE ";
+        foreach ($criterias as $criteriaKey => $criteriaValue) {
+            $queryString .= "$criteriaKey = :$criteriaKey AND";
+            $parameters[$criteriaKey] = $criteriaValue;
+        }
+        $queryString = substr($queryString, 0, -3);
+        $req = $bdd->prepare($queryString);
+        $req->execute($parameters);
+        $req->setFetchMode(PDO::FETCH_ASSOC);
+        $result = $req->fetch();
+        if (!$result) {
+            return false;
+        }
+        return new $this->className(...$result);
+    }
+
     /**
      * @param int $id
-     * @return void
+     * @return bool
      */
-    protected function delete(int $id): void
+    protected function delete(int $id): bool
     {
         $bdd = $this->getBdd();
         $req = $bdd->prepare("DELETE FROM {$this->tableName} WHERE id = :id");
         $req->execute([':id' => $id]);
+        return true;
     }
 
     /**
      * @param $entity
-     * @return void
+     * @return bool|null
      */
-    protected function save($entity): void
+    protected function save($entity): bool|null
     {
-        if ($entity->getId() === null) {
-            $this->insert($entity);
-        } else {
+        if ($entity->getId() === null && !$this->findOneBy(['email' => $entity->getEmail()])) {
+            return $this->insert($entity);
+        } elseif ($entity->getId() !== null) {
+            var_dump('else');
             $this->update($entity);
         }
+
+        return false;
     }
 
     /**
      * @param $entity
-     * @return void
+     * @return bool
      */
-    private function insert($entity): void
+    private function insert($entity): bool
     {
         $bdd = $this->getBdd();
         $fields = [];
@@ -125,6 +148,12 @@ abstract class AbstractModel
         $req = $bdd->prepare("INSERT INTO {$this->tableName} ({$fields}) VALUES ({$values})");
         $req->execute($entity->getProperties());
         $entity->setId($bdd->lastInsertId());
+
+        if ($req->rowCount() === 0) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -140,6 +169,7 @@ abstract class AbstractModel
         }
         $fields = implode(', ', $fields);
         $req = $bdd->prepare("UPDATE {$this->tableName} SET {$fields} WHERE id = :id");
+        var_dump($entity);
         $req->execute($entity->getProperties());
     }
 }

@@ -1,23 +1,22 @@
 <?php
-require_once('../src/autoload.php');
+
+use App\Controller\AuthController;
+
+require_once('../config/env.php');
+require_once('../config/autoload.php');
 session_start();
+$loginController = new AuthController();
 
-$user = new \app\controllers\User();
-$nameCat = new \app\views\categorie();
-
-if (isset($_POST['envoyer'])) {
-    $currentuser = $user->connectUser($_POST['login'], $_POST['password']);
-    if ($currentuser === false) {
-        $errormessage = new app\ErrorMessage('Votre login ou votre password est incorrect');
-    } elseif (gettype($currentuser) == 'object') {
-        $_SESSION['user'] = $currentuser;
-        app\Http::redirect('../index.php');
-    }
+if (isset($_POST['submit'])) {
+    $loginController->login($_POST['email'], $_POST['password']);
 }
 ?>
-<?php $pageTitle = 'CONNEXION'; ?>
-<?php ob_start(); ?>
-<?php require_once('../config/header.php'); ?>
+<?php
+$pageTitle = 'CONNEXION'; ?>
+<?php
+ob_start(); ?>
+<?php
+require_once('../config/header.php'); ?>
 
 <main>
 
@@ -39,8 +38,8 @@ if (isset($_POST['envoyer'])) {
                 <br>
                 <div>
                     <label for="login">Login *</label><br>
-                    <input type="text" name="login" required
-                           placeholder="Nom d'utilisateur">
+                    <input type="email" name="email" required
+                           placeholder="Votre email">
                 </div>
                 <br>
                 <div>
@@ -51,19 +50,24 @@ if (isset($_POST['envoyer'])) {
                 <br>
                 <div>
                     <button type="submit" class="btn btn-outline-light"
-                            name="envoyer">Envoyer
+                            name="submit">Envoyer
                     </button>
                 </div>
-                <?php if (isset($errormessage)) : ?>
+                <?php
+                if (isset($errormessage)) : ?>
                     <div class="errormessage">
                         <p><?= $errormessage->getMessage(); ?></p>
                     </div>
-                <?php endif; ?>
+                <?php
+                endif; ?>
             </form>
         </div>
     </section>
 </main>
 
-<?php require_once('../config/footer.php'); ?>
-<?php $pageContent = ob_get_clean(); ?>
-<?php require_once('template.php'); ?>
+<?php
+require_once('../config/footer.php'); ?>
+<?php
+$pageContent = ob_get_clean(); ?>
+<?php
+require_once('template.php'); ?>
