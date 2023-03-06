@@ -7,6 +7,8 @@ use DateTime;
 class Comment
 {
 
+    private User $author;
+
     /**
      * @param int|null $id
      * @param string|null $commentText
@@ -120,5 +122,25 @@ class Comment
     {
         return get_object_vars($this);
     }
+
+    /**
+     * @return User
+     */
+    public function getAuthor(): User
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param User $author
+     * @return Comment
+     */
+    public function setAuthor(User $author): Comment
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
 
 }

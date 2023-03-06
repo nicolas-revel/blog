@@ -13,6 +13,7 @@ class Article
     private ?User $author;
 
     private ?Category $category;
+    private ?array $comments = [];
 
     /**
      * @param int|null $id
@@ -204,6 +205,28 @@ class Article
     public function setCategory(?Category $category): Article
     {
         $this->category = $category;
+        return $this;
+    }
+
+    public function setComments($comments): static
+    {
+        $this->comments = $comments;
+
+        return $this;
+    }
+
+    /**
+     * @return Comment[]|null
+     */
+    public function getComments(): ?array
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        $this->comments[] = $comment;
+
         return $this;
     }
 
