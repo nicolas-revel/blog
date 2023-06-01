@@ -6,6 +6,7 @@ use App\Entity\Article;
 
 require_once('../config/env.php');
 require_once('../config/autoload.php');
+session_start();
 
 $articleController = new ArticleController();
 $categoryController = new CategoryController();
@@ -72,7 +73,7 @@ require_once('../config/header.php'); ?>
                                 <a class="buttonCard" href="article.php?id=<?= $article->getId() ?>" class="card-link">VOIR
                                     L'ARTICLE</a>
                                 <?php
-                                if (isset($_SESSION['user']) && $_SESSION['user']->getDroits() == 42): ?>
+                                if (isset($_SESSION['user']) && $_SESSION['user']->getIdRight() == 42): ?>
                                     <a class="buttonCard" href="creer_article.php?modifart=<?= $article->getId() ?>"
                                        class="card-link">MODIFIER L'ARTICLE</a>
                                     <a class="buttonCard" href="articles.php?deleart=<?= $article->getId() ?>"

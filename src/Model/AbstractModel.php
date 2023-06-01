@@ -123,7 +123,6 @@ abstract class AbstractModel
         if ($entity->getId() === null && !$this->findOneBy(['email' => $entity->getEmail()])) {
             return $this->insert($entity);
         } elseif ($entity->getId() !== null) {
-            var_dump('else');
             $this->update($entity);
         }
 

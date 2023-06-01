@@ -77,15 +77,15 @@ require_once('../config/header.php');
                     !empty($_SESSION['user']) &&
                     $_SESSION['user']->getIdRight() == 1337
                 ) : ?>
-                    <a href="ticle.php">
+                    <a href="creer_article.php">
                         <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE
                         </button>
                     </a>
-                    <a href=".php">
+                    <a href="articles.php">
                         <button id="button_user" type="button" class="btn btn-outline-light">VOIR ARTICLES
                         </button>
                     </a>
-                    <a href="p">
+                    <a href="admin.php">
                         <button id="button_user" type="button" class="btn btn-outline-light">ADMIN
                         </button>
                     </a>
@@ -94,21 +94,21 @@ require_once('../config/header.php');
                     !empty($_SESSION['user']) &&
                     $_SESSION['user']->getIdRight() == 42
                 ) : ?>
-                    <a href="ticle.php">
+                    <a href="creer_article.php">
                         <button id="button_user" type="button" class="btn btn-outline-light">ECRIRE UN ARTICLE
                         </button>
                     </a>
-                    <a href=".php">
+                    <a href="articles.php">
                         <button id="button_user" type="button" class="btn btn-outline-light">VOIR ARTICLES
                         </button>
                     </a>
                 <?php
                 else : ?>
-                    <a href="ion.php">
+                    <a href="inscription.php">
                         <button id="button_user" type="button" class="btn btn-outline-light">INSCRIPTION
                         </button>
                     </a>
-                    <a href="n.php">
+                    <a href="connexion.php">
                         <button id="button_user" type="button" class="btn btn-outline-light">CONNEXION
                         </button>
                     </a>
